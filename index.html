@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UDSpot — Smart Vehicle Detection for Blind Corners | Capstone Research 2024</title>
+<meta name="description" content="UDSpot: Improving Road Safety and Accident Prevention Using Ultrasonic Distance Sensors in Vehicle Detection in Blind Corners. An interactive presentation of the 2024 capstone research by Baldejera, Engada, Fernandez & Fong (Elizabeth Seton School South).">
+<meta name="keywords" content="UDSpot, ultrasonic distance sensor, blind corner, road safety, Arduino, capstone research, Philippines">
+<meta property="og:title" content="UDSpot — Smart Vehicle Detection for Blind Corners">
+<meta property="og:description" content="Interactive capstone research: ultrasonic distance sensors + Arduino + RGB LEDs to prevent accidents at blind corners.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='white' stroke-width='5' stroke-dasharray='4 10' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body id="home-hero">
+
+<div class="reading-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+      <span><span class="brand-name">UD<em>Spot</em></span><span class="brand-sub">Capstone Research · 2024</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Chapters">
+      <a href="index.html">Home</a>
+      <a href="about.html">Introduction</a>
+      <a href="literature.html">Literature</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="results.html">Results</a>
+      <a href="discussion.html">Discussion</a>
+      <a href="conclusion.html">Conclusion</a>
+      <a href="references.html">References</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" data-search-open aria-label="Search this page" title="Search (Ctrl+K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+      <button class="icon-btn" data-theme-toggle data-theme-icon aria-label="Toggle dark mode"></button>
+      <a class="btn btn-primary btn-sm btn-dl" href="assets/docs/original-research.pdf" download aria-label="Download research paper PDF"><span class="txt">PDF</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+      <button class="icon-btn nav-burger" id="navBurger" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="blob blob-1" aria-hidden="true"></div>
+    <div class="blob blob-2" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <span class="hero-badge hero-stagger"><span class="dot"></span> Capstone Research · Senior High School · May 2024</span>
+        <p class="hero-kicker hero-stagger">Ultrasonic Distance Sensors · Arduino UNO R3 · RGB LED Signals</p>
+        <h1 class="hero-title hero-stagger">
+          <span class="grad">UDSpot</span>
+          <small>Improving Road Safety &amp; Accident Prevention Using Ultrasonic Distance Sensors in Vehicle Detection in Blind Corners</small>
+        </h1>
+        <div class="hero-abstract hero-stagger">
+          <p>This research developed a <strong>prototype road-safety system</strong> that detects approaching vehicles on blind
+          corners using <strong>Ultrasonic Distance Sensors (UDS)</strong>, processed by an <strong>Arduino UNO R3</strong> and
+          relayed to drivers through <strong>RGB LED traffic signals</strong>. Built on the <strong>ADDIE model</strong> and
+          validated through a 1:28-scaled diorama simulation, the prototype avoided vehicle standoff in <strong>6 of 6
+          scenarios</strong> — versus only 2 of 6 without it.</p>
+        </div>
+        <div class="hero-cta hero-stagger">
+          <a class="btn btn-primary" href="about.html">Read the research
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="results.html">Explore findings
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="hero-meta hero-stagger">
+          <div class="hm"><span class="hm-label">Authors</span><span class="hm-value">Baldejera · Engada · Fernandez · Fong</span></div>
+          <div class="hm"><span class="hm-label">Institution</span><span class="hm-value">Elizabeth Seton School — South</span></div>
+          <div class="hm"><span class="hm-label">Adviser</span><span class="hm-value">Ms. Maria Aubelle C. Floranda, LPT, MAT</span></div>
+          <div class="hm"><span class="hm-label">PDF</span><span class="hm-value"><a href="assets/docs/original-research.pdf" download>Download the paper</a></span></div>
+        </div>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#context" aria-label="Scroll to content"><span class="wheel"></span>Scroll</a>
+  </header>
+
+  <!-- ============ CONTEXT / STATS ============ -->
+  <section class="section" id="context">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Why this matters</span>
+        <h2 class="sec-title">Roads kill people. Blind corners hide the danger.</h2>
+        <p class="sec-sub">The <strong>World Health Organization (2023)</strong> reports about <strong>1.19 million deaths
+        every year</strong> from road traffic incidents — more than half of them pedestrians and motorists. In the Philippines,
+        road deaths rose by 39% in a single decade.</p>
+      </div>
+      <div class="stats-band">
+        <div class="stat-card reveal">
+          <div class="stat-num"><span data-count="1.19" data-decimals="2" data-suffix="">0</span><span class="unit">M</span></div>
+          <div class="stat-label">annual road deaths worldwide <em>(WHO, 2023)</em></div>
+        </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-num"><span data-count="39" data-suffix="%">0</span></div>
+          <div class="stat-label">increase in Philippine road fatalities <em>2011 → 2021 (PSA)</em></div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-num"><span data-count="11096" data-format="comma">0</span></div>
+          <div class="stat-label">road deaths in the Philippines in 2021 alone</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-num"><span data-count="84" data-suffix="%">0</span></div>
+          <div class="stat-label">of those deaths were men <em>(PSA, 2021)</em></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:60px">
+        <div class="callout reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <p><strong>The gap:</strong> convex mirrors fog and get hidden by vegetation; camera systems fail in fog and low
+          visibility; radar-based solutions are costly. UDSpot attacks the problem with <strong>ultrasonic sensors</strong> —
+          color- and type-agnostic, rain-tolerant, and affordable.</p>
+        </div>
+        <div class="callout green reveal reveal-delay-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <p><strong>The answer:</strong> detect the vehicle <em>before</em> the corner, and translate that detection into
+          traffic signals drivers already understand — <strong>green</strong> = clear, <strong>yellow</strong> = caution,
+          <strong>red</strong> = stop. Aligned with the PH <strong>National Road Safety Action Plan 2023–2028</strong> (50%
+          fatality reduction by 2030).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2 class="sec-title">Sense → Process → Signal</h2>
+        <p class="sec-sub">A vehicle approaches a corner that neither driver can see. The system senses it,
+        decides who goes first, and tells both drivers — before they ever meet.</p>
+      </div>
+      <div class="how-steps">
+        <div class="card step-card reveal">
+          <span class="step-num">01</span><span class="step-connector" aria-hidden="true"></span>
+          <h3>Sense</h3>
+          <p>Four Ultrasonic Distance Sensors emit high-frequency sound waves and time the echo. Any vehicle —
+          any color, any type — within range is detected. Rain barely affects sound.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-1">
+          <span class="step-num">02</span><span class="step-connector" aria-hidden="true"></span>
+          <h3>Process</h3>
+          <p>An Arduino UNO R3 runs two C++ circuits. Circuit 1 guides the vehicle exiting the one-lane road;
+          Circuit 2 runs the anti-standoff logic inside it — first to trigger, first to go.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-2">
+          <span class="step-num">03</span><span class="step-connector" aria-hidden="true"></span>
+          <h3>Signal</h3>
+          <p>Five RGB LEDs speak the language of traffic: solid green, flashing yellow, solid red, flashing red —
+          each state computed from live sensor input in real time.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-3">
+          <span class="step-num">04</span>
+          <h3>Prevent</h3>
+          <p>Standoffs at the blind corner simply don't form: 6/6 scenarios resolved in the simulation, versus
+          2/6 without the system. The alternative hypothesis was accepted.</p>
+        </div>
+      </div>
+      <div class="figure reveal" style="margin-top:60px">
+        <img src="assets/images/fig14-layout.png" alt="Layout of UDSpot: positions of UDS sensors 1–4 and LED signals 1–5 across the main road and one-lane two-way road" loading="lazy">
+        <figcaption>Fig. — The full UDSpot layout: UDS 1 &amp; 2 watch the main road, UDS 3 &amp; 4 guard the one-lane, two-way road; five RGB LEDs relay the decisions.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HIGHLIGHTS ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Headline results</span>
+        <h2 class="sec-title">Three research questions, three clean verdicts</h2>
+      </div>
+      <div class="kpi-strip">
+        <div class="kpi reveal"><div class="kpi-cap">UDS detection trials</div><div class="kpi-val">12/12</div><p class="sec-sub" style="font-size:13.5px;max-width:none">all four sensors detected the 1:24 vehicles in all three trials</p></div>
+        <div class="kpi reveal reveal-delay-1"><div class="kpi-cap">LED outputs</div><div class="kpi-val">18/18</div><p class="sec-sub" style="font-size:13.5px;max-width:none">every RGB LED matched its expected color and flashing state</p></div>
+        <div class="kpi reveal reveal-delay-2"><div class="kpi-cap">Standoff avoidance</div><div class="kpi-val">6/6</div><p class="sec-sub" style="font-size:13.5px;max-width:none">with UDSpot, versus 2/6 without the system</p></div>
+      </div>
+
+      <div class="compare" style="margin-bottom:70px">
+        <div class="compare-col bad reveal">
+          <h4>Blind corner — without UDSpot</h4>
+          <div class="big-num">2<small> / 6 scenarios avoided</small></div>
+          <p>Drivers rely on vision alone. Vehicles approaching around the corner remain invisible, and standoffs
+          occurred in 4 of 6 scenarios — the two vehicles simply could not see each other.</p>
+        </div>
+        <div class="compare-col good reveal reveal-delay-1">
+          <h4>Blind corner — with UDSpot</h4>
+          <div class="big-num">6<small> / 6 scenarios avoided</small></div>
+          <p>Every scenario resolved without a standoff. The system detected traffic, sequenced the signals, and
+          communicated priority to both sides — proof of efficacy in the simulated environment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPLORE ============ -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Explore the publication</span>
+        <h2 class="sec-title">A full research journey, digitally</h2>
+      </div>
+      <div class="explore-grid">
+        <a class="explore-card reveal" href="about.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 01</span>
+          <h3>Introduction &amp; Problem</h3>
+          <p>Background, statement of the problem, research questions, hypotheses, scope, and significance of the study.</p>
+          <span class="ec-link">Read chapter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a class="explore-card reveal reveal-delay-1" href="literature.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 02</span>
+          <h3>Literature Review</h3>
+          <p>Philippine roads, traffic-light semantics, road fatalities, blind spots, existing countermeasures, UDS technology, and the ADDIE model.</p>
+          <span class="ec-link">Read chapter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a class="explore-card reveal reveal-delay-2" href="methodology.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 03</span>
+          <h3>Methodology</h3>
+          <p>Quantitative prototyping through the ADDIE model — analysis, design, development, implementation, and evaluation.</p>
+          <span class="ec-link">Read chapter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a class="explore-card reveal" href="results.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 04</span>
+          <h3>Results &amp; Findings</h3>
+          <p>Interactive charts and sortable tables of every detection, LED, and standoff trial recorded in the study.</p>
+          <span class="ec-link">View data <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a class="explore-card reveal reveal-delay-1" href="discussion.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 05</span>
+          <h3>Discussion</h3>
+          <p>How each research question was answered — the design, the Arduino integration, and the sensors' effectiveness.</p>
+          <span class="ec-link">Read chapter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <a class="explore-card reveal reveal-delay-2" href="conclusion.html">
+          <span class="ec-bg" aria-hidden="true"></span>
+          <span class="ec-num">CH. 06</span>
+          <h3>Conclusion &amp; Recommendations</h3>
+          <p>The verdict on the prototype, its limitations, and three recommendations for future researchers.</p>
+          <span class="ec-link">Read chapter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The researchers</span>
+        <h2 class="sec-title">Four students. One prototype.</h2>
+      </div>
+      <div class="team-grid">
+        <article class="team-card reveal">
+          <div class="team-avatar"><img src="assets/images/member_engada.png" alt="Portrait of Chris Bern J. Engada" loading="lazy"></div>
+          <h3>Chris Bern J. Engada</h3>
+          <div class="role">Researcher · Circuitry &amp; Diorama</div>
+          <p>Fourteen years at Seton, merit-card holder, TESDA-certified. Built the wiring and the physical diorama.</p>
+          <div class="team-tags"><span class="tag primary">Lead Builder</span><span class="tag">TESDA CSS</span></div>
+        </article>
+        <article class="team-card reveal reveal-delay-1">
+          <div class="team-avatar"><img src="assets/images/member_fong.png" alt="Portrait of Terrie Edena L. Fong" loading="lazy"></div>
+          <h3>Terrie Edena L. Fong</h3>
+          <div class="role">Researcher · Data &amp; Evaluation</div>
+          <p>With-Honors graduate of St. Edward Integrated School. Ran the trials and the statistical analysis.</p>
+          <div class="team-tags"><span class="tag primary">Analyst</span><span class="tag">With Honors</span></div>
+        </article>
+        <article class="team-card reveal reveal-delay-2">
+          <div class="team-avatar"><img src="assets/images/member_baldejera.png" alt="Portrait of Aaron Jacob M. Baldejera" loading="lazy"></div>
+          <h3>Aaron Jacob M. Baldejera</h3>
+          <div class="role">Researcher · Writing &amp; Documentation</div>
+          <p>Feature writer for Seton Notes, APSCI conference winner. Authored the research narrative.</p>
+          <div class="team-tags"><span class="tag primary">Writer</span><span class="tag">APSCI Top 3</span></div>
+        </article>
+        <article class="team-card reveal reveal-delay-3">
+          <div class="team-avatar"><img src="assets/images/member_fernandez.png" alt="Portrait of Matthew M. Fernandez" loading="lazy"></div>
+          <h3>Matthew M. Fernandez</h3>
+          <div class="role">Researcher · Presentation</div>
+          <p>Gold medalist in badminton intramurals, confident public speaker, and front man of the oral defense.</p>
+          <div class="team-tags"><span class="tag primary">Presenter</span><span class="tag">Gold Medalist</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta-band reveal">
+        <div>
+          <h2>Read the full research paper</h2>
+          <p>All 102 pages — abstract, methodology, results, references, appendices, and code.</p>
+        </div>
+        <a class="btn btn-white" href="assets/docs/original-research.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html">
+          <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+          <span><span class="brand-name">UD<em>Spot</em></span></span>
+        </a>
+        <p class="footer-desc">Improving road safety and accident prevention using ultrasonic distance sensors in vehicle detection in blind corners.</p>
+      </div>
+      <div>
+        <h5>Chapters</h5>
+        <ul>
+          <li><a href="about.html">Introduction</a></li>
+          <li><a href="literature.html">Literature Review</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="results.html">Results &amp; Findings</a></li>
+          <li><a href="discussion.html">Discussion</a></li>
+          <li><a href="conclusion.html">Conclusion</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="assets/docs/original-research.pdf" download>Research paper (PDF)</a></li>
+          <li><a href="references.html">References</a></li>
+          <li><a href="methodology.html#appendix-code">Arduino source code</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Institution</h5>
+        <ul>
+          <li><a href="#" onclick="return false">Elizabeth Seton School — South</a></li>
+          <li><a href="#" onclick="return false">Senior High School Division</a></li>
+          <li><a href="#" onclick="return false">Anabu II-D, Imus City, Cavite</a></li>
+          <li><a href="#" onclick="return false">Capstone Research · May 2024</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Baldejera · Engada · Fernandez · Fong. Independent digital presentation of the paper.</p>
+      <div class="fb-links">
+        <button data-print><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+        <a href="assets/docs/original-research.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- mobile menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mm-close" id="mmClose" aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <a href="index.html">Home<small>Landing</small></a>
+  <a href="about.html">Introduction<small>Background &amp; problem</small></a>
+  <a href="literature.html">Literature<small>Related studies</small></a>
+  <a href="methodology.html">Methodology<small>ADDIE approach</small></a>
+  <a href="results.html">Results<small>Data &amp; charts</small></a>
+  <a href="discussion.html">Discussion<small>Interpretation</small></a>
+  <a href="conclusion.html">Conclusion<small>Verdict &amp; next steps</small></a>
+  <a href="references.html">References<small>30+ sources</small></a>
+</div>
+
+<!-- search overlay -->
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-box">
+    <input type="search" id="searchInput" placeholder="Search this page… (Ctrl+K)" aria-label="Search this page">
+    <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close image">✕</button>
+  <img id="lbImg" src="" alt="">
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

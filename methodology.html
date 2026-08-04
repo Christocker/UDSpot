@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodology — UDSpot Research</title>
+<meta name="description" content="Chapter 3 of the UDSpot capstone research: quantitative prototyping research design, the ADDIE model phases, research materials, schematic diagrams, and the Arduino source code.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='white' stroke-width='5' stroke-dasharray='4 10' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  .code-viewer {
+    background: #0b1120; border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; margin: 26px 0;
+  }
+  .code-viewer .cv-bar {
+    display: flex; gap: 6px; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: #111a2e;
+  }
+  .code-viewer .cv-tab {
+    font-family: var(--font-mono); font-size: 12px; color: #94a3b8;
+    padding: 8px 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer;
+    background: transparent; transition: all .2s ease;
+  }
+  .code-viewer .cv-tab.active { color: #fff; background: #2563eb; border-color: #2563eb; }
+  .code-viewer pre {
+    padding: 26px 28px; overflow-x: auto; max-height: 560px; overflow-y: auto;
+    font-family: var(--font-mono); font-size: 12.5px; line-height: 1.75; color: #c9d4e3;
+  }
+  .code-viewer .cmt { color: #5b6b80; }
+  .code-viewer .kw { color: #ff9d5c; }
+  .code-viewer .fn { color: #7cc4ff; }
+  .code-viewer .num { color: #e6c07b; }
+  .materials-band { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; }
+  @media (max-width: 820px) { .materials-band { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="reading-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+      <span><span class="brand-name">UD<em>Spot</em></span><span class="brand-sub">Capstone Research · 2024</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Chapters">
+      <a href="index.html">Home</a>
+      <a href="about.html">Introduction</a>
+      <a href="literature.html">Literature</a>
+      <a href="methodology.html" class="active">Methodology</a>
+      <a href="results.html">Results</a>
+      <a href="discussion.html">Discussion</a>
+      <a href="conclusion.html">Conclusion</a>
+      <a href="references.html">References</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" data-search-open aria-label="Search this page" title="Search (Ctrl+K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+      <button class="icon-btn" data-theme-toggle data-theme-icon aria-label="Toggle dark mode"></button>
+      <a class="btn btn-primary btn-sm btn-dl" href="assets/docs/original-research.pdf" download aria-label="Download research paper PDF"><span class="txt">PDF</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+      <button class="icon-btn nav-burger" id="navBurger" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Chapter 03 · Methodology</span>
+      </nav>
+      <h1>Methodology</h1>
+      <p class="lede">A <strong>quantitative research design based on prototyping</strong>, executed through the five
+      phases of the <strong>ADDIE model</strong> — Analysis, Design, Development, Implementation, and Evaluation —
+      producing a working, scaled-down model of UDSpot on a diorama.</p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:60px">
+    <div class="container slim">
+      <div class="prose" id="design">
+        <span class="kicker-inline">Research Design</span>
+        <h2>Quantitative design, prototyping approach</h2>
+        <p>A <strong>Quantitative Research Design</strong>, as defined by Creswell (1994), is an inquiry into a social
+        or human problem based on testing a theory composed of variables, measured with numbers, and analyzed with
+        statistical procedures — in order to determine whether the predictive generalizations of the theory hold true.
+        A <strong>prototype</strong>, on the other hand, is an early sample, model, or release of a product built to
+        test a concept or process (Volchko, 2017).</p>
+        <p>The prototyping procedure employs the <strong>ADDIE model</strong>, which combines the design, developmental,
+        and evaluation phases into one iterative loop. The idea: produce and present a <strong>sample working model,
+        scaled down in a diorama</strong> that visualizes the road.</p>
+
+        <div class="figure reveal">
+          <img src="assets/images/fig1-framework.png" alt="Figure 1: conceptual framework of the study based on the ADDIE model" loading="lazy" data-lightbox="assets/images/fig1-framework.png" data-caption="Figure 1 — Conceptual framework: the ADDIE model drives the prototyping lifecycle.">
+          <figcaption>Figure 1 — Conceptual framework: the ADDIE model drives the prototyping lifecycle.</figcaption>
+        </div>
+        <div class="figure reveal">
+          <img src="assets/images/fig2-schematic.png" alt="Figure 2: schematic diagram of the ADDIE lifecycle phases" loading="lazy" data-lightbox="assets/images/fig2-schematic.png" data-caption="Figure 2 — Schematic diagram of the ADDIE lifecycle.">
+          <figcaption>Figure 2 — Schematic diagram: lifecycle phases executed sequentially to create the UDSpot prototype.</figcaption>
+        </div>
+
+        <div class="phase-intro reveal">
+          <div class="phase-pills" role="list" aria-label="ADDIE phases">
+            <span class="phase-pill active">Analysis</span>
+            <span class="phase-pill">Design</span>
+            <span class="phase-pill">Develop</span>
+            <span class="phase-pill">Implement</span>
+            <span class="phase-pill">Evaluate</span>
+          </div>
+        </div>
+
+        <h2>The five phases, in practice</h2>
+
+        <div class="timeline" style="margin-top:34px">
+          <div class="tl-item reveal">
+            <div class="tl-dot">01</div>
+            <div class="tl-card">
+              <h3>Analysis</h3>
+              <p>The researchers gathered and analyzed existing literature on road safety, road accidents, blind
+              corners, and existing blind-corner systems. They also <strong>immersed themselves in real blind corners</strong>
+              on small streets along Anabu I and Bayan Luma 3 in Imus City, Cavite. The gap identified: a solution using
+              electronic sensors — UDS for detection, color-coded LEDs for visual aid, and Arduino as the software and
+              hardware base of the system.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">02</div>
+            <div class="tl-card">
+              <h3>Design</h3>
+              <p>Using personal laptops, the researchers prototyped the circuits virtually on <strong>Tinkercad</strong>
+              (Circuit 1 and Circuit 2), including the C++ code, before building in real life. In parallel, the diorama
+              was drawn in <strong>AutoCAD</strong> — exact measurements for road, infrastructure, and lots, ensuring
+              accurate scaling (1:28 roads, 1:24 cars) before any material was cut.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">03</div>
+            <div class="tl-card">
+              <h3>Develop</h3>
+              <p>Set up the <strong>Arduino IDE</strong> on the team's laptops, procured the hardware (Arduino UNO R3,
+              UDS, RGB LEDs, wires, resistors), meticulously constructed the circuitry, and developed the C++ code —
+              troubleshooting with the help of Mr. Seth Andrei Plata, a Grade 12 ABM student with programming
+              expertise. Simultaneously, the diorama was handcrafted from carpets, illustration boards, plywood, and
+              painted structures.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">04</div>
+            <div class="tl-card">
+              <h3>Implement</h3>
+              <p>Tested the functionality and consistency of the UDS detection system by implementing <strong>two
+              remote-controlled 1:24-scale vehicles</strong> into the diorama with the UDSpot system. Multiple tests
+              identified which areas of the prototype needed further improvements.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">05</div>
+            <div class="tl-card">
+              <h3>Evaluate</h3>
+              <p>Gathered data on <strong>detection accuracy, RGB LED color output, and the correct functions of
+              scenario-specific UDS</strong>. Four parameters were measured: consistent detection, correct LED colors,
+              correct sensor utilization per scenario, and correct sequential functioning. A <strong>chi-square
+              test</strong> determined whether UDSpot significantly reduced vehicle standoff on blind corners.</p>
+            </div>
+          </div>
+        </div>
+
+        <h2>Research materials</h2>
+        <p>Everything that went into the prototype, as documented in the paper:</p>
+        <div class="materials-band">
+          <div class="card hoverable reveal"><span class="tag primary">Sensors</span><h3 style="margin-top:12px">4 × Ultrasonic Distance Sensors</h3><p>The main detection tool — sends and receives ultrasound waves to measure object distance.</p></div>
+          <div class="card hoverable reveal reveal-delay-1"><span class="tag primary">Brain</span><h3 style="margin-top:12px">Arduino UNO R3</h3><p>The microcontroller board for all electrical components of UDSpot.</p></div>
+          <div class="card hoverable reveal reveal-delay-2"><span class="tag primary">Signals</span><h3 style="margin-top:12px">5 × RGB LEDs</h3><p>Light up green, yellow, or red as indicators for caution, road clearance, and stopping.</p></div>
+          <div class="card hoverable reveal"><span class="tag primary">Wiring</span><h3 style="margin-top:12px">Color-coded wires &amp; resistors</h3><p>Connect electrical components and categorize connections by wire color.</p></div>
+          <div class="card hoverable reveal reveal-delay-1"><span class="tag primary">Stage</span><h3 style="margin-top:12px">The diorama</h3><p>Four ½-sized illustration boards on a plywood support; black-carpet roads at 1:28 scale.</p></div>
+          <div class="card hoverable reveal reveal-delay-2"><span class="tag primary">Scenery</span><h3 style="margin-top:12px">Model vehicles &amp; structures</h3><p>Two 1:24 RC cars; painted buildings; poles from paper-wrapped bamboo and popsicle sticks.</p></div>
+        </div>
+
+        <h2>The design, in pictures</h2>
+        <div class="grid-2" style="gap:20px">
+          <figure class="figure reveal">
+            <img src="assets/images/fig3-circuit1.png" alt="Circuit 1 design on Tinkercad" loading="lazy" data-lightbox="assets/images/fig3-circuit1.png" data-caption="Figure 3 — Circuit 1 design on Tinkercad.">
+            <figcaption>Figure 3 — Circuit 1 design on Tinkercad.</figcaption>
+          </figure>
+          <figure class="figure reveal reveal-delay-1">
+            <img src="assets/images/fig4-circuit2.png" alt="Circuit 2 design on Tinkercad" loading="lazy" data-lightbox="assets/images/fig4-circuit2.png" data-caption="Figure 4 — Circuit 2 design on Tinkercad.">
+            <figcaption>Figure 4 — Circuit 2 design on Tinkercad.</figcaption>
+          </figure>
+        </div>
+        <div class="gallery" style="margin-top:20px">
+          <figure class="g-item reveal" data-lightbox="assets/images/fig5-diorama-dims.png" data-caption="Figure 5 — UDSpot diorama dimensions (AutoCAD).">
+            <img src="assets/images/fig5-diorama-dims.png" alt="AutoCAD diorama dimensions" loading="lazy"><span class="g-cap">Fig. 5 — Diorama dimensions</span>
+          </figure>
+          <figure class="g-item reveal reveal-delay-1" data-lightbox="assets/images/fig6-road-dims.png" data-caption="Figure 6 — UDSpot road dimensions (AutoCAD).">
+            <img src="assets/images/fig6-road-dims.png" alt="AutoCAD road dimensions" loading="lazy"><span class="g-cap">Fig. 6 — Road dimensions</span>
+          </figure>
+          <figure class="g-item reveal reveal-delay-2" data-lightbox="assets/images/fig7-infra-dims.png" data-caption="Figure 7 — Infrastructure dimensions (AutoCAD).">
+            <img src="assets/images/fig7-infra-dims.png" alt="AutoCAD infrastructure dimensions" loading="lazy"><span class="g-cap">Fig. 7 — Infrastructure</span>
+          </figure>
+        </div>
+        <div class="grid-3" style="margin-top:20px">
+          <figure class="g-item reveal" data-lightbox="assets/images/fig8-lot-dims.png" data-caption="Figure 8 — Lot dimensions (AutoCAD).">
+            <img src="assets/images/fig8-lot-dims.png" alt="AutoCAD lot dimensions" loading="lazy"><span class="g-cap">Fig. 8 — Lot dimensions</span>
+          </figure>
+          <figure class="g-item reveal reveal-delay-1" data-lightbox="assets/images/fig9-diorama1.png" data-caption="Figure 9 — The built diorama, view 1.">
+            <img src="assets/images/fig9-diorama1.png" alt="Diorama picture 1" loading="lazy"><span class="g-cap">Fig. 9 — Diorama view 1</span>
+          </figure>
+          <figure class="g-item reveal reveal-delay-2" data-lightbox="assets/images/fig10-diorama2.png" data-caption="Figure 10 — The built diorama, view 2.">
+            <img src="assets/images/fig10-diorama2.png" alt="Diorama picture 2" loading="lazy"><span class="g-cap">Fig. 10 — Diorama view 2</span>
+          </figure>
+        </div>
+
+        <h2 id="appendix-code" style="scroll-margin-top:100px">Appendix — Arduino source code</h2>
+        <p>The C++ programs uploaded to the Arduino UNO R3 — one per circuit — written in the Arduino IDE after being
+        prototyped in Tinkercad. Reproduced in full from Appendix A &amp; B of the paper.</p>
+
+        <div class="code-viewer reveal">
+          <div class="cv-bar">
+            <button class="cv-tab active" data-cv="c1">Circuit 1 — Exit guide</button>
+            <button class="cv-tab" data-cv="c2">Circuit 2 — Anti-standoff</button>
+          </div>
+          <pre id="cv-c1"><code>// C++ code — UDSpot Circuit 1 (Exit Guide)
+// UDS 1 &amp; UDS 2 monitor the main road; LED 3 &amp; LED 4
+// signal the vehicle exiting the one-lane, two-way road.
+
+#include &lt;util/delay.h&gt;
+
+int U1 = 0;
+int U2 = 0;
+int U2T = 0;
+int U1T = 0;
+int Default = 0;
+
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);
+  // Clear the trigger
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigger pin to HIGH state for 10 microseconds
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+  // Reads the echo pin, and returns the sound wave travel time
+  return pulseIn(echoPin, HIGH);
+}
+
+int counter;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(2, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(7, OUTPUT);
+  Default = 0;
+}
+
+void loop()
+{
+  Serial.begin(9600);
+  while (Default == 0) {
+    Serial.println("Default (GREEN ALL)");
+    // Define UDS 1 and UDS 2
+    U1 = 0.01723 * readUltrasonicDistance(A5, A4);
+    U2 = 0.01723 * readUltrasonicDistance(A3, A2);
+    Serial.print("UDS 1= ");
+    Serial.println(U1);
+    Serial.print("UDS 2= ");
+    Serial.println(U2);
+    digitalWrite(2, LOW);
+    digitalWrite(5, LOW);
+    digitalWrite(4, HIGH);
+    digitalWrite(7, HIGH);
+    // If UDS 1 detects &lt;18.667cm, UDS 1 = 1 (true)
+    if ((U1 &lt; 18.667) &amp;&amp; (U1 != 0 &amp;&amp; U2 != 0)) {
+      Default = 1;
+      U1T = 1;
+    }
+    // If UDS 2 detects &gt;19.667cm and &lt;37.034cm, UDS 2 = 1 (true)
+    if (((U2 &gt; 19.667 &amp;&amp; U2 &lt; 37.034) &amp;&amp; (U1 != 0 &amp;&amp; U2 != 0))) {
+      Default = 1;
+      U2T = 1;
+    }
+  }
+  // If UDS 1 is 1 (true) = Blinking Yellow Both
+  while (U1T == 1) {
+    U1 = 0.01723 * readUltrasonicDistance(A5, A4);
+    U2 = 0.01723 * readUltrasonicDistance(A3, A2);
+    Serial.println("UDS 1 (BLINKING YELLOW BOTH)");
+    digitalWrite(2, LOW);
+    digitalWrite(4, LOW);
+    digitalWrite(5, LOW);
+    digitalWrite(7, LOW);
+    _delay_ms(500);
+    digitalWrite(2, HIGH);
+    digitalWrite(4, HIGH);
+    digitalWrite(5, HIGH);
+    digitalWrite(7, HIGH);
+    _delay_ms(500);
+    // If UDS 1 detects &gt;18.667cm, UDS 1 = 0 (false)
+    if (U1 &gt; 18.667) {
+      Serial.println("Default");
+      Default = 0;
+      U1T = 0;
+    }
+  }
+  // If UDS 2 is 1 (true) = Blinking Yellow on 2
+  while (U2T == 1) {
+    U1 = 0.01723 * readUltrasonicDistance(A5, A4);
+    U2 = 0.01723 * readUltrasonicDistance(A3, A2);
+    Serial.println("UDS 2 (BLINKING YELLOW ON 2)");
+    digitalWrite(7, HIGH);
+    for (counter = 0; counter &lt; 1; ++counter) {
+      digitalWrite(2, LOW);
+      digitalWrite(4, LOW);
+      _delay_ms(500);
+      digitalWrite(2, HIGH);
+      digitalWrite(4, HIGH);
+      _delay_ms(500);
+    }
+    if ((U1 &lt; 18.667)) {
+      Serial.println("Transfer to UDS 1");
+      U1T = 1;
+      U2T = 0;
+    }
+    if ((U2 &lt; 19.667 || U2 &gt; 37.034)) {
+      Serial.println("Default");
+      Default = 0;
+      U2T = 0;
+    }
+  }
+}</code></pre>
+          <pre id="cv-c2" hidden><code>// C++ code — UDSpot Circuit 2 (Anti-Standoff)
+// UDS 3 &amp; UDS 4 detect travel direction inside the one-lane
+// road; whoever arrives first owns the right-of-way.
+// LED 1, LED 2: main-road entrance · LED 5: far exit.
+
+#include &lt;util/delay.h&gt;
+
+int U3 = 0;
+int U4 = 0;
+int S1DS = 0;
+int S2DS = 0;
+int Scenario = 0;
+
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+  return pulseIn(echoPin, HIGH);
+}
+
+int counter;
+int counter2;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(4, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(8, OUTPUT);
+  Scenario = 0;
+}
+
+void loop()
+{
+  Serial.begin(9600);
+  while (Scenario == 0) {
+    Serial.println("Scenario 0");
+    U3 = 0.01723 * readUltrasonicDistance(A5, A4);
+    U4 = 0.01723 * readUltrasonicDistance(A3, A2);
+    // Default state: green everywhere
+    digitalWrite(4, HIGH); digitalWrite(2, LOW);
+    digitalWrite(7, HIGH); digitalWrite(5, LOW);
+    digitalWrite(10, HIGH); digitalWrite(8, LOW);
+    // A vehicle is detected by UDS 4 first (came from the east)
+    if (U4 &lt; 18 &amp;&amp; U4 != 0) { Scenario = 1; }
+    // A vehicle is detected by UDS 3 first (came from the main road)
+    if (U3 &lt; 18 &amp;&amp; U3 != 0) { Scenario = 2; }
+  }
+
+  while (Scenario == 1) {
+    S1DS = 0;
+    // Scenario 1 (4 to 3): LED 1 &amp; 2 red until the car reaches UDS 3
+    while (S1DS == 0) {
+      U3 = 0.01723 * readUltrasonicDistance(A5, A4);
+      U4 = 0.01723 * readUltrasonicDistance(A3, A2);
+      digitalWrite(4, LOW); digitalWrite(2, HIGH);
+      digitalWrite(7, LOW); digitalWrite(5, HIGH);
+      if (U3 &lt; 18 &amp;&amp; U3 != 0) { S1DS = 1; Scenario = 3; }
+    }
+  }
+
+  while (Scenario == 2) {
+    S2DS = 0;
+    // Scenario 2 (3 to 4): LED 5 green until the car reaches UDS 3
+    while (S2DS == 0) {
+      U3 = 0.01723 * readUltrasonicDistance(A5, A4);
+      U4 = 0.01723 * readUltrasonicDistance(A3, A2);
+      if (U3 &lt; 18 &amp;&amp; U3 != 0) { S2DS = 1; }
+    }
+    // LED 5 turns red until the car passes UDS 4
+    while (S2DS == 1) {
+      U3 = 0.01723 * readUltrasonicDistance(A5, A4);
+      U4 = 0.01723 * readUltrasonicDistance(A3, A2);
+      digitalWrite(10, LOW);
+      digitalWrite(8, HIGH);
+      if (U4 &lt; 18 &amp;&amp; U4 != 0) { Scenario = 4; S2DS = 0; }
+    }
+  }
+
+  // Blinking Red (Scenario 3) — LED 1 &amp; 2
+  while (Scenario == 3) {
+    digitalWrite(2, LOW); digitalWrite(5, LOW);
+    _delay_ms(500);
+    digitalWrite(2, HIGH); digitalWrite(5, HIGH);
+    _delay_ms(500);
+    // Return to Scenario 0 when the road clears
+    if (((U3 &gt; 18 &amp;&amp; U4 &gt; 18) &amp;&amp; (U3 != 0 &amp;&amp; U4 != 0)) &amp;&amp;
+        (U3 &lt; 50 &amp;&amp; U4 &lt; 50)) { Scenario = 0; }
+  }
+
+  // Blinking Red (Scenario 4) — LED 5
+  while (Scenario == 4) {
+    digitalWrite(8, LOW);
+    _delay_ms(500);
+    digitalWrite(8, HIGH);
+    _delay_ms(500);
+    if (((U3 &gt; 18 &amp;&amp; U4 &gt; 18) &amp;&amp; (U3 != 0 &amp;&amp; U4 != 0)) &amp;&amp;
+        (U3 &lt; 50 &amp;&amp; U4 &lt; 50)) { Scenario = 0; }
+  }
+}</code></pre>
+        </div>
+
+        <div class="callout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <p><strong>Next chapter:</strong> the numbers behind the prototype.
+          <a href="results.html">Jump to Results &amp; Findings →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html">
+          <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+          <span><span class="brand-name">UD<em>Spot</em></span></span>
+        </a>
+        <p class="footer-desc">Improving road safety and accident prevention using ultrasonic distance sensors in vehicle detection in blind corners.</p>
+      </div>
+      <div>
+        <h5>Chapters</h5>
+        <ul>
+          <li><a href="about.html">Introduction</a></li>
+          <li><a href="literature.html">Literature Review</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="results.html">Results &amp; Findings</a></li>
+          <li><a href="discussion.html">Discussion</a></li>
+          <li><a href="conclusion.html">Conclusion</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="assets/docs/original-research.pdf" download>Research paper (PDF)</a></li>
+          <li><a href="references.html">References</a></li>
+          <li><a href="methodology.html#appendix-code">Arduino source code</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Institution</h5>
+        <ul>
+          <li><a href="#" onclick="return false">Elizabeth Seton School — South</a></li>
+          <li><a href="#" onclick="return false">Senior High School Division</a></li>
+          <li><a href="#" onclick="return false">Anabu II-D, Imus City, Cavite</a></li>
+          <li><a href="#" onclick="return false">Capstone Research · May 2024</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Baldejera · Engada · Fernandez · Fong. Independent digital presentation of the paper.</p>
+      <div class="fb-links">
+        <button data-print><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+        <a href="assets/docs/original-research.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mm-close" id="mmClose" aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <a href="index.html">Home<small>Landing</small></a>
+  <a href="about.html">Introduction<small>Background &amp; problem</small></a>
+  <a href="literature.html">Literature<small>Related studies</small></a>
+  <a href="methodology.html">Methodology<small>ADDIE approach</small></a>
+  <a href="results.html">Results<small>Data &amp; charts</small></a>
+  <a href="discussion.html">Discussion<small>Interpretation</small></a>
+  <a href="conclusion.html">Conclusion<small>Verdict &amp; next steps</small></a>
+  <a href="references.html">References<small>30+ sources</small></a>
+</div>
+
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-box">
+    <input type="search" id="searchInput" placeholder="Search this page… (Ctrl+K)" aria-label="Search this page">
+    <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close image">✕</button>
+  <img id="lbImg" src="" alt="">
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  (function () {
+    var tabs = document.querySelectorAll(".cv-tab");
+    tabs.forEach(function (t) {
+      t.addEventListener("click", function () {
+        tabs.forEach(function (x) { x.classList.remove("active"); });
+        t.classList.add("active");
+        document.getElementById("cv-c1").hidden = t.dataset.cv !== "c1";
+        document.getElementById("cv-c2").hidden = t.dataset.cv !== "c2";
+      });
+    });
+  })();
+</script>
+</body>
+</html>

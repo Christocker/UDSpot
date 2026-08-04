@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review of Related Literature — UDSpot Research</title>
+<meta name="description" content="Chapter 2 of the UDSpot capstone research: Philippine roads, road traffic fatalities, blind corners, road safety measures, Ultrasonic Distance Sensors, UDS in traffic systems, and the ADDIE model.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='white' stroke-width='5' stroke-dasharray='4 10' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div class="reading-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+      <span><span class="brand-name">UD<em>Spot</em></span><span class="brand-sub">Capstone Research · 2024</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Chapters">
+      <a href="index.html">Home</a>
+      <a href="about.html">Introduction</a>
+      <a href="literature.html" class="active">Literature</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="results.html">Results</a>
+      <a href="discussion.html">Discussion</a>
+      <a href="conclusion.html">Conclusion</a>
+      <a href="references.html">References</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" data-search-open aria-label="Search this page" title="Search (Ctrl+K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+      <button class="icon-btn" data-theme-toggle data-theme-icon aria-label="Toggle dark mode"></button>
+      <a class="btn btn-primary btn-sm btn-dl" href="assets/docs/original-research.pdf" download aria-label="Download research paper PDF"><span class="txt">PDF</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+      <button class="icon-btn nav-burger" id="navBurger" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <header class="page-hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Chapter 02 · Literature Review</span>
+      </nav>
+      <h1>Review of Related Literature</h1>
+      <p class="lede">Seven bodies of knowledge anchor this study — from the anatomy of Philippine roads to the
+      physics of ultrasonic waves — and each one points to the same conclusion:
+      <strong>blind corners are solvable with the right technology.</strong></p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:60px">
+    <div class="container slim">
+      <div class="callout reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        <p><strong>Reading guide.</strong> Each topic below is an expandable summary drawn directly from the paper's
+        review. Use the tabs to switch between <em>literature topics</em> and the <em>traffic-light semantics</em>
+        table the study relied on.</p>
+      </div>
+
+      <div class="tabs-bar reveal" role="tablist" aria-label="Literature sections">
+        <button class="tab-btn active" data-tab="topics">Literature topics</button>
+        <button class="tab-btn" data-tab="signals">Traffic signal semantics</button>
+        <button class="tab-btn" data-tab="synthesis">Synthesis</button>
+      </div>
+
+      <!-- ---- topics ---- -->
+      <div class="tab-panel active" id="panel-topics">
+        <div class="acc reveal">
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">01</span> Roads &amp; Highways in the Philippines<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>Primary highways in the Philippines are divided into critical arteries — the <strong>east-west
+              laterals</strong> that cut across the islands, and the <strong>north-south backbone</strong> that spans
+              from the northernmost point of Luzon to Southern Mindanao. An extensive road network is essential to
+              social mobility and economic activity: it reduces distances between markets, services, and people, and
+              offers access to vital locations for emergency response and regional advancement.</p>
+              <p>All access routes split off of provincial, city, and national roadways to form <strong>secondary
+              roads</strong>, which connect provincial capitals and cities to main national routes. <strong>Tertiary
+              roads</strong> refer to local roads already in place serving specific purposes. The DPWH implemented and
+              oversaw the management of these roads (2014).</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">02</span> Road Traffic Fatalities<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>According to the <strong>Philippine Statistics Authority (PSA) Report of 2021</strong>, there has been
+              a worrying trend in the country's road traffic fatalities over the last ten years: a
+              <strong>39% increase</strong>, from 7,938 deaths in 2011 to <strong>11,096 deaths</strong>.</p>
+              <p>Car crashes continue to be the <strong>leading cause of death for those aged 5–29</strong>.
+              Approximately <strong>two deaths occur every minute</strong>, and over <strong>3,200 deaths occur daily</strong>
+              worldwide. The PSA notes that <strong>men account for about 84%</strong> of these deaths.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">03</span> Blind Corners &amp; Spots on Philippine Roads<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>People drive mainly using their <strong>sense of vision</strong> to gather information about obstacles
+              and the path — which makes a blind corner a posing threat, as it makes approaching vehicles
+              “invisible” to drivers. Blind spots around a car that the driver cannot see directly pose risks,
+              especially on <strong>one-way roads</strong>.</p>
+              <p>Significant blind spots exist in <strong>large vehicles such as trucks, buses, and tractors</strong>,
+              which can cause accidents — particularly when turning right and failing to detect cyclists, e-bikes, and
+              pedestrians. Blind zones can also be produced by cargo, headrests, and pillars at the back of the
+              vehicle.</p>
+              <p>A <strong>one-way road</strong> is a street intended to accommodate traffic traveling in a single
+              direction, designed to improve traffic flow and safety by directing cars to proceed in a particular
+              direction.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">04</span> Existing Road Safety Measures<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>Several technologies exist — and each has a flaw:</p>
+              <ul>
+                <li><strong>Convex mirrors:</strong> vegetation encroaches on the signs and makes them invisible; they
+                provide a poor image when the mirror's surface is dusty.</li>
+                <li><strong>Geometrical blind-corner models for V2I communications (SISO):</strong> significant
+                financial and technical challenges with the V2I channel model.</li>
+                <li><strong>Frontal cameras with built-in prisms:</strong> bad visuals in fog or low visibility; fixed
+                to individual vehicles; relatively low setup costs and minimal expertise required.</li>
+              </ul>
+              <p>Incorporating sensors into traffic lights improves pedestrian safety, streamlines traffic, eases
+              congestion, and aids smart-city infrastructure. Yet sensor-timed crossings can be too long or too short
+              depending on crossing density and speed, and pedestrians may still be on the road when vehicles start —
+              the economic cost of pedestrian deaths is predicted to have a <strong>3% impact on world GDP</strong>.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">05</span> Ultrasonic Distance Sensors (UDS)<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>UDS are usually seen in places like <strong>parking lots and barrier systems</strong>. Their
+              projection zone fluctuates with temperature — the zone size increases at lower temperatures and
+              decreases at higher ones. Crucially, ultrasonic sensors can <strong>detect vehicles regardless of color
+              and type</strong> and compute their speed, making them a reliable solution for sensing approaching
+              vehicles (Pepperl+Fuchs, 2020).</p>
+              <p>An <strong>Arduino Uno</strong> is interfaced with the sensor to determine distance; LEDs illuminate
+              and an LCD displays messages if the distance is less than a threshold. The system uses two kinds of
+              indication: a <strong>red LED blinks</strong> to alert the driver of an approaching vehicle in the blind
+              corner while the <strong>green LED stays on</strong>.</p>
+              <p>High-frequency sound waves are emitted by the sensor and reflected back by the object they are aimed
+              at; the sensor measures the distance traveled and the time it takes for the wave to return, based on the
+              speed of sound. Vehicles can also be detected during <strong>rainy weather</strong>: precipitation
+              affects humidity but has little effect on sound waves due to airborne particles and rain (Mohammed et
+              al., 2020).</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">06</span> Using UDS in Traffic Systems<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>Prior work has applied ultrasonic sensing to roads in different contexts:</p>
+              <ul>
+                <li><strong>Dhole et al. (2014)</strong> proposed a system using an ultrasonic sensor and a camera to
+                improve traffic security and identify vehicles that break traffic rules.</li>
+                <li><strong>HPCL (2017)</strong> aimed to reduce accidents on blind corners using radars and speakers
+                that produce a honking sound when an approaching vehicle is detected.</li>
+                <li><strong>Vishnu &amp; Manjesha (2020)</strong> built a system to aid motorists on blind corners —
+                implemented in a diorama with ultrasonic sensors, LEDs, Arduino Uno ATmega328P, Piezo, and LCDs.</li>
+                <li><strong>Atombo et al. (2020)</strong> used similar components but with a more detailed evaluation
+                process.</li>
+              </ul>
+              <p>Despite similarities in idea and components, this study focuses on a <strong>different context and
+              road design</strong>: road systems with <strong>one-lane, two-way roads with blind corners</strong>.</p>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-head"><span class="acc-num">07</span> The ADDIE Model<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+            <div class="acc-body"><div class="acc-body-inner">
+              <p>ADDIE is a five-stage development process — <strong>Analysis, Design, Development, Implementation,
+              and Evaluation</strong> — executed incrementally to achieve a project's goal efficiently and in a
+              planned way. Critically, the ADDIE model advocates a <strong>reflective and iterative process</strong>
+              so past mistakes can be avoided and corrected in future cycles (O'Neill, 2024).</p>
+              <p>Yu et al. (2021) developed an intelligent virtual reality interactive system based on the ADDIE model
+              for pour-over coffee brewing machines — results showed it matched participants' learning requirements.
+              Amish (2023) built a virtual laboratory using ADDIE and found it effective for interactive learning.</p>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- traffic signals ---- -->
+      <div class="tab-panel" id="panel-signals">
+        <div class="card reveal" style="margin-bottom:24px">
+          <h3>Standard traffic lights</h3>
+          <p style="margin-bottom:4px">The semantics that UDSpot's LED signals are modeled after.</p>
+        </div>
+        <div class="grid-3">
+          <div class="card hoverable reveal">
+            <span class="tag red">Red</span>
+            <h3 style="margin-top:14px">Total stop</h3>
+            <p>A red signal indicates a total stop. Hold your position until the light turns green — running a red
+            light is unlawful and extremely dangerous.</p>
+          </div>
+          <div class="card hoverable reveal reveal-delay-1">
+            <span class="tag amber">Yellow</span>
+            <h3 style="margin-top:14px">Prepare to stop</h3>
+            <p>When there is a yellow light, the green light is soon to end — stop unless it is not safe to continue.</p>
+          </div>
+          <div class="card hoverable reveal reveal-delay-2">
+            <span class="tag green">Green</span>
+            <h3 style="margin-top:14px">Go</h3>
+            <p>All a green light indicates is “GO.” Allow cars, bicycles, and pedestrians using the intersection to
+            pass before you leave.</p>
+          </div>
+          <div class="card hoverable reveal">
+            <span class="tag red">Flashing red</span>
+            <h3 style="margin-top:14px">Stop &amp; yield</h3>
+            <p>Signals you to stop and observe right-of-way laws — consider it a “STOP” signal and proceed
+            appropriately.</p>
+          </div>
+          <div class="card hoverable reveal reveal-delay-1">
+            <span class="tag amber">Flashing yellow</span>
+            <h3 style="margin-top:14px">Proceed with caution</h3>
+            <p>Proceed cautiously and slowly; it alerts cars to potentially dangerous situations ahead, like a school
+            crossing.</p>
+          </div>
+          <div class="card hoverable reveal reveal-delay-2">
+            <span class="tag primary">Arrows</span>
+            <h3 style="margin-top:14px">Directional signals</h3>
+            <p>Red, yellow, flashing-yellow, and green arrows govern turns — wait for the green arrow, or yield
+            carefully when the yellow arrow flashes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- synthesis ---- -->
+      <div class="tab-panel" id="panel-synthesis">
+        <div class="prose">
+          <p>From the literature, the researchers synthesized the following:</p>
+          <ul>
+            <li>Literature on roads and highways in the Philippines emphasizes how important road safety measures are
+            to <strong>economic growth, social mobility, and disaster preparedness</strong>.</li>
+            <li>Car crashes continue to be a <strong>major cause of death</strong>, especially among young people; the
+            Philippines has seen an alarming rise in road-crash deaths over the past ten years.</li>
+            <li>On Philippine roadways, <strong>blind spots and bends pose serious safety hazards</strong> because they
+            make it more difficult for drivers to see approaching cars and pedestrians.</li>
+            <li>Road safety initiatives — particularly <strong>UDS and the integration of sensors</strong> — show
+            promise for improving road safety and lowering accident rates: UDS can identify oncoming cars of any color
+            or type, giving drivers real-time alerts.</li>
+            <li>The problem is complex, and solving it requires a <strong>comprehensive strategy</strong> — the creation
+            of safer, more sustainable road safety measures like UDSpot, following the affordances of the
+            <strong>ADDIE model</strong>, can provide a safer road for all.</li>
+          </ul>
+          <div class="quote-block">
+            <blockquote>“The creation of safer and more sustainable road safety measures like the UDSpot, following the
+            affordances of the ADDIE Model, can provide a safer road for all.”</blockquote>
+            <div class="cite">— UDSpot research synthesis</div>
+          </div>
+          <div class="callout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <p><strong>Next chapter:</strong> the quantitative prototyping methodology behind the build.
+            <a href="methodology.html">Continue to Methodology →</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html">
+          <span class="brand-logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2" stroke-width="2"/></svg></span>
+          <span><span class="brand-name">UD<em>Spot</em></span></span>
+        </a>
+        <p class="footer-desc">Improving road safety and accident prevention using ultrasonic distance sensors in vehicle detection in blind corners.</p>
+      </div>
+      <div>
+        <h5>Chapters</h5>
+        <ul>
+          <li><a href="about.html">Introduction</a></li>
+          <li><a href="literature.html">Literature Review</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="results.html">Results &amp; Findings</a></li>
+          <li><a href="discussion.html">Discussion</a></li>
+          <li><a href="conclusion.html">Conclusion</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="assets/docs/original-research.pdf" download>Research paper (PDF)</a></li>
+          <li><a href="references.html">References</a></li>
+          <li><a href="methodology.html#appendix-code">Arduino source code</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Institution</h5>
+        <ul>
+          <li><a href="#" onclick="return false">Elizabeth Seton School — South</a></li>
+          <li><a href="#" onclick="return false">Senior High School Division</a></li>
+          <li><a href="#" onclick="return false">Anabu II-D, Imus City, Cavite</a></li>
+          <li><a href="#" onclick="return false">Capstone Research · May 2024</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Baldejera · Engada · Fernandez · Fong. Independent digital presentation of the paper.</p>
+      <div class="fb-links">
+        <button data-print><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button>
+        <a href="assets/docs/original-research.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mm-close" id="mmClose" aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <a href="index.html">Home<small>Landing</small></a>
+  <a href="about.html">Introduction<small>Background &amp; problem</small></a>
+  <a href="literature.html">Literature<small>Related studies</small></a>
+  <a href="methodology.html">Methodology<small>ADDIE approach</small></a>
+  <a href="results.html">Results<small>Data &amp; charts</small></a>
+  <a href="discussion.html">Discussion<small>Interpretation</small></a>
+  <a href="conclusion.html">Conclusion<small>Verdict &amp; next steps</small></a>
+  <a href="references.html">References<small>30+ sources</small></a>
+</div>
+
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-box">
+    <input type="search" id="searchInput" placeholder="Search this page… (Ctrl+K)" aria-label="Search this page">
+    <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close image">✕</button>
+  <img id="lbImg" src="" alt="">
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
