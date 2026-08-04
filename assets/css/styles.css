@@ -355,9 +355,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 }
 
 /* ---------- journey (how it works) ---------- */
-.journey { display: flex; flex-direction: column; gap: 18px; max-width: 980px; margin: 0 auto; }
+.journey { display: flex; flex-direction: column; gap: 18px; max-width: 1000px; margin: 0 auto; }
 .journey-item {
-  display: grid; grid-template-columns: 1fr 320px; gap: 30px; align-items: center;
+  display: grid; grid-template-columns: 1fr 400px; gap: 30px; align-items: center;
   background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 28px 30px; box-shadow: var(--shadow-sm);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
@@ -372,51 +372,33 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .j-copy p { font-size: 14.5px; color: var(--muted); max-width: 480px; }
 .j-copy p em { color: var(--ink); font-style: normal; font-weight: 600; }
 
-.j-scene {
-  position: relative; height: 150px; border-radius: var(--radius-sm);
+.j-scene, .j-visual {
+  position: relative; height: 300px; border-radius: var(--radius-sm);
   background: var(--surface-2); border: 1px solid var(--line); overflow: hidden;
 }
-/* scene primitives */
-.j-sensor {
-  position: absolute; right: 18px; top: 50%; width: 13px; height: 13px;
-  transform: translateY(-50%); border-radius: 50%;
-  background: var(--primary); box-shadow: 0 0 0 5px var(--primary-soft), 0 0 16px var(--primary);
+/* illustration frame (steps 1, 2, 5) */
+.j-visual {
+  display: block;
+  background: radial-gradient(130% 120% at 50% 0%, #0d1628 0%, #05080f 72%);
 }
-.j-pulse { position: absolute; right: 18px; top: 50%; width: 13px; height: 13px; transform: translateY(-50%); border-radius: 50%; border: 2px solid var(--primary); opacity: 0; }
+.j-visual img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  border-radius: calc(var(--radius-sm) - 2px);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.journey-item:hover .j-visual img { transform: scale(1.02); }
+/* scene primitives */
 .j-car {
   position: absolute; top: 50%; width: 44px; height: 30px; border-radius: 8px;
   background: var(--primary); transform: translateY(-50%);
 }
 .j-car::before { content: ""; position: absolute; left: 9px; top: 6px; width: 17px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.85); }
-.j-tag {
-  position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
-  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em;
-  color: #fff; background: var(--primary); border-radius: 8px; padding: 5px 12px;
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
-}
 .j-pill {
   position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
   font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
   border-radius: 8px; padding: 6px 12px; color: #fff;
 }
-.j-pill.ok { background: var(--green); box-shadow: 0 8px 18px rgba(34, 165, 92, 0.35); }
 .j-pill.red { background: var(--red); box-shadow: 0 8px 18px rgba(229, 72, 77, 0.35); }
-.j-controller {
-  position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
-  width: 54px; height: 54px; border-radius: 14px;
-  background: var(--grad); box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
-}
-.j-controller::after {
-  content: ""; position: absolute; inset: 0; border-radius: 14px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 45%);
-}
-.j-bubble {
-  position: absolute; left: 90px; top: 30px;
-  font-family: var(--font-head); font-weight: 700; font-size: 14px; color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; padding: 10px 14px;
-  box-shadow: var(--shadow-sm);
-}
-.j-bubble::before { content: ""; position: absolute; left: -7px; top: 16px; width: 12px; height: 12px; background: var(--surface); border-left: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); transform: rotate(45deg); }
 .j-light { position: absolute; top: 50%; transform: translateY(-50%); display: flex; gap: 3px; background: #0e1526; border-radius: 7px; padding: 6px 5px; }
 .j-light i { width: 8px; height: 8px; border-radius: 50%; background: #2a3550; }
 .j-light i.lit { box-shadow: 0 0 9px currentColor; }
@@ -440,27 +422,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 }
 .j-flow::after { width: 13px; height: 13px; border-top: 3px solid var(--primary); border-right: 3px solid var(--primary); transform: translateY(-50%) rotate(45deg); right: -4px; }
 @keyframes jFlowR { 0%, 100% { transform: translateX(-6px); } 50% { transform: translateX(8px); } }
-.j-arrow {
-  position: absolute; top: 50%; left: 50%; width: 64px; height: 16px; transform: translate(-50%, -50%);
-}
-.j-arrow::before, .j-arrow::after {
-  content: ""; position: absolute; top: 50%; width: 100%; height: 3px; border-radius: 3px; background: var(--green);
-}
-.j-arrow::after {
-  width: 13px; height: 13px; right: -4px; border-top: 3px solid var(--green); border-right: 3px solid var(--green);
-  transform: translateY(-50%) rotate(45deg);
-}
-.j-arrow.flip { animation: jArrowFlip 2.4s ease-in-out infinite; }
-@keyframes jArrowFlip { 0%, 30% { transform: translate(-50%, -50%); } 55%, 100% { transform: translate(-50%, -50%) scaleX(-1); } }
 
 /* scene animations (triggered once the item is revealed) */
-.journey-item.in .j-car { animation: jCarIn 2.6s ease-out forwards; }
-@keyframes jCarIn { 0% { left: -60px; } 55% { left: calc(100% - 90px); } 100% { left: calc(100% - 90px); } }
-.journey-item.in .j-pulse { animation: jPulseIn 2.6s ease-out; }
-@keyframes jPulseIn { 0%, 40% { opacity: 0; transform: translateY(-50%) scale(0.4); } 50%, 70% { opacity: 0.9; transform: translateY(-50%) scale(1); } 90% { opacity: 0; transform: translateY(-50%) scale(3.2); } 100% { opacity: 0; } }
-.journey-item.in .j-tag { animation: jFadeIn 2.6s ease-out; }
-.journey-item.in .j-bubble { animation: jPop 2.6s ease-out; }
-@keyframes jPop { 0%, 25% { opacity: 0; transform: scale(0.8); } 35%, 80% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1); } }
 .journey-item.in .j-pill { animation: jFadeIn 2.6s ease-out; }
 @keyframes jFadeIn { 0%, 55% { opacity: 0; } 75%, 100% { opacity: 1; } }
 .journey-item.in .j-lane.occ { animation: jOccTint 2.6s ease-out forwards; }
@@ -469,12 +432,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 @keyframes jTravel { 0% { left: 8%; } 30%, 100% { left: 70%; } }
 .journey-item.in .j-car.wait { animation: jWaitBlink 2.6s ease-out; }
 @keyframes jWaitBlink { 0%, 20% { left: 70%; opacity: 0.35; } 40%, 100% { left: 70%; opacity: 0.35; } 45%, 60%, 75%, 90% { opacity: 0.9; } }
-.journey-item.in .j-car.gone { animation: jGone 2.6s ease-out; }
-@keyframes jGone { 0% { left: 12%; opacity: 1; } 40%, 100% { left: 105%; opacity: 0; } }
-.journey-item.in .j-arrow.flip { animation: jFlip 2.6s ease-out; }
-@keyframes jFlip { 0% { transform: translate(-50%, -50%); } 45%, 100% { transform: translate(-50%, -50%) scaleX(-1); } }
-.journey-item.in .j-controller { animation: jChipGlow 2.6s ease-out; }
-@keyframes jChipGlow { 0%, 20% { box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35); } 35%, 70% { box-shadow: 0 0 0 5px var(--primary-soft), 0 10px 22px rgba(37, 99, 235, 0.5); } 100% { box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35); } }
 
 /* ---------- simulator ---------- */
 .sim {
@@ -843,7 +800,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   .hero-visual { max-width: 560px; margin: 0 auto; width: 100%; }
   .stats-strip .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
   .journey-item { grid-template-columns: 1fr; gap: 20px; }
-  .j-scene { height: 130px; }
+  .j-scene, .j-visual { height: 240px; }
   .ba-grid { grid-template-columns: 1fr; max-width: 560px; }
   .proof-grid { grid-template-columns: 1fr; }
   .team { grid-template-columns: repeat(2, 1fr); }
