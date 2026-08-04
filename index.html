@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UDSpot — See around the blind corner</title>
-<meta name="description" content="UDSpot is a capstone research prototype that uses ultrasonic distance sensors to detect vehicles approaching blind corners and warns drivers with color-coded LED signals.">
+<title>UDSpot — One lane. Two directions. Zero standoffs.</title>
+<meta name="description" content="UDSpot is an intelligent lane-occupancy system: ultrasonic sensors watch both entrances of a one-lane, two-way road, a controller decides, and traffic lights let one direction through at a time.">
 <meta name="theme-color" content="#0b1326">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='white' stroke-width='5' stroke-dasharray='4 10' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,10 +25,11 @@
     </a>
 
     <nav class="nav-links" aria-label="Primary">
-      <a href="#problem">The problem</a>
+      <a href="#challenge">The challenge</a>
       <a href="#how">How it works</a>
-      <a href="#try">Try it</a>
-      <a href="#proof">Results</a>
+      <a href="#demo">Live demo</a>
+      <a href="#system">System</a>
+      <a href="#proof">Proof</a>
       <a href="#team">Team</a>
     </nav>
 
@@ -49,10 +50,11 @@
 
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <nav aria-label="Mobile">
-      <a href="#problem">The problem</a>
+      <a href="#challenge">The challenge</a>
       <a href="#how">How it works</a>
-      <a href="#try">Try it</a>
-      <a href="#proof">Results</a>
+      <a href="#demo">Live demo</a>
+      <a href="#system">System</a>
+      <a href="#proof">Proof</a>
       <a href="#team">Team</a>
       <a class="btn btn-primary" href="assets/docs/original-research.pdf" download>Read the paper</a>
     </nav>
@@ -66,59 +68,81 @@
     <div class="container hero-inner">
       <div class="hero-copy reveal">
         <span class="eyebrow">Capstone Research · 2024 · Elizabeth Seton School — South</span>
-        <h1>See around the <span class="grad">blind corner</span> before it's too late.</h1>
-        <p class="hero-sub">UDSpot is a smart prototype that uses <strong>ultrasonic distance sensors</strong> to detect
-        vehicles sneaking up on blind spots — then warns drivers with <strong>color-coded LED signals</strong>, before they ever meet.</p>
+        <h1>One lane.<br>Two directions.<br><span class="grad">Zero standoffs.</span></h1>
+        <p class="hero-sub">UDSpot is an intelligent <strong>lane-occupancy system</strong> for narrow, two-way roads.
+        Ultrasonic sensors watch both entrances, a controller decides, and traffic lights let <strong>one direction
+        through at a time</strong> — so vehicles never meet in the middle.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#try" data-scroll>
-            Try the sensor demo
+          <a class="btn btn-primary" href="#demo" data-scroll>
+            Watch it run
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
           </a>
-          <a class="btn btn-ghost" href="#how" data-scroll>See how it works</a>
+          <a class="btn btn-ghost" href="#how" data-scroll>How it works</a>
         </div>
         <div class="hero-facts">
+          <div><strong>2</strong><span>Entrances</span></div>
           <div><strong>4</strong><span>Sensors</span></div>
-          <div><strong>5</strong><span>LED signals</span></div>
-          <div><strong>2</strong><span>Lanes covered</span></div>
-          <div><strong>1</strong><span>Arduino</span></div>
+          <div><strong>2</strong><span>Traffic lights</span></div>
+          <div><strong>1</strong><span>Lane · 1 controller</span></div>
         </div>
       </div>
 
-      <div class="hero-visual reveal reveal-delay-2" role="img" aria-label="Illustration of a blind road corner with ultrasonic detection rings">
-        <div class="sonar" aria-hidden="true">
-          <span class="ring"></span>
-          <span class="ring r2"></span>
-          <span class="ring r3"></span>
-          <span class="node"></span>
-        </div>
-        <svg class="corner" viewBox="0 0 520 400" fill="none" aria-hidden="true">
-          <!-- backdrop -->
+      <div class="hero-visual reveal reveal-delay-2" role="img" aria-label="Animated diagram of a one-lane two-way road with traffic lights and sensors at both entrances">
+        <svg class="lane-scene" viewBox="0 0 520 400" fill="none" aria-hidden="true">
           <rect class="sky" x="0" y="0" width="520" height="400" rx="28"/>
-          <!-- main road (left lane + right lane) -->
-          <rect class="asphalt a1" x="40" y="60" width="300" height="64" rx="10"/>
-          <rect class="asphalt a2" x="40" y="120" width="300" height="64" rx="10"/>
-          <path class="dash" d="M40 124 H340 M40 178 H340"/>
+          <text class="zone-label" x="60" y="58">WEST ENTRANCE</text>
+          <text class="zone-label" x="368" y="58">EAST ENTRANCE</text>
+
+          <!-- entrance aprons -->
+          <rect class="asphalt ap-w" x="40" y="150" width="120" height="92" rx="12"/>
+          <rect class="asphalt ap-e" x="360" y="150" width="120" height="92" rx="12"/>
+          <rect class="asphalt ap-w" x="40" y="150" width="120" height="26" rx="6" opacity="0"/>
           <!-- one-lane road -->
-          <rect class="asphalt a3" x="320" y="170" width="64" height="210" rx="10"/>
-          <path class="dash dash-v" d="M352 210 V380"/>
-          <!-- corner marker -->
-          <circle class="corner-arc" cx="352" cy="120" r="58" stroke-dasharray="3 8"/>
-          <!-- vegetation / background -->
-          <circle class="tree" cx="452" cy="60" r="34"/>
-          <circle class="tree tree2" cx="486" cy="120" r="26"/>
-          <!-- the detected car -->
-          <g class="car" style="transform:translate(0,0)">
-            <rect x="120" y="126" width="66" height="42" rx="10"/>
-            <rect class="car-window" x="136" y="134" width="34" height="12" rx="4"/>
-            <circle cx="137" cy="171" r="6"/><circle cx="169" cy="171" r="6"/>
+          <rect class="lane" x="140" y="162" width="240" height="68" rx="10"/>
+          <path class="dash" d="M140 196 H380"/>
+          <!-- stop lines -->
+          <rect class="stopline" x="136" y="158" width="5" height="76"/>
+          <rect class="stopline" x="379" y="158" width="5" height="76"/>
+          <!-- entrance sensors -->
+          <rect class="sensorbox" x="168" y="238" width="40" height="14" rx="5"/>
+          <rect class="sensorbox" x="312" y="238" width="40" height="14" rx="5"/>
+          <text class="sensor-tag" x="176" y="268">UDS</text>
+          <text class="sensor-tag" x="320" y="268">UDS</text>
+          <!-- traffic light poles -->
+          <g class="pole" transform="translate(0,0)">
+            <rect x="120" y="120" width="6" height="60" rx="3"/>
+            <rect x="110" y="86" width="26" height="54" rx="8"/>
+            <circle class="lamp" cx="123" cy="99" r="6"/>
+            <circle class="lamp" cx="123" cy="113" r="6"/>
+            <circle class="lamp" cx="123" cy="127" r="6"/>
           </g>
-          <!-- sensor node at the corner -->
-          <g class="sensor">
-            <rect x="330" y="84" width="22" height="66" rx="7"/>
-            <circle cx="341" cy="117" r="6"/>
+          <g class="pole" transform="translate(260,0)">
+            <rect x="394" y="120" width="6" height="60" rx="3"/>
+            <rect x="384" y="86" width="26" height="54" rx="8"/>
+            <circle class="lamp" cx="397" cy="99" r="6"/>
+            <circle class="lamp" cx="397" cy="113" r="6"/>
+            <circle class="lamp" cx="397" cy="127" r="6"/>
+          </g>
+          <!-- chevron flow -->
+          <g class="chevrons">
+            <path class="chev" d="M205 196 L220 181 M205 196 L220 211"/>
+            <path class="chev" d="M240 196 L255 181 M240 196 L255 211"/>
+            <path class="chev" d="M275 196 L290 181 M275 196 L290 211"/>
+          </g>
+          <!-- traveling car -->
+          <g class="hero-car">
+            <rect x="230" y="178" width="52" height="36" rx="9"/>
+            <rect class="cw" x="242" y="185" width="28" height="10" rx="4"/>
+            <circle cx="242" cy="217" r="5"/><circle cx="270" cy="217" r="5"/>
           </g>
         </svg>
-        <div class="hero-visual label-chip" style="position:absolute;left:24px;bottom:20px">Ultrasonic wave · 40 kHz</div>
+        <span class="sonar-gate sonar-w" aria-hidden="true">
+          <span class="ring"></span><span class="ring r2"></span><span class="ring r3"></span>
+        </span>
+        <span class="sonar-gate sonar-e" aria-hidden="true">
+          <span class="ring"></span><span class="ring r2"></span><span class="ring r3"></span>
+        </span>
+        <div class="label-chip" style="position:absolute;left:24px;bottom:20px">Ultrasonic detection · 40 kHz</div>
       </div>
     </div>
   </section>
@@ -133,160 +157,373 @@
     </div>
   </section>
 
-  <!-- ================= THE PROBLEM ================= -->
-  <section class="section" id="problem">
+  <!-- ================= THE CHALLENGE ================= -->
+  <section class="section" id="challenge">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">01 · The problem</span>
-        <h2 class="reveal">Blind corners are hidden killers.</h2>
-        <p class="lead reveal reveal-delay-1">Drivers can't see what they can't see around a corner. Every second of
-        hesitation at a blind junction is a second of risk — UDSpot buys that second back.</p>
+        <span class="eyebrow">01 · The challenge</span>
+        <h2>A narrow road, two directions, one lane.</h2>
+        <p class="lead reveal reveal-delay-1">This is not an intersection. It is a single lane shared by opposite
+        traffic. When both directions enter at the same time, they meet in the middle — a <strong>deadlock</strong>
+        no driver can break on their own.</p>
       </div>
-      <div class="chips">
-        <div class="chip reveal"><strong>3,200+</strong><span>people die on the world's roads <em>every day</em></span></div>
-        <div class="chip reveal reveal-delay-1"><strong>2</strong><span>deaths happen <em>every minute</em>, somewhere</span></div>
-        <div class="chip reveal reveal-delay-2"><strong>5–29</strong><span>road injuries are the leading cause of death for ages <em>this range</em></span></div>
+
+      <div class="layout-grid">
+        <div class="layout-diagram reveal" aria-hidden="true">
+          <div class="layout-gate gate-l">
+            <span class="lg-label">West entrance</span>
+            <span class="lg-sensor">UDS</span>
+            <span class="lg-light"><i class="lg-lamp"></i><i class="lg-lamp"></i><i class="lg-lamp"></i></span>
+          </div>
+          <div class="layout-lane">
+            <span class="lane-arrow a-right"></span>
+            <span class="lane-arrow a-left"></span>
+            <span class="lane-core">ONE-LANE ROAD<small>shared by both directions</small></span>
+          </div>
+          <div class="layout-gate gate-r">
+            <span class="lg-light"><i class="lg-lamp"></i><i class="lg-lamp"></i><i class="lg-lamp"></i></span>
+            <span class="lg-sensor">UDS</span>
+            <span class="lg-label">East entrance</span>
+          </div>
+        </div>
+        <div class="layout-notes reveal reveal-delay-1">
+          <div class="deadlock-demo" aria-hidden="true">
+            <div class="dl-lane">
+              <span class="dl-car c-a"></span>
+              <span class="dl-car c-b"></span>
+            </div>
+            <span class="dl-flash">✕ STANDOFF</span>
+          </div>
+          <p>Two vehicles enter at the same time… they meet mid-lane… <strong>no one can move.</strong></p>
+        </div>
       </div>
-      <div class="canvas-line reveal" aria-hidden="true"></div>
-      <p class="note reveal">Sources: World Health Organization road-safety estimates &amp; Philippine Statistics Authority. Full details inside the paper.</p>
+
+      <div class="tags-strip reveal">
+        <span class="tag no">✕ Not adaptive traffic lights</span>
+        <span class="tag no">✕ Not an intersection controller</span>
+        <span class="tag yes">✓ This is lane-occupancy management</span>
+      </div>
+      <p class="note reveal">The objective is simple: only one direction moves at any given moment — and the
+      opposite side always waits.</p>
     </div>
   </section>
 
   <!-- ================= HOW IT WORKS ================= -->
-  <section class="section" id="how">
+  <section class="section section-alt" id="how">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">02 · How it works</span>
-        <h2>Three steps. Zero surprises.</h2>
+        <h2>The coordination loop, step by step.</h2>
+        <p class="lead reveal reveal-delay-1">Five steps, executed every time a vehicle approaches. Sensors detect,
+        the controller decides, and the lights speak.</p>
       </div>
 
-      <div class="how">
-        <div class="step reveal">
-          <div class="step-icon icon-wave" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="24" cy="24" r="5"/><path d="M15.5 15.5a12 12 0 0 1 0 17M32.5 15.5a12 12 0 0 0 0 17M9.5 9.5a20 20 0 0 1 0 29M38.5 9.5a20 20 0 0 0 0 29"/></svg>
+      <div class="journey">
+        <article class="journey-item reveal">
+          <div class="j-copy">
+            <span class="j-num">1</span>
+            <h3>A vehicle arrives — the sensor sees it first</h3>
+            <p>An ultrasonic distance sensor at the entrance fires a sound pulse. The echo tells the controller:
+            <em>something is waiting to enter.</em></p>
           </div>
-          <h3>1 · Detect</h3>
-          <p>Four ultrasonic distance sensors continuously scan both lanes, bouncing 40 kHz waves to measure exactly how far an oncoming car is.</p>
-        </div>
-        <div class="step reveal reveal-delay-1">
-          <div class="step-icon icon-chip" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>
+          <div class="j-scene scene-arrive" aria-hidden="true">
+            <span class="j-sensor"></span><span class="j-pulse"></span><span class="j-pulse p2"></span>
+            <span class="j-car"></span>
+            <span class="j-tag">DETECTED</span>
           </div>
-          <h3>2 · Decide</h3>
-          <p>An Arduino Uno R3 reads the echo times, weighs who has right-of-way, and decides the signal to show — in milliseconds.</p>
-        </div>
-        <div class="step reveal reveal-delay-2">
-          <div class="step-icon icon-led" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 5.2 6 10a6 6 0 0 1-12 0c0-4.8 6-10 6-10z"/><circle cx="12" cy="12" r="2.4"/></svg>
+        </article>
+
+        <article class="journey-item reveal">
+          <div class="j-copy">
+            <span class="j-num">2</span>
+            <h3>The controller asks: is the lane occupied?</h3>
+            <p>The Arduino checks its live lane state. If a vehicle is already inside, the answer is <strong>YES</strong>
+            and the entrance stays red. Otherwise the controller issues a <strong>green light.</strong></p>
           </div>
-          <h3>3 · Warn</h3>
-          <p>RGB LEDs flash green, amber, or red — a language every driver already knows — so both vehicles slow before they meet.</p>
-        </div>
+          <div class="j-scene scene-check" aria-hidden="true">
+            <span class="j-controller"></span>
+            <span class="j-bubble">Occupied?</span>
+            <span class="j-pill ok">FREE → GO</span>
+          </div>
+        </article>
+
+        <article class="journey-item reveal">
+          <div class="j-copy">
+            <span class="j-num">3</span>
+            <h3>Green on one side. Red on the other. Immediately.</h3>
+            <p>The moment entry is allowed, the opposite entrance flips to red. There is never a gap where both
+            directions could slip through.</p>
+          </div>
+          <div class="j-scene scene-allow" aria-hidden="true">
+            <span class="j-light l-green"><i></i><i></i><i class="lit g"></i></span>
+            <span class="j-lane"></span>
+            <span class="j-light l-red"><i class="lit r"></i><i></i><i></i></span>
+            <span class="j-flow"></span>
+          </div>
+        </article>
+
+        <article class="journey-item reveal">
+          <div class="j-copy">
+            <span class="j-num">4</span>
+            <h3>The lane is OCCUPIED — everyone else waits</h3>
+            <p>While the vehicle travels through, the lane state is locked. Any vehicle at the far entrance sees red
+            and holds its position. No exceptions.</p>
+          </div>
+          <div class="j-scene scene-occupy" aria-hidden="true">
+            <span class="j-lane occ"></span>
+            <span class="j-car travel"></span>
+            <span class="j-car wait blink"></span>
+            <span class="j-pill red">OCCUPIED</span>
+          </div>
+        </article>
+
+        <article class="journey-item reveal">
+          <div class="j-copy">
+            <span class="j-num">5</span>
+            <h3>Exit sensors confirm it is clear. Priority flips.</h3>
+            <p>Exit sensors on the far side watch the vehicle leave. Only then does the lane return to
+            <strong>available</strong> — and the waiting side finally gets its green.</p>
+          </div>
+          <div class="j-scene scene-release" aria-hidden="true">
+            <span class="j-sensor"></span><span class="j-pulse"></span>
+            <span class="j-car gone"></span>
+            <span class="j-arrow flip"></span>
+            <span class="j-pill ok">CLEAR → SWITCH</span>
+          </div>
+        </article>
       </div>
-      <div class="connector reveal" aria-hidden="true"><span></span><span></span></div>
     </div>
   </section>
 
-  <!-- ================= INTERACTIVE DEMO ================= -->
-  <section class="section section-alt" id="try">
+  <!-- ================= LIVE DEMO ================= -->
+  <section class="section" id="demo">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">03 · Play with it</span>
-        <h2>Approach the blind corner.</h2>
-        <p class="lead reveal reveal-delay-1">Drag the car toward the corner. Watch the sensors wake up and the LED
-        signals change — exactly the way the prototype does. <em>(Scale: 1:24 vehicle on the 60 cm test track.)</em></p>
+        <span class="eyebrow">03 · Live road simulation</span>
+        <h2>Watch the system manage the lane.</h2>
+        <p class="lead reveal reveal-delay-1">A complete cycle, running in real time: vehicles approach, sensors
+        pulse, lights flip, the lane locks and unlocks. Follow the decision tree as it happens.</p>
       </div>
 
       <div class="sim reveal reveal-delay-1">
-        <div class="sim-visual">
-          <div class="track" id="track">
-            <div class="zone-tag zg-clear" style="left:0%">CLEAR</div>
-            <div class="zone-tag zg-slow" style="left:36.7%">SLOW</div>
-            <div class="zone-tag zg-stop" style="left:66.7%">STOP</div>
-            <div class="zone-line zl-slow" style="left:36.7%"></div>
-            <div class="zone-line zl-stop" style="left:66.7%"></div>
-            <div class="track-road" aria-hidden="true"></div>
-            <div class="sensor-node" aria-hidden="true">
-              <span class="pulse"></span>
-              <span class="pulse p2"></span>
-            </div>
-            <div class="car" id="demoCar" aria-hidden="true">
-              <svg viewBox="0 0 66 42" width="44" height="28" fill="none">
-                <rect x="2" y="8" width="62" height="30" rx="9" fill="currentColor"/>
-                <rect x="14" y="14" width="18" height="9" rx="4" fill="rgba(255,255,255,.85)"/>
-                <rect x="38" y="14" width="14" height="9" rx="4" fill="rgba(255,255,255,.85)"/>
-                <circle cx="16" cy="38" r="4.5" fill="#0b1326"/>
-                <circle cx="50" cy="38" r="4.5" fill="#0b1326"/>
-              </svg>
-            </div>
+        <div class="sim-stage">
+          <div class="sim-lane" id="simLane">
+            <span class="lane-flow" id="laneFlow" aria-hidden="true"></span>
+            <span class="lane-occ" id="laneOcc" aria-hidden="true"></span>
           </div>
-          <div class="track-scale" aria-hidden="true">
-            <span>60 cm</span><span class="mid">20–37 cm</span><span>corner</span>
+
+          <div class="sim-gate gate-w" id="gateW">
+            <span class="gate-label">WEST</span>
+            <span class="light" id="lightW"><i class="l-red"></i><i class="l-amber"></i><i class="l-green"></i></span>
+            <span class="sensor-node" id="sensorW"><span class="pulse"></span><span class="pulse p2"></span></span>
           </div>
-          <div class="sim-slider">
-            <input type="range" id="distSlider" min="0" max="60" value="52" step="1" aria-label="Vehicle distance from the corner in centimeters">
-            <div class="slider-readout"><span>Distance from sensor</span><strong id="distReadout">52 cm</strong></div>
+          <div class="sim-gate gate-e" id="gateE">
+            <span class="gate-label">EAST</span>
+            <span class="light" id="lightE"><i class="l-red"></i><i class="l-amber"></i><i class="l-green"></i></span>
+            <span class="sensor-node" id="sensorE"><span class="pulse"></span><span class="pulse p2"></span></span>
+          </div>
+
+          <div class="sim-car car-w" id="carW" aria-hidden="true">
+            <svg viewBox="0 0 52 36" width="44" height="30" fill="none"><rect x="2" y="6" width="48" height="26" rx="9" fill="currentColor"/><rect x="11" y="12" width="16" height="8" rx="4" fill="rgba(255,255,255,.85)"/><rect x="31" y="12" width="12" height="8" rx="4" fill="rgba(255,255,255,.85)"/><circle cx="13" cy="32" r="4" fill="#0b1326"/><circle cx="39" cy="32" r="4" fill="#0b1326"/></svg>
+          </div>
+          <div class="sim-car car-e" id="carE" aria-hidden="true">
+            <svg viewBox="0 0 52 36" width="44" height="30" fill="none"><rect x="2" y="6" width="48" height="26" rx="9" fill="currentColor"/><rect x="11" y="12" width="16" height="8" rx="4" fill="rgba(255,255,255,.85)"/><rect x="31" y="12" width="12" height="8" rx="4" fill="rgba(255,255,255,.85)"/><circle cx="13" cy="32" r="4" fill="#0b1326"/><circle cx="39" cy="32" r="4" fill="#0b1326"/></svg>
+          </div>
+
+          <div class="sim-status">
+            <span class="occ-pill" id="occPill"><i></i><b id="occText">Lane available</b></span>
+            <span class="flow-pill" id="flowPill"><i id="flowArrow"></i><b id="flowText">No flow</b></span>
+            <span class="state-readout" id="stateReadout">System idle</span>
           </div>
         </div>
 
-        <div class="sim-panel" aria-live="polite">
-          <div class="sensor-readout">
-            <span class="mini-label">Active sensors</span>
-            <div class="sensor-chips" id="sensorChips">
-              <span class="s-chip">UDS 1</span>
-              <span class="s-chip">UDS 2</span>
-              <span class="s-chip">UDS 3</span>
-              <span class="s-chip">UDS 4</span>
+        <aside class="sim-panel">
+          <div class="sim-controls">
+            <button class="btn btn-primary btn-sm" id="btnPlay" aria-label="Pause simulation">
+              <svg id="playIcon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 4l14 8-14 8z" fill="currentColor" stroke="none"/><path d="M6 4l14 8-14 8z"/></svg>
+              <svg id="pauseIcon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 5v14M17 5v14"/></svg>
+              <span id="btnPlayTxt">Pause</span>
+            </button>
+            <label class="speed">
+              <span>Speed</span>
+              <select id="speedSel" aria-label="Simulation speed">
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="sim-readouts">
+            <div class="readout">
+              <span class="mini-label">Sensors</span>
+              <div class="sensor-chips">
+                <span class="s-chip" id="chipWIn">West entry</span>
+                <span class="s-chip" id="chipEIn">East entry</span>
+                <span class="s-chip" id="chipWEx">West exit</span>
+                <span class="s-chip" id="chipEEx">East exit</span>
+              </div>
+            </div>
+            <div class="readout">
+              <span class="mini-label">Traffic lights</span>
+              <div class="light-state">
+                <span class="mini-gate">W <i id="wDot" class="dot red"></i></span>
+                <span class="mini-gate">E <i id="eDot" class="dot red"></i></span>
+              </div>
+            </div>
+            <div class="readout readout-count">
+              <span class="mini-label">Coordinated crossings</span>
+              <strong id="crossCount">0</strong>
             </div>
           </div>
 
-          <div class="led-panel">
-            <span class="mini-label">Indicator LEDs</span>
-            <div class="leds">
-              <span class="led" data-led="1"><i></i><small>1</small></span>
-              <span class="led" data-led="2"><i></i><small>2</small></span>
-              <span class="led" data-led="3"><i></i><small>3</small></span>
-              <span class="led" data-led="4"><i></i><small>4</small></span>
-              <span class="led" data-led="5"><i></i><small>5</small></span>
-            </div>
+          <div class="decision" id="decTree" aria-label="Controller decision flow">
+            <span class="mini-label">Controller decision flow</span>
+            <div class="dt-node on" data-node="detect">Vehicle detected</div>
+            <div class="dt-node" data-node="occupied">Is lane occupied?</div>
+            <div class="dt-branch b-no" data-node="no"><span>NO</span><div class="dt-node green" data-node="green">Green — enter</div></div>
+            <div class="dt-branch b-yes" data-node="yes"><span>YES</span><div class="dt-node red" data-node="red">Red — wait</div></div>
+            <div class="dt-node" data-node="exit">Vehicle exits</div>
+            <div class="dt-node" data-node="free">Lane available</div>
+            <div class="dt-node blue" data-node="opposite">Opposite direction allowed</div>
           </div>
+        </aside>
+      </div>
+    </div>
+  </section>
 
-          <div class="status" id="statusBox">
-            <span class="status-dot" id="statusDot"></span>
-            <div>
-              <strong id="statusTitle">Road clear</strong>
-              <span id="statusText">No vehicle detected — proceed as usual.</span>
+  <!-- ================= BEFORE VS AFTER ================= -->
+  <section class="section section-alt" id="beforeafter">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">04 · Before vs after</span>
+        <h2>The same road. A different outcome.</h2>
+      </div>
+
+      <div class="ba-grid">
+        <div class="ba-card ba-without reveal">
+          <span class="ba-tag bad">WITHOUT UDSpot</span>
+          <div class="ba-stage" aria-hidden="true">
+            <div class="ba-lane">
+              <span class="ba-car bc-a"></span>
+              <span class="ba-car bc-b"></span>
             </div>
+            <span class="ba-badge bad">✕ DEADLOCK</span>
           </div>
+          <p>Both vehicles enter the lane at the same time. They meet in the middle — <strong>neither can move.</strong></p>
+        </div>
+
+        <div class="ba-card ba-with reveal reveal-delay-1">
+          <span class="ba-tag good">WITH UDSpot</span>
+          <div class="ba-stage" aria-hidden="true">
+            <div class="ba-lane">
+              <span class="ba-car bc-a"></span>
+              <span class="ba-car bc-b wait"></span>
+            </div>
+            <span class="ba-badge good">✓ COORDINATED</span>
+          </div>
+          <p>One vehicle is given the lane. The other waits at the entrance — then proceeds <strong>safely, in turn.</strong></p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= SYSTEM / COMPONENTS ================= -->
+  <section class="section" id="system">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">05 · The system</span>
+        <h2>Engineered from the components up.</h2>
+        <p class="lead reveal reveal-delay-1">Every part of the prototype earns its place in the coordination loop.</p>
+      </div>
+
+      <div class="comp-grid">
+        <article class="comp reveal">
+          <span class="comp-icon icon-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>
+          </span>
+          <h3>Controller</h3>
+          <p><strong>Arduino Uno R3.</strong> Reads every sensor, runs the occupancy logic, and flips the traffic
+          lights — the entire decision loop lives here.</p>
+        </article>
+
+        <article class="comp reveal reveal-delay-1">
+          <span class="comp-icon icon-wave" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="24" cy="24" r="5"/><path d="M15.5 15.5a12 12 0 0 1 0 17M32.5 15.5a12 12 0 0 0 0 17M9.5 9.5a20 20 0 0 1 0 29M38.5 9.5a20 20 0 0 0 0 29"/></svg>
+          </span>
+          <h3>Detection</h3>
+          <p><strong>4 × Ultrasonic Distance Sensors.</strong> Two watch the entrances, two watch the exits — so the
+          controller always knows who is waiting and when the lane is truly empty.</p>
+        </article>
+
+        <article class="comp reveal reveal-delay-2">
+          <span class="comp-icon icon-light" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="2" width="6" height="17" rx="3"/><circle cx="12" cy="6" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="11" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="16" r="1.6" fill="currentColor" stroke="none"/><path d="M11 19v3M13 19v3"/></svg>
+          </span>
+          <h3>Signaling</h3>
+          <p><strong>2 × RGB LED traffic lights.</strong> A language every driver already knows — green to enter,
+          red to wait. One at each entrance.</p>
+        </article>
+
+        <article class="comp comp-wide reveal">
+          <span class="comp-icon icon-board" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          </span>
+          <div class="comp-body">
+            <h3>Circuitry</h3>
+            <p><strong>Two integrated circuits.</strong> The sensor network, the LEDs, the resistors, and the
+            Arduino on one board — wired exactly as the schematic below.</p>
+          </div>
+          <img class="comp-img" src="assets/images/fig2-schematic.png" alt="The UDSpot circuit schematic diagram" data-lb="UDSpot schematic — the two integrated circuits of the prototype">
+        </article>
+
+        <article class="comp comp-wide reveal reveal-delay-1">
+          <span class="comp-icon icon-map" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>
+          </span>
+          <div class="comp-body">
+            <h3>Road model</h3>
+            <p><strong>The diorama.</strong> A 101.6 × 76.2 cm physical model of the one-lane, two-way road —
+            roads at 1:28 scale, remote-controlled vehicles at 1:24, and six exact traffic scenarios.</p>
+          </div>
+          <img class="comp-img" src="assets/images/fig9-diorama1.png" alt="The UDSpot diorama road model" data-lb="The diorama — one-lane, two-way road with the full system installed">
+        </article>
+      </div>
+
+      <div class="gallery">
+        <figure class="reveal"><img src="assets/images/fig14-layout.png" alt="Positions and labels of sensors, LEDs, and circuits" data-lb="Positions and labels of the UDS sensors, LEDs, and circuits"></figure>
+        <figure class="reveal reveal-delay-1"><img src="assets/images/fig3-circuit1.png" alt="The TinkerCAD design of Circuit 1" data-lb="Circuit 1 designed on TinkerCAD"></figure>
+        <figure class="reveal reveal-delay-2"><img src="assets/images/appendix_bayanluma.png" alt="Researchers during field data gathering at a narrow road" data-lb="Field data gathering on a real narrow road"></figure>
+      </div>
+      <p class="note reveal">Photos and diagrams from the research paper — full details inside the PDF.</p>
     </div>
   </section>
 
   <!-- ================= PROOF ================= -->
-  <section class="section" id="proof">
+  <section class="section section-alt" id="proof">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">04 · A little proof</span>
+        <span class="eyebrow">06 · A little proof</span>
         <h2>Tested. Measured. Repeated.</h2>
-        <p class="lead reveal reveal-delay-1">Every headline number below comes from actual trials in the physical diorama — three runs per test, no rounding of the truth.</p>
+        <p class="lead reveal reveal-delay-1">Every headline number below comes from actual trials in the physical
+        diorama — three runs per test, no rounding of the truth.</p>
       </div>
 
       <div class="proof-grid">
         <div class="proof-card reveal">
           <span class="proof-num">12<span class="proof-suf">/12</span></span>
           <h3>Detection trials</h3>
-          <p>The ultrasonic sensors caught the approaching vehicle in every single test run.</p>
+          <p>The ultrasonic sensors caught every approaching vehicle, every single run.</p>
         </div>
         <div class="proof-card reveal reveal-delay-1">
           <span class="proof-num">18<span class="proof-suf">/18</span></span>
           <h3>Correct LED signals</h3>
-          <p>Every color and flash the system displayed matched exactly what it should have.</p>
+          <p>Every green, red, and amber state matched exactly what the controller should have shown.</p>
         </div>
         <div class="proof-card reveal reveal-delay-2">
           <span class="proof-num">6<span class="proof-suf">/6</span></span>
           <h3>Standoffs avoided</h3>
-          <p>Without UDSpot the same road locked up in 4 of 6 scenarios. With it — six for six.</p>
+          <p>Without UDSpot the lane deadlocked in 4 of 6 scenarios. With it — six for six.</p>
         </div>
       </div>
 
@@ -302,40 +539,8 @@
           <span class="bar-val">6 / 6</span>
         </div>
       </div>
-      <p class="note reveal">Standoff = two vehicles locked at a blind corner, unable to proceed. 6 scenarios, two 1:24 RC cars.</p>
-    </div>
-  </section>
-
-  <!-- ================= PROTOTYPE ================= -->
-  <section class="section section-alt" id="prototype">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">05 · The prototype</span>
-        <h2>Small road. Big idea.</h2>
-      </div>
-
-      <div class="proto">
-        <figure class="proto-main reveal">
-          <img src="assets/images/fig9-diorama1.png" alt="The UDSpot physical diorama with roads and sensors under test" data-lb="UDSpot diorama — two-lane main road meeting a one-lane, two-way road">
-        </figure>
-        <div class="proto-side">
-          <p class="reveal">UDSpot is a table-sized diorama of a real junction: a two-way main road crossing a
-          narrower one-lane road, with a blind corner where drivers simply cannot see each other.</p>
-          <ul class="specs">
-            <li class="reveal"><span>Diorama</span><strong>101.6 × 76.2 cm</strong></li>
-            <li class="reveal"><span>Roads</span><strong>1:28 scale</strong></li>
-            <li class="reveal"><span>Vehicles</span><strong>1:24 RC cars</strong></li>
-            <li class="reveal"><span>Scenarios</span><strong>6 exact junction cases</strong></li>
-            <li class="reveal"><span>Build method</span><strong>ADDIE model, 5 phases</strong></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="gallery">
-        <figure class="reveal"><img src="assets/images/fig14-layout.png" alt="Blueprint layout of the diorama streets" data-lb></figure>
-        <figure class="reveal reveal-delay-1"><img src="assets/images/fig3-circuit1.png" alt="Electronics circuit behind the sensor network" data-lb></figure>
-        <figure class="reveal reveal-delay-2"><img src="assets/images/appendix_bayanluma.png" alt="Researchers during field data gathering at a real blind corner" data-lb="Field data gathering at a real blind corner in Bayan Luma"></figure>
-      </div>
+      <p class="note reveal">Standoff = two vehicles locked in the one-lane road, unable to proceed. Six scenarios,
+      two 1:24 RC cars.</p>
     </div>
   </section>
 
@@ -343,9 +548,10 @@
   <section class="section" id="team">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">06 · The team</span>
+        <span class="eyebrow">07 · The team</span>
         <h2>Four students. One mission.</h2>
-        <p class="lead reveal reveal-delay-1">Created as the senior Project Capstone of the Science, Technology, Engineering, and Mathematics strand.</p>
+        <p class="lead reveal reveal-delay-1">Created as the senior Project Capstone of the Science, Technology,
+        Engineering, and Mathematics strand.</p>
       </div>
 
       <div class="team">
@@ -403,7 +609,8 @@
           </span>
           <span class="brand-name">UD<em>Spot</em></span>
         </a>
-        <p>Improving road safety and accident prevention using ultrasonic distance sensors in vehicle detection at blind corners.</p>
+        <p>UDSpot: an intelligent lane-occupancy system using ultrasonic distance sensors, traffic lights, and a
+        controller to manage one-lane, two-way roads — one direction at a time.</p>
       </div>
 
       <div class="footer-col">
@@ -422,8 +629,8 @@
         <h4>Explore</h4>
         <ul>
           <li><a href="#how">How it works</a></li>
-          <li><a href="#try">Interactive demo</a></li>
-          <li><a href="#proof">Results</a></li>
+          <li><a href="#demo">Live simulation</a></li>
+          <li><a href="#system">System &amp; components</a></li>
           <li><a href="assets/docs/original-research.pdf" download>Research paper (PDF)</a></li>
         </ul>
       </div>
@@ -440,8 +647,6 @@
   <img id="lbImage" src="" alt="">
   <p class="lb-cap" id="lbCaption"></p>
 </div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/main.js"></script>
 </body>
