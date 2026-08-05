@@ -430,6 +430,12 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 @keyframes rsLampR { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 .journey-item.in .rs-sensor.active { animation: rsSense 2.4s ease-in-out infinite; }
 @keyframes rsSense { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+.rs-ring { opacity: 0; }
+.rs-wave .warc { fill: none; stroke: var(--primary); stroke-width: 2.5; }
+.journey-item.in .rs-ring { transform-box: fill-box; transform-origin: center; animation: rsWave 2.4s cubic-bezier(0.2, 0.7, 0.3, 1) infinite; }
+.journey-item.in .rs-ring.rg2 { animation-delay: 0.8s; }
+.journey-item.in .rs-ring.rg3 { animation-delay: 1.6s; }
+@keyframes rsWave { 0% { transform: scale(0.4); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: scale(3.2); opacity: 0; } }
 .journey-item.in .rs-road.occ { animation: rsOccTint 2.6s ease-in-out infinite; }
 @keyframes rsOccTint { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
 .journey-item.in .j-chip { animation: rsChip 2.6s ease-out; }
