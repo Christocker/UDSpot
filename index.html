@@ -250,11 +250,51 @@
             <p>The moment entry is allowed, the opposite entrance flips to red. There is never a gap where both
             directions could slip through.</p>
           </div>
-          <div class="j-scene scene-allow" aria-hidden="true">
-            <span class="j-light l-green"><i></i><i></i><i class="lit g"></i></span>
-            <span class="j-lane"></span>
-            <span class="j-light l-red"><i class="lit r"></i><i></i><i></i></span>
-            <span class="j-flow"></span>
+          <div class="road-scene" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none">
+              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
+              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
+              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
+              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
+              <path class="rs-dash" d="M102 179 H298"/>
+              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
+              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
+              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
+              <rect class="rs-sensor" x="312" y="248" width="40" height="14" rx="5"/>
+              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
+              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
+              <g class="rs-pole" transform="translate(88 0)">
+                <rect x="2" y="70" width="6" height="74" rx="3"/>
+                <rect x="-6" y="42" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="55" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="71" r="6.5"/>
+                <circle class="rs-lamp on-g" cx="7" cy="87" r="6.5"/>
+              </g>
+              <g class="rs-pole" transform="translate(300 0)">
+                <rect x="2" y="70" width="6" height="74" rx="3"/>
+                <rect x="-6" y="42" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp on-r" cx="7" cy="55" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="71" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="87" r="6.5"/>
+              </g>
+              <g class="rs-chevrons">
+                <path class="chev" d="M158 179 L170 167 M158 179 L170 191"/>
+                <path class="chev" d="M184 179 L196 167 M184 179 L196 191"/>
+              </g>
+              <g class="car red waitcar" transform="translate(246 161) scale(-1 1)">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+              <g class="car drive">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+            </svg>
+            <span class="j-chip ok">WEST GREEN · EAST RED</span>
           </div>
         </article>
 
@@ -265,11 +305,47 @@
             <p>While the vehicle travels through, the lane state is locked. Any vehicle at the far entrance sees red
             and holds its position. No exceptions.</p>
           </div>
-          <div class="j-scene scene-occupy" aria-hidden="true">
-            <span class="j-lane occ"></span>
-            <span class="j-car travel"></span>
-            <span class="j-car wait blink"></span>
-            <span class="j-pill red">OCCUPIED</span>
+          <div class="road-scene" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none">
+              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
+              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
+              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
+              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-road occ" x="102" y="142" width="196" height="74" rx="10"/>
+              <path class="rs-dash" d="M102 179 H298"/>
+              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
+              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
+              <rect class="rs-sensor" x="48" y="248" width="40" height="14" rx="5"/>
+              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
+              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
+              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
+              <g class="rs-pole" transform="translate(88 0)">
+                <rect x="2" y="70" width="6" height="74" rx="3"/>
+                <rect x="-6" y="42" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp on-r" cx="7" cy="55" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="71" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="87" r="6.5"/>
+              </g>
+              <g class="rs-pole" transform="translate(300 0)">
+                <rect x="2" y="70" width="6" height="74" rx="3"/>
+                <rect x="-6" y="42" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp on-r" cx="7" cy="55" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="71" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="87" r="6.5"/>
+              </g>
+              <g class="car red waitcar" transform="translate(246 161) scale(-1 1)">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+              <g class="car drive-slow">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+            </svg>
+            <span class="j-chip warn">LANE LOCKED · WAIT</span>
           </div>
         </article>
 
