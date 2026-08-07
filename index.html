@@ -755,19 +755,15 @@
 
       <div class="team">
         <figure class="member reveal">
-          <span class="member-avatar" aria-hidden="true">AJ</span>
           <figcaption><strong>Aaron Jacob M. Baldejera</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-1">
-          <span class="member-avatar" aria-hidden="true">CE</span>
           <figcaption><strong>Chris Bern J. Engada</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-2">
-          <span class="member-avatar" aria-hidden="true">MF</span>
           <figcaption><strong>Matthew M. Fernandez</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-3">
-          <span class="member-avatar" aria-hidden="true">TF</span>
           <figcaption><strong>Terrie Edena L. Fong</strong><span>Researcher</span></figcaption>
         </figure>
       </div>
@@ -790,7 +786,7 @@
       </div>
       <div class="cta-actions">
         <a class="btn btn-light" href="assets/docs/original-research.pdf" download>Download the paper (PDF)</a>
-        <a class="btn btn-ghost-light" href="https://github.com/Christocker/UDSpot" target="_blank" rel="noopener">Project on GitHub</a>
+        <a class="btn btn-ghost-light" href="https://drive.google.com/drive/folders/1wBiPDFawT9-xUk-a0mdQhzT9xu51CoOV?usp=sharing" target="_blank" rel="noopener">Project files on Google Drive</a>
       </div>
     </div>
   </section>
@@ -842,15 +838,20 @@
 </footer>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lb-close" data-lb-close aria-label="Close image">✕</button>
-  <span class="lb-count" id="lbCount" hidden></span>
-  <div class="lb-stage" id="lbStage">
-    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
-    <button class="lb-nav lb-next" id="lbNext" aria-label="Next image">›</button>
-    <img id="lbImage" src="" alt="">
+  <button class="lb-close" data-lb-close aria-label="Close photo viewer">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">›</button>
+  <div class="lb-container" id="lbContainer">
+    <div class="lb-track" id="lbTrack"></div>
+    <div class="lb-edge lb-edge-l" aria-hidden="true"></div>
+    <div class="lb-edge lb-edge-r" aria-hidden="true"></div>
   </div>
-  <p class="lb-cap" id="lbCaption"></p>
-  <span class="lb-hint">Scroll to zoom · Drag to move · ‹ › or swipe for another</span>
+  <div class="lb-zoombar">
+    <button type="button" class="lb-zbtn" id="lbZoomOut" aria-label="Zoom out">−</button>
+    <button type="button" class="lb-zpct" id="lbZoomPct" aria-label="Reset zoom">100%</button>
+    <button type="button" class="lb-zbtn" id="lbZoomIn" aria-label="Zoom in">+</button>
+  </div>
+  <span class="lb-count" id="lbCount">1 / 1</span>
 </div>
 
 <script src="assets/js/main.js"></script>

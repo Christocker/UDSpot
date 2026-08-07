@@ -116,17 +116,24 @@
     bo.observe(bars);
   } else if (bars) fillBars();
 
-  /* ---------------- lightbox / gallery ---------------- */
+  /* ---------------- lightbox / gallery ----------------
+     Sliding-track viewer (same system as the OneByte site): every image in the
+     group sits side by side on one track and the whole track translates, so you
+     drag/swipe to travel, click anywhere to jump, double-click or scroll to zoom
+     (1-3x), and drag to pan while zoomed. Closes with a fade. */
   const lb = $("#lightbox");
-  const lbStage = $("#lbStage");
-  const lbImg = $("#lbImage");
-  const lbCap = $("#lbCaption");
+  const lbContainer = $("#lbContainer");
+  const lbTrack = $("#lbTrack");
   const lbCount = $("#lbCount");
   const lbPrev = $("#lbPrev");
   const lbNext = $("#lbNext");
+  const lbClose = $("[data-lb-close]");
+  const lbZoomOut = $("#lbZoomOut");
+  const lbZoomIn = $("#lbZoomIn");
+  const lbZoomPct = $("#lbZoomPct");
 
-  /* Collect gallery items: every <img data-gallery="name"> belongs to the
-     same swipeable group (in DOM order); lone images open as a single item. */
+  /* Every <img data-gallery="name"> belongs to the same slide group (DOM order);
+     lone images open as a single-item track. */
   const lbGroups = new Map();
   $$("[data-gallery]").forEach((img) => {
     const g = img.dataset.gallery;
@@ -134,120 +141,232 @@
     lbGroups.get(g).push(img);
   });
 
-  let lbItems = [];      /* <img> elements in the current group        */
-  let lbIndex = 0;       /* current index within the group             */
-  let lbScale = 1;       /* zoom factor                                 */
-  let lbTx = 0, lbTy = 0;/* pan offset (px)                            */
+  let slides = [];            /* <div.lb-slide> elements on the track   */
+  let index = 0;              /* current slide index                    */
+  let dragX = 0;              /* live drag offset (px)                  */
+  let isDragging = false;
+  let suppress = true;        /* true = no transition (initial mount)   */
+  let transDur = 600;
+  let step = 0;               /* distance between two slide lefts       */
+  let baseOffset = 0;         /* centering offset of the first slide    */
+  let zoom = 1;               /* 1..3                                   */
+  let panX = 0, panY = 0;     /* pan while zoomed                       */
 
-  const lbShow = () => {
-    lb.classList.add("open");
-    lb.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => lbImg.classList.add("lb-anim"));
+  /* mutable refs so drag handlers always read current values */
+  const zoomRef = { v: 1 };
+  const panRef = { x: 0, y: 0 };
+  const indexRef = { v: 0 };
+  const movedRef = { v: false };
+  let drag = null;            /* active pointer-drag state              */
+
+  const buildSlides = (imgs) => {
+    lbTrack.innerHTML = "";
+    const frag = document.createDocumentFragment();
+    imgs.forEach((img) => {
+      const slide = document.createElement("div");
+      slide.className = "lb-slide";
+      const box = document.createElement("div");
+      box.className = "lb-zoombox";
+      const el = document.createElement("img");
+      el.src = img.src;
+      el.alt = img.alt || "";
+      el.draggable = false;
+      box.appendChild(el);
+      slide.appendChild(box);
+      frag.appendChild(slide);
+    });
+    lbTrack.appendChild(frag);
+    slides = Array.from(lbTrack.children);
   };
-  const lbHide = () => {
-    lb.classList.remove("open");
-    lb.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    lbImg.classList.remove("lb-anim");
-    lbScale = 1; lbTx = 0; lbTy = 0;
-    applyLbTransform(true);
+
+  const measure = () => {
+    if (!lbContainer || lbTrack.children.length === 0) return;
+    const s0 = lbTrack.children[0];
+    const s1 = lbTrack.children[1];
+    step = s1 ? s1.offsetLeft - s0.offsetLeft : s0.offsetWidth;
+    baseOffset = Math.max(0, (lbContainer.clientWidth - s0.offsetWidth) / 2);
   };
-  const lbApply = () => {
-    const img = lbItems[lbIndex];
-    lbImg.src = img.src;
-    lbImg.alt = img.alt || "";
-    lbCap.textContent = img.dataset.lb || img.alt || "";
-    lbScale = 1; lbTx = 0; lbTy = 0;
-    applyLbTransform(true);
-    if (lbItems.length > 1) {
-      lbCount.textContent = (lbIndex + 1) + " / " + lbItems.length;
-      lbCount.hidden = false;
-    } else lbCount.hidden = true;
-    lbPrev.hidden = lbNext.hidden = lbItems.length < 2;
+
+  const renderLb = () => {
+    const tx = baseOffset - index * step + dragX;
+    lbTrack.style.transform = `translate3d(${tx}px, 0, 0)`;
+    lbTrack.style.transition = suppress || isDragging
+      ? "none"
+      : `transform ${transDur}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+    lbContainer.classList.toggle("dragging", isDragging);
+    lbContainer.classList.toggle("zoomed", zoom > 1);
+    slides.forEach((s, i) => {
+      const box = s.querySelector(".lb-zoombox");
+      box.style.transform = i === index
+        ? `translate3d(${panX}px, ${panY}px, 0) scale(${zoom})`
+        : "translate3d(0, 0, 0) scale(1)";
+      s.style.opacity = i === index ? "1" : "0.4";
+    });
+    lbCount.textContent = `${index + 1} / ${slides.length}`;
+    lbZoomPct.textContent = `${Math.round(zoom * 100)}%`;
   };
+
+  const panBounds = () => {
+    const c = lbContainer.getBoundingClientRect();
+    const b = slides[index].querySelector("img").getBoundingClientRect();
+    return {
+      x: Math.max(0, (b.width - c.width) / 2),
+      y: Math.max(0, (b.height - c.height) / 2),
+    };
+  };
+  const clampPan = (x, y) => {
+    const b = panBounds();
+    return { x: Math.max(-b.x, Math.min(b.x, x)), y: Math.max(-b.y, Math.min(b.y, y)) };
+  };
+
+  const applyZoom = (next) => {
+    const clamped = Math.min(3, Math.max(1, next));
+    zoom = clamped; zoomRef.v = clamped;
+    if (clamped === 1) {
+      panX = 0; panY = 0; panRef.x = 0; panRef.y = 0;
+    } else {
+      const c = clampPan(panRef.x, panRef.y);
+      panX = c.x; panY = c.y; panRef.x = c.x; panRef.y = c.y;
+    }
+    renderLb();
+  };
+  const toggleZoom = () => { zoom > 1 ? applyZoom(1) : applyZoom(2.5); };
+
+  const goTo = (i) => {
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    indexRef.v = index;
+    dragX = 0;
+    transDur = 650;
+    renderLb();
+  };
+
   const lbOpen = (img) => {
     const g = img.dataset.gallery;
-    lbItems = g && lbGroups.has(g) ? lbGroups.get(g) : [img];
-    lbIndex = lbItems.indexOf(img);
-    lbApply();
-    lbShow();
-  };
-  const lbStep = (dir) => {
-    if (lbItems.length < 2) return;
-    const from = lbIndex;
-    lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
-    if (lbIndex === from) return;
-    lbImg.classList.remove("lb-anim");
-    lbImg.style.transition = "none";
-    void lbImg.offsetWidth; /* reflow */
-    lbApply();
-    lbImg.style.transition = "";
-    requestAnimationFrame(() => lbImg.classList.add("lb-anim"));
-  };
-  const applyLbTransform = (instant) => {
-    if (instant) lbImg.style.transition = "none";
-    lbImg.style.transform = `translate(${lbTx}px, ${lbTy}px) scale(${lbScale})`;
-    lbImg.style.cursor = lbScale > 1 ? "grab" : "zoom-in";
-    if (instant) { void lbImg.offsetWidth; lbImg.style.transition = ""; }
+    const items = g && lbGroups.has(g) ? lbGroups.get(g) : [img];
+    buildSlides(items);
+    index = items.indexOf(img); indexRef.v = index;
+    dragX = 0; zoom = 1; panX = 0; panY = 0;
+    zoomRef.v = 1; panRef.x = 0; panRef.y = 0;
+    suppress = true;
+    lb.classList.add("open");
+    lb.classList.remove("closing");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      measure();
+      suppress = false;
+      renderLb();
+    });
   };
 
-  /* wheel zoom + drag pan + swipe */
+  const closeLightbox = () => {
+    if (!lb.classList.contains("open") || lb.classList.contains("closing")) return;
+    lb.classList.add("closing");
+    document.body.style.overflow = "";
+    window.setTimeout(() => {
+      lb.classList.remove("open", "closing");
+      lb.setAttribute("aria-hidden", "true");
+      lbTrack.innerHTML = "";
+      slides = [];
+    }, 250);
+  };
+
   if (lb) {
-    lb.addEventListener("click", (e) => {
-      if (e.target === lb) lbHide();
+    lbClose.addEventListener("click", closeLightbox);
+    lbPrev.addEventListener("click", (e) => { e.stopPropagation(); goTo(index - 1); });
+    lbNext.addEventListener("click", (e) => { e.stopPropagation(); goTo(index + 1); });
+    lbZoomOut.addEventListener("click", (e) => { e.stopPropagation(); applyZoom(zoom - 0.5); });
+    lbZoomIn.addEventListener("click", (e) => { e.stopPropagation(); applyZoom(zoom + 0.5); });
+    lbZoomPct.addEventListener("click", (e) => { e.stopPropagation(); toggleZoom(); });
+
+    /* pointer drag: slide the track, or pan when zoomed */
+    lbContainer.addEventListener("pointerdown", (e) => {
+      try { lbContainer.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      drag = {
+        x: e.clientX, y: e.clientY,
+        dragX0: dragX,
+        panX0: panRef.x, panY0: panRef.y,
+        mode: zoom > 1 ? "zoom" : "slide",
+        samples: [],
+      };
+      movedRef.v = false;
+      isDragging = true;
+      renderLb();
     });
-    lb.addEventListener("wheel", (e) => {
+    lbContainer.addEventListener("pointermove", (e) => {
+      const d = drag;
+      if (!d) return;
+      const dx = e.clientX - d.x, dy = e.clientY - d.y;
+      if (d.mode === "zoom") {
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) movedRef.v = true;
+        const next = clampPan(d.panX0 + dx, d.panY0 + dy);
+        panX = next.x; panY = next.y; panRef.x = next.x; panRef.y = next.y;
+        renderLb();
+        return;
+      }
+      if (Math.abs(dx) > 6) movedRef.v = true;
+      let next = d.dragX0 + dx;
+      if (index === 0 && next > 0) next *= 0.35;
+      else if (index === slides.length - 1 && next < 0) next *= 0.35;
+      dragX = next;
+      d.samples.push({ x: e.clientX, t: performance.now() });
+      if (d.samples.length > 4) d.samples.shift();
+      renderLb();
+    });
+    const endDrag = () => {
+      const d = drag;
+      if (!d) return;
+      drag = null;
+      isDragging = false;
+      if (d.mode === "zoom") { renderLb(); return; }
+      const n = d.samples.length;
+      const v = n >= 2
+        ? (d.samples[n - 1].x - d.samples[n - 2].x) / (d.samples[n - 1].t - d.samples[n - 2].t)
+        : 0;
+      let target = index;
+      if (Math.abs(dragX) > step * 0.25) target = index + (dragX > 0 ? -1 : 1);
+      else if (Math.abs(v) > 0.45) target = index + (v > 0 ? -1 : 1);
+      target = Math.max(0, Math.min(slides.length - 1, target));
+      transDur = Math.min(850, Math.max(520, 520 + Math.abs(target - index) * 140));
+      index = target; indexRef.v = target;
+      dragX = 0;
+      renderLb();
+    };
+    lbContainer.addEventListener("pointerup", endDrag);
+    lbContainer.addEventListener("pointercancel", endDrag);
+
+    /* click a spot on the track to jump there; double-click toggles zoom */
+    lbContainer.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (movedRef.v || zoom > 1 || e.detail > 1) return;
+      const rect = lbContainer.getBoundingClientRect();
+      const relX = e.clientX - rect.left - rect.width / 2;
+      const jump = Math.round(relX / step);
+      if (jump !== 0) goTo(index + jump);
+    });
+    lbContainer.addEventListener("dblclick", (e) => {
+      e.stopPropagation();
+      toggleZoom();
+    });
+
+    lbContainer.addEventListener("wheel", (e) => {
       e.preventDefault();
-      const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
-      lbScale = Math.min(5, Math.max(1, lbScale * factor));
-      applyLbTransform();
+      applyZoom(zoom + (e.deltaY < 0 ? 0.25 : -0.25));
     }, { passive: false });
 
-    let dragging = false, started = false, sx = 0, sy = 0, ox = 0, oy = 0, moved = 0;
-    lbStage.addEventListener("pointerdown", (e) => {
-      dragging = true; started = false; moved = 0;
-      sx = e.clientX; sy = e.clientY;
-      ox = lbTx; oy = lbTy;
-      lbStage.setPointerCapture(e.pointerId);
-    });
-    lbStage.addEventListener("pointermove", (e) => {
-      if (!dragging) return;
-      const dx = e.clientX - sx, dy = e.clientY - sy;
-      if (!started && Math.abs(dx) + Math.abs(dy) > 6) started = true;
-      if (lbScale > 1) { /* pan */
-        lbTx = ox + dx; lbTy = oy + dy;
-        applyLbTransform(true);
-      }
-      if (started) moved = Math.max(moved, Math.abs(dx));
-    });
-    const endDrag = (e) => {
-      if (!dragging) return;
-      dragging = false;
-      if (!started) { /* tap = zoom toggle */
-        lbScale = lbScale > 1 ? 1 : 2;
-        lbTx = 0; lbTy = 0;
-        applyLbTransform();
-      } else if (lbScale === 1 && moved > 50) { /* horizontal swipe */
-        const dx = e.clientX - sx;
-        if (dx < 0) lbStep(1); else lbStep(-1);
-      } else if (lbScale > 1) { /* clamp pan loosely */
-        lbTx = 0; lbTy = 0;
-        applyLbTransform();
-      }
-    };
-    lbStage.addEventListener("pointerup", endDrag);
-    lbStage.addEventListener("pointercancel", () => { dragging = false; });
-
-    lbPrev.addEventListener("click", (e) => { e.stopPropagation(); lbStep(-1); });
-    lbNext.addEventListener("click", (e) => { e.stopPropagation(); lbStep(1); });
-    $("[data-lb-close]") && $("[data-lb-close]").addEventListener("click", lbHide);
     document.addEventListener("keydown", (e) => {
-      if (!lb.classList.contains("open")) return;
-      if (e.key === "Escape") lbHide();
-      else if (e.key === "ArrowLeft") lbStep(-1);
-      else if (e.key === "ArrowRight") lbStep(1);
+      if (!lb.classList.contains("open") || lb.classList.contains("closing")) return;
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowLeft") goTo(index - 1);
+      else if (e.key === "ArrowRight") goTo(index + 1);
     });
+
+    /* keep centering/step correct when the viewport resizes */
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => {
+        if (lb.classList.contains("open")) { measure(); renderLb(); }
+      }).observe(lbContainer);
+    }
   }
 
   $$("[data-lb]").forEach((img) => img.addEventListener("click", () => lbOpen(img)));
