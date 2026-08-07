@@ -582,12 +582,16 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .ba-tag.bad { background: var(--red-soft); color: var(--red); }
 .ba-tag.good { background: var(--green-soft); color: var(--green); }
 .ba-stage { position: relative; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--line); padding: 22px; overflow: hidden; }
-.ba-lane { position: relative; height: 70px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line-strong); }
-.ba-car {
-  position: absolute; top: 14px; width: 46px; height: 32px; border-radius: 8px; background: var(--primary);
-}
-.ba-car::before { content: ""; position: absolute; left: 10px; top: 7px; width: 18px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.85); }
-.ba-car.bc-b { background: var(--red); }
+.ba-scene { display: block; width: 100%; height: auto; }
+.ba-bg { fill: var(--surface); }
+.ba-zone { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; fill: var(--muted); }
+.ba-road { fill: var(--surface-2); stroke: var(--line-strong); stroke-width: 1.5; }
+.ba-dash, .ba-dash2 { stroke: var(--line-strong); stroke-width: 2.5; stroke-dasharray: 10 10; }
+.ba-barrier { stroke: var(--red); stroke-width: 3; stroke-linecap: round; }
+.ba-scene .car { transform-box: fill-box; transform-origin: center; }
+.ba-scene .car.w0 rect { fill: var(--primary); }
+.ba-scene .car.e0 rect { fill: var(--red); }
+.ba-scene .tl { fill: var(--red); }
 .ba-badge {
   position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
   font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
@@ -598,22 +602,66 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .ba-card p { font-size: 14px; color: var(--muted); }
 .ba-card strong { color: var(--ink); }
 
-/* without: both converge, deadlock */
-.ba-without .bc-a { left: -12%; animation: noA 6s ease-in-out infinite; }
-.ba-without .bc-b { right: -12%; animation: noB 6s ease-in-out infinite; }
-@keyframes noA { 0% { transform: translateX(0); } 32% { transform: translateX(118px); } 50% { transform: translateX(118px); } 62% { transform: translateX(118px) rotate(2deg); } 66% { transform: translateX(118px) rotate(-2deg); } 70% { transform: translateX(118px) rotate(0); } 100% { transform: translateX(0); } }
-@keyframes noB { 0% { transform: translateX(0); } 32% { transform: translateX(-118px); } 50% { transform: translateX(-118px); } 62% { transform: translateX(-118px) rotate(-2deg); } 66% { transform: translateX(-118px) rotate(2deg); } 70% { transform: translateX(-118px) rotate(0); } 100% { transform: translateX(0); } }
-.ba-without .ba-badge { animation: badgeNo 6s ease-in-out infinite; }
-@keyframes badgeNo { 0%, 30%, 78%, 100% { opacity: 0; transform: translateX(-50%) scale(0.7); } 38%, 72% { opacity: 1; transform: translateX(-50%) scale(1); } }
+/* without: both converge, meet at the barrier, deadlock */
+.ba-without .car.w0 { animation: noW 7s ease-in-out infinite; }
+.ba-without .car.e0 { animation: noE 7s ease-in-out infinite; }
+@keyframes noW {
+  0% { transform: translate(18px, 104px); opacity: 1; }
+  34% { transform: translate(224px, 104px); }
+  52% { transform: translate(224px, 104px) rotate(2deg); }
+  56% { transform: translate(224px, 104px) rotate(-2deg); }
+  60% { transform: translate(224px, 104px) rotate(0); }
+  100% { transform: translate(18px, 104px); opacity: 1; }
+}
+@keyframes noE {
+  0% { transform: translate(438px, 104px); opacity: 1; }
+  34% { transform: translate(216px, 104px); }
+  52% { transform: translate(216px, 104px) rotate(-2deg); }
+  56% { transform: translate(216px, 104px) rotate(2deg); }
+  60% { transform: translate(216px, 104px) rotate(0); }
+  100% { transform: translate(438px, 104px); opacity: 1; }
+}
+.ba-without .ba-badge { animation: badgeNo 7s ease-in-out infinite; }
+@keyframes badgeNo {
+  0%, 30% { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  36%, 64% { opacity: 1; transform: translateX(-50%) scale(1); }
+  72%, 100% { opacity: 0; transform: translateX(-50%) scale(0.7); }
+}
 
-/* with: sequential */
-.ba-with .bc-a { left: -12%; animation: withA 9s ease-in-out infinite; }
-.ba-with .bc-b { right: -12%; animation: withB 9s ease-in-out infinite; }
-@keyframes withA { 0%, 8% { transform: translateX(0); } 40% { transform: translateX(190px); } 52%, 100% { transform: translateX(190px); } }
-@keyframes withB { 0%, 44% { transform: translateX(0); } 52%, 58% { transform: translateX(0); } 92% { transform: translateX(-190px); } 100% { transform: translateX(-190px); } }
-.ba-with .ba-car.bc-b { animation-delay: 0s; }
+/* with: sequential — west crosses while east waits, then priority flips */
+.ba-with .car.w0 { animation: withW 9s ease-in-out infinite; }
+.ba-with .car.e0 { animation: withE 9s ease-in-out infinite; }
+.ba-with .tl.w { animation: lightW 9s ease-in-out infinite; }
+.ba-with .tl.e { animation: lightE 9s ease-in-out infinite; }
+@keyframes withW {
+  0% { transform: translate(18px, 104px); opacity: 0; }
+  5% { opacity: 1; }
+  30% { transform: translate(424px, 104px); opacity: 1; }
+  36% { transform: translate(424px, 104px); opacity: 0; }
+  100% { transform: translate(18px, 104px); opacity: 0; }
+}
+@keyframes withE {
+  0%, 38% { transform: translate(438px, 104px); opacity: 0; }
+  42% { opacity: 1; }
+  70% { transform: translate(32px, 104px); opacity: 1; }
+  76% { transform: translate(32px, 104px); opacity: 0; }
+  100% { transform: translate(438px, 104px); opacity: 0; }
+}
+@keyframes lightW {
+  0%, 30% { fill: var(--green); }
+  36%, 100% { fill: var(--red); }
+}
+@keyframes lightE {
+  0%, 38% { fill: var(--red); }
+  42%, 70% { fill: var(--green); }
+  76%, 100% { fill: var(--red); }
+}
 .ba-with .ba-badge { animation: badgeWith 9s ease-in-out infinite; }
-@keyframes badgeWith { 0%, 38% { opacity: 0; transform: translateX(-50%) scale(0.7); } 44%, 92% { opacity: 1; transform: translateX(-50%) scale(1); } 100% { opacity: 0; transform: translateX(-50%) scale(0.7); } }
+@keyframes badgeWith {
+  0%, 38% { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  44%, 92% { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.7); }
+}
 
 /* ---------- system / components ---------- */
 .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
