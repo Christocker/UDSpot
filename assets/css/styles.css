@@ -890,16 +890,42 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .footer-bottom p { font-size: 12.5px; color: rgba(201, 210, 226, 0.5); }
 .fb-built { font-family: var(--font-mono); }
 
-/* ---------- lightbox ---------- */
+/* ---------- lightbox / gallery ---------- */
 .lightbox {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(5, 8, 18, 0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   display: none; align-items: center; justify-content: center; flex-direction: column; gap: 14px; padding: 30px;
+  touch-action: none;
 }
 .lightbox.open { display: flex; animation: lbFade 0.25s ease; }
 @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
-.lightbox img { max-width: min(1100px, 92vw); max-height: 80vh; border-radius: 14px; box-shadow: var(--shadow-lg); }
+.lb-stage {
+  position: relative; display: grid; place-items: center; width: 100%; max-width: 1100px;
+  overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none;
+}
+.lb-stage img {
+  max-width: min(1100px, 92vw); max-height: 78vh; border-radius: 14px;
+  box-shadow: var(--shadow-lg); cursor: zoom-in; will-change: transform;
+  transform-origin: center center; touch-action: none;
+}
+.lb-stage img.lb-anim { transition: transform 0.35s cubic-bezier(0.22, 0.9, 0.34, 1); }
 .lb-cap { color: rgba(255, 255, 255, 0.75); font-size: 14px; text-align: center; max-width: 700px; }
+.lb-count {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  color: #fff; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px; padding: 5px 13px;
+}
+.lb-hint { color: rgba(255, 255, 255, 0.45); font-size: 12px; text-align: center; }
+.lb-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 48px; height: 64px; border: none; background: rgba(255, 255, 255, 0.08);
+  color: #fff; font-size: 34px; line-height: 1; cursor: pointer;
+  display: grid; place-items: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.lb-nav:hover { background: rgba(255, 255, 255, 0.2); }
+.lb-prev { left: 8px; border-radius: 12px; }
+.lb-next { right: 8px; border-radius: 12px; }
 .lb-close {
   position: absolute; top: 22px; right: 26px;
   width: 42px; height: 42px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.25);

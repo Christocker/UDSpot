@@ -671,9 +671,9 @@
             <p><strong>Two TinkerCAD circuits.</strong> The sensor network, the LEDs, the resistors, and the
             Arduino wired in two integrated circuits — built and verified in TinkerCAD before assembly.</p>
           </div>
-          <div class="comp-gallery" data-lb="The two TinkerCAD circuits of the prototype">
-            <figure class="reveal"><img src="assets/images/fig3-circuit1.png" alt="The TinkerCAD design of Circuit 1" data-lb="Circuit 1 designed on TinkerCAD"></figure>
-            <figure class="reveal reveal-delay-1"><img src="assets/images/fig2-schematic.png" alt="The TinkerCAD design of Circuit 2" data-lb="Circuit 2 designed on TinkerCAD"></figure>
+          <div class="comp-gallery">
+            <figure class="reveal"><img src="assets/images/fig3-circuit1.png" alt="The TinkerCAD design of Circuit 1" data-lb="Circuit 1 designed on TinkerCAD" data-gallery="circuits"></figure>
+            <figure class="reveal reveal-delay-1"><img src="assets/images/circuit2.png" alt="The TinkerCAD design of Circuit 2" data-lb="Circuit 2 designed on TinkerCAD" data-gallery="circuits"></figure>
           </div>
         </article>
 
@@ -843,8 +843,14 @@
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lb-close" data-lb-close aria-label="Close image">✕</button>
-  <img id="lbImage" src="" alt="">
+  <span class="lb-count" id="lbCount" hidden></span>
+  <div class="lb-stage" id="lbStage">
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next image">›</button>
+    <img id="lbImage" src="" alt="">
+  </div>
   <p class="lb-cap" id="lbCaption"></p>
+  <span class="lb-hint">Scroll to zoom · Drag to move · ‹ › or swipe for another</span>
 </div>
 
 <script src="assets/js/main.js"></script>

@@ -116,27 +116,141 @@
     bo.observe(bars);
   } else if (bars) fillBars();
 
-  /* ---------------- lightbox ---------------- */
+  /* ---------------- lightbox / gallery ---------------- */
   const lb = $("#lightbox");
+  const lbStage = $("#lbStage");
   const lbImg = $("#lbImage");
   const lbCap = $("#lbCaption");
-  const openLb = (img) => {
-    lbImg.src = img.src;
-    lbImg.alt = img.alt || "";
-    lbCap.textContent = img.dataset.lb || img.alt || "";
+  const lbCount = $("#lbCount");
+  const lbPrev = $("#lbPrev");
+  const lbNext = $("#lbNext");
+
+  /* Collect gallery items: every <img data-gallery="name"> belongs to the
+     same swipeable group (in DOM order); lone images open as a single item. */
+  const lbGroups = new Map();
+  $$("[data-gallery]").forEach((img) => {
+    const g = img.dataset.gallery;
+    if (!lbGroups.has(g)) lbGroups.set(g, []);
+    lbGroups.get(g).push(img);
+  });
+
+  let lbItems = [];      /* <img> elements in the current group        */
+  let lbIndex = 0;       /* current index within the group             */
+  let lbScale = 1;       /* zoom factor                                 */
+  let lbTx = 0, lbTy = 0;/* pan offset (px)                            */
+
+  const lbShow = () => {
     lb.classList.add("open");
     lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => lbImg.classList.add("lb-anim"));
   };
-  const closeLb = () => {
+  const lbHide = () => {
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    lbImg.classList.remove("lb-anim");
+    lbScale = 1; lbTx = 0; lbTy = 0;
+    applyLbTransform(true);
   };
-  $$("[data-lb]").forEach((img) => img.addEventListener("click", () => openLb(img)));
-  $("[data-lb-close]") && $("[data-lb-close]").addEventListener("click", closeLb);
-  lb && lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLb(); });
+  const lbApply = () => {
+    const img = lbItems[lbIndex];
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || "";
+    lbCap.textContent = img.dataset.lb || img.alt || "";
+    lbScale = 1; lbTx = 0; lbTy = 0;
+    applyLbTransform(true);
+    if (lbItems.length > 1) {
+      lbCount.textContent = (lbIndex + 1) + " / " + lbItems.length;
+      lbCount.hidden = false;
+    } else lbCount.hidden = true;
+    lbPrev.hidden = lbNext.hidden = lbItems.length < 2;
+  };
+  const lbOpen = (img) => {
+    const g = img.dataset.gallery;
+    lbItems = g && lbGroups.has(g) ? lbGroups.get(g) : [img];
+    lbIndex = lbItems.indexOf(img);
+    lbApply();
+    lbShow();
+  };
+  const lbStep = (dir) => {
+    if (lbItems.length < 2) return;
+    const from = lbIndex;
+    lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
+    if (lbIndex === from) return;
+    lbImg.classList.remove("lb-anim");
+    lbImg.style.transition = "none";
+    void lbImg.offsetWidth; /* reflow */
+    lbApply();
+    lbImg.style.transition = "";
+    requestAnimationFrame(() => lbImg.classList.add("lb-anim"));
+  };
+  const applyLbTransform = (instant) => {
+    if (instant) lbImg.style.transition = "none";
+    lbImg.style.transform = `translate(${lbTx}px, ${lbTy}px) scale(${lbScale})`;
+    lbImg.style.cursor = lbScale > 1 ? "grab" : "zoom-in";
+    if (instant) { void lbImg.offsetWidth; lbImg.style.transition = ""; }
+  };
+
+  /* wheel zoom + drag pan + swipe */
+  if (lb) {
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) lbHide();
+    });
+    lb.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+      lbScale = Math.min(5, Math.max(1, lbScale * factor));
+      applyLbTransform();
+    }, { passive: false });
+
+    let dragging = false, started = false, sx = 0, sy = 0, ox = 0, oy = 0, moved = 0;
+    lbStage.addEventListener("pointerdown", (e) => {
+      dragging = true; started = false; moved = 0;
+      sx = e.clientX; sy = e.clientY;
+      ox = lbTx; oy = lbTy;
+      lbStage.setPointerCapture(e.pointerId);
+    });
+    lbStage.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (!started && Math.abs(dx) + Math.abs(dy) > 6) started = true;
+      if (lbScale > 1) { /* pan */
+        lbTx = ox + dx; lbTy = oy + dy;
+        applyLbTransform(true);
+      }
+      if (started) moved = Math.max(moved, Math.abs(dx));
+    });
+    const endDrag = (e) => {
+      if (!dragging) return;
+      dragging = false;
+      if (!started) { /* tap = zoom toggle */
+        lbScale = lbScale > 1 ? 1 : 2;
+        lbTx = 0; lbTy = 0;
+        applyLbTransform();
+      } else if (lbScale === 1 && moved > 50) { /* horizontal swipe */
+        const dx = e.clientX - sx;
+        if (dx < 0) lbStep(1); else lbStep(-1);
+      } else if (lbScale > 1) { /* clamp pan loosely */
+        lbTx = 0; lbTy = 0;
+        applyLbTransform();
+      }
+    };
+    lbStage.addEventListener("pointerup", endDrag);
+    lbStage.addEventListener("pointercancel", () => { dragging = false; });
+
+    lbPrev.addEventListener("click", (e) => { e.stopPropagation(); lbStep(-1); });
+    lbNext.addEventListener("click", (e) => { e.stopPropagation(); lbStep(1); });
+    $("[data-lb-close]") && $("[data-lb-close]").addEventListener("click", lbHide);
+    document.addEventListener("keydown", (e) => {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") lbHide();
+      else if (e.key === "ArrowLeft") lbStep(-1);
+      else if (e.key === "ArrowRight") lbStep(1);
+    });
+  }
+
+  $$("[data-lb]").forEach((img) => img.addEventListener("click", () => lbOpen(img)));
 
   /* ================= INTERACTIVE SIMULATION =================
      A user-driven controller. Two entrance buttons spawn vehicles; a real
