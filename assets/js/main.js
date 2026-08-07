@@ -167,12 +167,26 @@
 
   if (!S.carW) return; /* sim markup missing — skip */
 
-  /* SVG viewBox coordinates (0 0 960 540); the lane centerline is y=280 */
+  /* SVG viewBox coordinates (0 0 960 540); the lane centerline is y=280.
+     Each crossing is a 5-frame trip: entry, before middle, middle, after
+     middle, exit — the exit is the mirror of the entry on the far side. */
   const P = {
-    W_HOME:  { x: 80,  y: 280 },  /* waiting at the west stop line */
-    W_GONE:  { x: 952, y: 280 },  /* exited east, off the road */
-    E_HOME:  { x: 880, y: 280 },  /* waiting at the east stop line */
-    E_GONE:  { x: 8,   y: 280 }   /* exited west, off the road */
+    W_HOME:  { x: 80,  y: 280 },  /* west entrance (entry frame) */
+    E_HOME:  { x: 880, y: 280 },  /* east entrance (entry frame) */
+    W_FRAMES: [
+      { x: 80,  y: 280 },  /* 1 entry           */
+      { x: 280, y: 280 },  /* 2 before middle   */
+      { x: 480, y: 280 },  /* 3 middle          */
+      { x: 680, y: 280 },  /* 4 after middle    */
+      { x: 880, y: 280 }   /* 5 exit — mirror of entry */
+    ],
+    E_FRAMES: [
+      { x: 880, y: 280 },  /* 1 entry           */
+      { x: 680, y: 280 },  /* 2 before middle   */
+      { x: 480, y: 280 },  /* 3 middle          */
+      { x: 280, y: 280 },  /* 4 after middle    */
+      { x: 80,  y: 280 }   /* 5 exit — mirror of entry */
+    ]
   };
 
   const dtNodes = {};
@@ -269,27 +283,32 @@
     lane.busy = true;
     lane.direction = side;
     const car = side === "west" ? S.carW : S.carE;
-    const dst = side === "west" ? P.W_GONE : P.E_GONE;
+    const frames = side === "west" ? P.W_FRAMES : P.E_FRAMES;
     const farSensor = side === "west" ? S.sensorEEx : S.sensorWEx;
     const farChip = side === "west" ? S.chipEEx : S.chipWEx;
 
     setCarVisible(car, true, false);
-    moveCar(car, side === "west" ? P.W_HOME : P.E_HOME, 0);
-    later(() => moveCar(car, dst, 2700), 40);
+    moveCar(car, frames[0], 0);
     render();
     setTree(["detect", "occupied", "no", "green", "opposite"]);
     setCallout("Lane Occupied!");
     setState((side === "west" ? "West" : "East") + " <b>green</b> — vehicle enters · lane <b>OCCUPIED</b>");
     log((side === "west" ? "West" : "East") + " car enters — <b>green</b>, lane <b>OCCUPIED</b>", "ok");
 
-    /* far exit sensor pings as the car arrives */
+    /* hop through frames 2..5: before middle, middle, after middle, exit */
+    const HOP = 620;
+    frames.slice(1).forEach((f, i) => {
+      later(() => moveCar(car, f, HOP), 60 + i * HOP);
+    });
+
+    /* far exit sensor pings as the car arrives at the far entrance (frame 5) */
     later(() => {
       setSensor(farSensor, true);
       setChip(farChip, true);
       setState((side === "west" ? "West" : "East") + " vehicle traveling — the opposite entrance <b>must wait</b>");
       setTree(["occupied", "yes", "red"]);
       log((side === "west" ? "East" : "West") + " exit sensor fires — " + (side === "west" ? "west" : "east") + " car arrived", "warn");
-    }, 1800);
+    }, 2050);
 
     /* crossing ends: free the lane, flip priority if someone is waiting */
     later(() => {
@@ -297,7 +316,7 @@
       setChip(farChip, false);
       clearAllChips();
       setCarVisible(car, false, false);
-      moveCar(car, side === "west" ? P.W_HOME : P.E_HOME, 0);
+      moveCar(car, frames[0], 0);
       lane.busy = false;
       lane.direction = null;
       lane.crossings += 1;
