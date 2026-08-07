@@ -115,7 +115,7 @@
             <circle class="lamp" cx="123" cy="113" r="6"/>
             <circle class="lamp" cx="123" cy="127" r="6"/>
           </g>
-          <g class="pole" transform="translate(260,0)">
+          <g class="pole" transform="translate(0,0)">
             <rect x="394" y="120" width="6" height="60" rx="3"/>
             <rect x="384" y="86" width="26" height="54" rx="8"/>
             <circle class="lamp" cx="397" cy="99" r="6"/>
@@ -225,9 +225,47 @@
             <p>An ultrasonic distance sensor at the entrance fires a sound pulse. The echo tells the controller:
             <em>something is waiting to enter.</em></p>
           </div>
-          <figure class="j-visual">
-            <img src="assets/images/step1-arrive.webp" alt="A vehicle arrives at the one-lane entrance as the ultrasonic sensor detects it first" width="1100" height="825" loading="lazy" decoding="async">
-          </figure>
+          <div class="road-scene" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none">
+              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
+              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
+              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
+              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
+              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
+              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
+              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
+              <rect class="rs-sensor" x="312" y="248" width="40" height="14" rx="5"/>
+              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
+              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
+              <g class="rs-wave" transform="translate(70 256)">
+                <g class="rs-ring"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
+              </g>
+              <g class="rs-pole" transform="translate(72 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="rs-pole" transform="translate(318 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="car" transform="translate(40 161)">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+            </svg>
+            <span class="j-chip ok">VEHICLE DETECTED</span>
+          </div>
         </article>
 
         <article class="journey-item reveal">
@@ -237,9 +275,56 @@
             <p>The Arduino checks its live lane state. If a vehicle is already inside, the answer is <strong>YES</strong>
             and the entrance stays red. Otherwise the controller issues a <strong>green light.</strong></p>
           </div>
-          <figure class="j-visual">
-            <img src="assets/images/step2-check.webp" alt="The controller asks whether the lane is occupied before issuing a green light" width="1100" height="733" loading="lazy" decoding="async">
-          </figure>
+          <div class="road-scene" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none">
+              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
+              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
+              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
+              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-road occ" x="102" y="142" width="196" height="74" rx="10"/>
+              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
+              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
+              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
+              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
+              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
+              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
+              <g class="rs-wave" transform="translate(70 256)">
+                <g class="rs-ring"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
+              </g>
+              <g class="rs-wave" transform="translate(330 256)">
+                <g class="rs-ring"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
+              </g>
+              <g class="rs-pole" transform="translate(72 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="rs-pole" transform="translate(318 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="car" transform="translate(180 161)">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+              <g class="rs-ctrl" transform="translate(150 218)">
+                <rect x="0" y="0" width="100" height="22" rx="6" />
+                <text class="rs-ctrl-label" x="50" y="15" text-anchor="middle">LANE: OCCUPIED</text>
+              </g>
+            </svg>
+            <span class="j-chip warn">DECISION: WAIT</span>
+          </div>
         </article>
 
         <article class="journey-item reveal">
@@ -358,9 +443,51 @@
             <p>Exit sensors on the far side watch the vehicle leave. Only then does the lane return to
             <strong>available</strong> — and the waiting side finally gets its green.</p>
           </div>
-          <figure class="j-visual">
-            <img src="assets/images/step5-release.webp" alt="Exit sensors confirm the lane is clear as priority flips to the waiting side" width="1100" height="821" loading="lazy" decoding="async">
-          </figure>
+          <div class="road-scene" aria-hidden="true">
+            <svg viewBox="0 0 400 300" fill="none">
+              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
+              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
+              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
+              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
+              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
+              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
+              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
+              <rect class="rs-sensor" x="48" y="248" width="40" height="14" rx="5"/>
+              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
+              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
+              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
+              <g class="rs-wave" transform="translate(330 256)">
+                <g class="rs-ring"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
+                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
+              </g>
+              <g class="rs-pole" transform="translate(72 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="rs-pole" transform="translate(318 138)">
+                <rect x="4" y="56" width="6" height="54" rx="3"/>
+                <rect x="-6" y="0" width="26" height="54" rx="8"/>
+                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
+                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
+                <circle class="rs-lamp on-g" cx="7" cy="47" r="6.5"/>
+              </g>
+              <g class="car" transform="translate(240 161)">
+                <rect x="0" y="0" width="52" height="36" rx="9"/>
+                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
+                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+              </g>
+              <g class="rs-ctrl green" transform="translate(150 218)">
+                <rect x="0" y="0" width="100" height="22" rx="6" />
+                <text class="rs-ctrl-label" x="50" y="15" text-anchor="middle">LANE: CLEAR</text>
+              </g>
+            </svg>
+            <span class="j-chip ok">CLEAR · PRIORITY FLIPS</span>
+          </div>
         </article>
       </div>
     </div>
@@ -564,7 +691,6 @@
       <div class="gallery">
         <figure class="reveal"><img src="assets/images/fig14-layout.png" alt="Positions and labels of sensors, LEDs, and circuits" data-lb="Positions and labels of the UDS sensors, LEDs, and circuits"></figure>
         <figure class="reveal reveal-delay-1"><img src="assets/images/fig3-circuit1.png" alt="The TinkerCAD design of Circuit 1" data-lb="Circuit 1 designed on TinkerCAD"></figure>
-        <figure class="reveal reveal-delay-2"><img src="assets/images/appendix_bayanluma.png" alt="Researchers during field data gathering at a narrow road" data-lb="Field data gathering on a real narrow road"></figure>
       </div>
       <p class="note reveal">Photos and diagrams from the research paper — full details inside the PDF.</p>
     </div>
@@ -627,19 +753,19 @@
 
       <div class="team">
         <figure class="member reveal">
-          <img src="assets/images/member_baldejera.png" alt="Aaron Jacob M. Baldejera">
+          <span class="member-avatar" aria-hidden="true">AJ</span>
           <figcaption><strong>Aaron Jacob M. Baldejera</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-1">
-          <img src="assets/images/member_engada.png" alt="Chris Bern J. Engada">
+          <span class="member-avatar" aria-hidden="true">CE</span>
           <figcaption><strong>Chris Bern J. Engada</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-2">
-          <img src="assets/images/member_fernandez.png" alt="Matthew M. Fernandez">
+          <span class="member-avatar" aria-hidden="true">MF</span>
           <figcaption><strong>Matthew M. Fernandez</strong><span>Researcher</span></figcaption>
         </figure>
         <figure class="member reveal reveal-delay-3">
-          <img src="assets/images/member_fong.png" alt="Terrie Edena L. Fong">
+          <span class="member-avatar" aria-hidden="true">TF</span>
           <figcaption><strong>Terrie Edena L. Fong</strong><span>Researcher</span></figcaption>
         </figure>
       </div>
