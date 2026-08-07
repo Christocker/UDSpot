@@ -142,12 +142,15 @@
   const S = {
     sim: $(".sim"),
     panel: $(".sim-panel"),
-    lane: $("#simLane"),
-    flow: $("#laneFlow"),
-    occ: $("#laneOcc"),
-    lightW: $("#lightW"), lightE: $("#lightE"),
-    sensorW: $("#sensorW"), sensorE: $("#sensorE"),
-    carW: $("#carW"), carE: $("#carE"),
+    car: $("#simCar"),
+    callout: $("#callout"),
+    calloutText: $("#calloutText"),
+    sensorWN: $("#sensorWN"),
+    sensorWS: $("#sensorWS"),
+    sensorEM: $("#sensorEM"),
+    sensorEE: $("#sensorEE"),
+    lightW: $("#lightW"),
+    lightE: $("#lightE"),
     occPill: $("#occPill"), occText: $("#occText"),
     flowPill: $("#flowPill"), flowArrow: $("#flowArrow"), flowText: $("#flowText"),
     state: $("#stateReadout"),
@@ -157,15 +160,21 @@
     tree: $("#decTree")
   };
 
-  if (!S.lane || !S.carW) return; /* sim markup missing — skip */
+  if (!S.car) return; /* sim markup missing — skip */
 
-  /* car positions (percent of stage width) */
-  const POS = {
-    W_OUT: -10, W_GATE: 5, W_LANE: 20, W_END: 84, W_GONE: 110,
-    E_OUT: 106, E_GATE: 88, E_LANE: 74, E_END: 16, E_GONE: -10
+  /* car positions in SVG viewBox (0 0 960 540). y=270 is the lane centerline */
+  const P = {
+    W_STOP:   { x: 110, y: 270 },  /* waiting at stop line, west approach */
+    W_ENTRY:  { x: 340, y: 270 },  /* just past the stop line, entering lane */
+    W_MID:    { x: 700, y: 270 },  /* mid-lane, near east exit */
+    W_GONE:   { x: 940, y: 270 },  /* exited east, off the road */
+    E_STOP:   { x: 910, y: 270 },  /* waiting at east entrance */
+    E_ENTRY:  { x: 680, y: 270 },  /* just entered from east, moving left */
+    E_MID:    { x: 320, y: 270 },  /* mid-lane, near west exit */
+    E_GONE:   { x: 20,  y: 270 }   /* exited west, off the road */
   };
 
-  const dtNodes = {};          /* data-node -> element */
+  const dtNodes = {};
   $$(".dt-node", S.tree).forEach((n) => { dtNodes[n.dataset.node] = n; });
   const dtBranches = $$(".dt-branch", S.tree);
 
@@ -173,40 +182,42 @@
   let running = false;
   let started = false;
   let timers = [];
-  let cycle = 0;               /* 0..5 phase index within loop */
+  let cycle = 0;               /* 0..7 phase index within loop */
   let crossings = 0;
 
   const later = (fn, ms) => timers.push(setTimeout(fn, ms / speed));
   const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
 
-  const setLamp = (light, which, on) => {
-    const l = $(which, light);
-    if (l) l.classList.toggle("on", on);
+  /* helpers */
+  const setCar = (pos, dur) => {
+    if (!S.car) return;
+    S.car.style.transition = "transform " + dur + "ms cubic-bezier(0.2, 0.8, 0.3, 1)";
+    S.car.style.transform = "translate(" + pos.x + "px, " + pos.y + "px)";
+    S.car.classList.remove("hidden");
   };
-  const setLight = (light, state) => {           /* state: 'green' | 'red' */
-    setLamp(light, ".l-green", state === "green");
-    setLamp(light, ".l-red", state === "red");
-    setLamp(light, ".l-amber", false);
+  const hideCar = () => S.car && S.car.classList.add("hidden");
+  const setSensor = (node, on) => node && node.classList.toggle("active", !!on);
+  const setChip = (chip, on) => chip && chip.classList.toggle("on", !!on);
+  const setLight = (light, state) => {       /* 'green' | 'red' | null */
+    if (!light) return;
+    light.classList.toggle("green", state === "green");
+    light.classList.toggle("red",   state === "red");
   };
-  const setSensor = (node, on) => node.classList.toggle("active", on);
-  const setChip = (chip, on) => chip.classList.toggle("on", on);
-
-  const moveCar = (car, pct, dur, extra) => {
-    car.style.transition = "left " + dur + "ms " + (extra || "cubic-bezier(0.4, 0, 0.5, 1)");
-    car.style.left = pct + "%";
-    car.classList.remove("hidden");
+  const setDot = (dot, color) => {           /* 'red' | 'green' | null */
+    if (!dot) return;
+    dot.classList.remove("red", "green", "on");
+    if (color) dot.classList.add(color, "on");
   };
-  const hideCar = (car) => { car.classList.add("hidden"); };
-
+  const setCallout = (text) => {
+    S.calloutText.textContent = text;
+    S.callout.classList.add("show");
+  };
+  const hideCallout = () => S.callout.classList.remove("show");
   const setOcc = (busy) => {
-    S.lane.classList.toggle("busy", busy);
     S.occPill.classList.toggle("busy", busy);
     S.occText.textContent = busy ? "Lane occupied" : "Lane available";
   };
-  const setFlow = (dir, label) => {               /* dir: null | 'east' | 'west' */
-    const on = !!dir;
-    S.flow.classList.toggle("on", on);
-    S.flow.classList.toggle("west", dir === "west");
+  const setFlow = (dir, label) => {
     S.flowArrow.textContent = dir === "west" ? "←" : dir === "east" ? "→" : "·";
     S.flowText.textContent = label;
   };
@@ -215,127 +226,190 @@
     Object.keys(dtNodes).forEach((k) => dtNodes[k].classList.toggle("on", names.includes(k)));
     dtBranches.forEach((b) => b.classList.toggle("on", names.includes(b.dataset.node)));
   };
+  const clearAllChips = () => {
+    [S.chipWIn, S.chipEIn, S.chipWEx, S.chipEEx].forEach((c) => c && c.classList.remove("on"));
+  };
+  const clearAllSensors = () => {
+    [S.sensorWN, S.sensorWS, S.sensorEM, S.sensorEE].forEach((s) => s && s.classList.remove("active"));
+  };
 
+  /* 8 phases: 4 west + 4 east, mapping chapter 2 step-by-step */
   const phases = {
-    0: { /* westGo — green west, enter */
+    /* 0: WEST DETECT — car at stop line, west entry sensors detect it */
+    0: {
+      run() {
+        setCar(P.W_STOP, 0);
+        S.car.classList.add("blink");
+        setLight(S.lightW, "red"); setLight(S.lightE, "red");
+        setDot(S.wDot, "red"); setDot(S.eDot, "red");
+        setSensor(S.sensorWN, true); setSensor(S.sensorWS, true);
+        clearAllChips(); setChip(S.chipWIn, true);
+        setOcc(false); setFlow(null, "No flow");
+        setCallout("Vehicle Detected!");
+        setTree(["detect", "occupied"]);
+        setState("West vehicle <b>detected</b> at the entrance");
+      },
+      dur: 1500
+    },
+    /* 1: WEST GO — west light green, car crosses stop line into the lane */
+    1: {
+      run() {
+        S.car.classList.remove("blink");
+        setLight(S.lightW, "green"); setLight(S.lightE, "red");
+        setDot(S.wDot, "green"); setDot(S.eDot, "red");
+        setSensor(S.sensorWN, false); setSensor(S.sensorWS, false);
+        setCallout("Lane Occupied!");
+        setTree(["occupied", "no", "green", "opposite"]);
+        setOcc(true); setFlow("east", "West → East");
+        setState("West <b>green</b> — vehicle enters · lane <b>OCCUPIED</b>");
+        setCar(P.W_ENTRY, 1400);
+      },
+      dur: 1500
+    },
+    /* 2: WEST TRAVEL — car in lane, mid sensor detects it */
+    2: {
       run() {
         setLight(S.lightW, "green"); setLight(S.lightE, "red");
-        S.wDot.classList.add("red", "on"); S.wDot.classList.remove("green");
-        S.eDot.classList.add("red", "on"); S.eDot.classList.remove("green");
-        setSensor(S.sensorW, true); setSensor(S.sensorE, false);
-        setChip(S.chipWIn, true); setChip(S.chipEIn, false);
-        setOcc(true); setFlow("east", "West → East");
-        setTree(["occupied", "no", "green", "opposite"]);
-        setState("West <b>green</b> — vehicle enters · lane <b>OCCUPIED</b>");
-        moveCar(S.carW, POS.W_LANE, 950);
-        later(() => { setSensor(S.sensorW, false); setChip(S.chipWIn, false); }, 900);
-      },
-      dur: 1000
-    },
-    1: { /* westTravel — crossing, east waits */
-      run() {
-        setLight(S.lightW, "red"); setLight(S.lightE, "red");
+        setSensor(S.sensorEM, true);
+        clearAllChips(); setChip(S.chipEEx, true);
+        setCallout("Lane Occupied!");
         setTree(["occupied", "yes", "red"]);
-        setState("West crossing — <b>east vehicle must wait</b>");
-        moveCar(S.carW, POS.W_END, 2400);
-        later(() => {
-          S.carE.classList.add("blink");
-          moveCar(S.carE, POS.E_GATE, 900);
-          setSensor(S.sensorE, true); setChip(S.chipEIn, true);
-          setState("West crossing — <b>east vehicle waiting at red</b>");
-        }, 1100);
+        setState("West vehicle traveling — <b>east must wait</b>");
+        setCar(P.W_MID, 2200);
       },
-      dur: 2600
+      dur: 2400
     },
-    2: { /* westExit — lane clears, east gets green next */
+    /* 3: WEST EXIT + FLIP — car exits east, exit sensor fires, lights flip */
+    3: {
       run() {
-        crossings += 1;
-        S.count.textContent = crossings;
-        setSensor(S.sensorE, true); setChip(S.chipEEx, true);
-        setTree(["exit"]);
-        setState("West exited — <b>exit sensor confirms lane clear</b>");
-        moveCar(S.carW, POS.W_GONE, 550);
-        S.carW.style.transition = "left 550ms ease";
-        later(() => { setOcc(false); setFlow(null, "No flow"); setTree(["free"]); }, 650);
+        setSensor(S.sensorEM, false);
+        setSensor(S.sensorEE, true);
+        clearAllChips(); setChip(S.chipEEx, false); setChip(S.chipEIn, true);
+        setCallout("Car(s) must exit first");
+        setState("West vehicle approaching the east exit");
+        setCar(P.W_GONE, 900);
+        /* mid-exit: switch callout to "Vice Versa" and flip the lights */
         later(() => {
-          setSensor(S.sensorE, false); setChip(S.chipEEx, false);
-          S.carW.classList.remove("blink");
-        }, 900);
+          crossings += 1;
+          S.count.textContent = crossings;
+          setCallout("Vice Versa — Priority flips");
+          setLight(S.lightW, "red"); setLight(S.lightE, "green");
+          setDot(S.wDot, "red"); setDot(S.eDot, "green");
+          setOcc(false); setFlow(null, "No flow");
+          setTree(["free", "opposite"]);
+          setState("West <b>exited</b> — priority flips to east");
+        }, 700);
+        /* clear exit sensor, prepare for east cycle */
+        later(() => {
+          setSensor(S.sensorEE, false);
+          setChip(S.chipEIn, false);
+          hideCallout();
+        }, 1200);
       },
-      dur: 1000
+      dur: 1400
     },
-    3: { /* eastGo — green east, enter */
+    /* 4: EAST DETECT — car at east entrance, east entry sensor detects it */
+    4: {
       run() {
-        setLight(S.lightE, "green"); setLight(S.lightW, "red");
-        S.eDot.classList.add("green", "on"); S.eDot.classList.remove("red");
-        S.wDot.classList.add("red", "on"); S.wDot.classList.remove("green");
-        setSensor(S.sensorE, true); setSensor(S.sensorW, false);
-        setChip(S.chipEIn, true); setChip(S.chipWIn, false);
+        setCar(P.E_STOP, 0);
+        S.car.classList.add("blink");
+        setLight(S.lightW, "red"); setLight(S.lightE, "green");
+        setDot(S.wDot, "red"); setDot(S.eDot, "green");
+        setSensor(S.sensorEE, true);
+        clearAllChips(); setChip(S.chipEIn, true);
+        setCallout("Vehicle Detected!");
+        setTree(["detect", "occupied"]);
+        setState("East vehicle <b>detected</b> at the entrance");
+      },
+      dur: 1500
+    },
+    /* 5: EAST GO — east light green, car enters lane from the east */
+    5: {
+      run() {
+        S.car.classList.remove("blink");
+        setLight(S.lightW, "red"); setLight(S.lightE, "green");
+        setSensor(S.sensorEE, false);
+        setCallout("Lane Occupied!");
+        setTree(["occupied", "no", "green", "opposite"]);
         setOcc(true); setFlow("west", "East → West");
-        setTree(["occupied", "no", "green", "opposite"]);
         setState("East <b>green</b> — vehicle enters · lane <b>OCCUPIED</b>");
-        S.carE.classList.remove("blink");
-        moveCar(S.carE, POS.E_LANE, 950);
-        later(() => { setSensor(S.sensorE, false); setChip(S.chipEIn, false); }, 900);
+        setCar(P.E_ENTRY, 1400);
       },
-      dur: 1000
+      dur: 1500
     },
-    4: { /* eastTravel — crossing, west waits */
+    /* 6: EAST TRAVEL — car in lane moving west, mid sensor detects it */
+    6: {
       run() {
-        setLight(S.lightW, "red"); setLight(S.lightE, "red");
+        setLight(S.lightW, "red"); setLight(S.lightE, "green");
+        setSensor(S.sensorEM, true);
+        clearAllChips(); setChip(S.chipWEx, true);
+        setCallout("Lane Occupied!");
         setTree(["occupied", "yes", "red"]);
-        setState("East crossing — <b>west vehicle must wait</b>");
-        moveCar(S.carE, POS.E_END, 2400);
-        later(() => {
-          S.carW.classList.add("blink");
-          moveCar(S.carW, POS.W_GATE, 900);
-          setSensor(S.sensorW, true); setChip(S.chipWIn, true);
-          setState("East crossing — <b>west vehicle waiting at red</b>");
-        }, 1100);
+        setState("East vehicle traveling — <b>west must wait</b>");
+        setCar(P.E_MID, 2200);
       },
-      dur: 2600
+      dur: 2400
     },
-    5: { /* eastExit — lane clears again */
+    /* 7: EAST EXIT + FLIP — car exits west, west entry sensors fire, lights flip back */
+    7: {
       run() {
-        crossings += 1;
-        S.count.textContent = crossings;
-        setSensor(S.sensorW, true); setChip(S.chipWEx, true);
-        setTree(["exit"]);
-        setState("East exited — <b>exit sensor confirms lane clear</b>");
-        moveCar(S.carE, POS.E_GONE, 550);
-        later(() => { setOcc(false); setFlow(null, "No flow"); setTree(["free"]); }, 650);
+        setSensor(S.sensorEM, false);
+        setSensor(S.sensorWN, true); setSensor(S.sensorWS, true);
+        clearAllChips(); setChip(S.chipWIn, true);
+        setCallout("Car(s) must exit first");
+        setState("East vehicle approaching the west exit");
+        setCar(P.E_GONE, 900);
         later(() => {
-          setSensor(S.sensorW, false); setChip(S.chipWEx, false);
-          S.carE.classList.remove("blink");
-        }, 900);
+          crossings += 1;
+          S.count.textContent = crossings;
+          setCallout("Vice Versa — Priority flips");
+          setLight(S.lightW, "green"); setLight(S.lightE, "red");
+          setDot(S.wDot, "green"); setDot(S.eDot, "red");
+          setOcc(false); setFlow(null, "No flow");
+          setTree(["free", "opposite"]);
+          setState("East <b>exited</b> — priority flips to west");
+        }, 700);
+        later(() => {
+          setSensor(S.sensorWN, false); setSensor(S.sensorWS, false);
+          setChip(S.chipWIn, false);
+          hideCallout();
+        }, 1200);
       },
-      dur: 1000
+      dur: 1400
     }
   };
 
   const initial = () => {
     S.panel.classList.add("paused");
-    hideCar(S.carE);
-    S.carW.classList.remove("hidden", "blink");
-    S.carW.style.transition = "none";
-    S.carW.style.left = POS.W_GATE + "%";
-    S.carW.classList.add("blink");
+    /* car at west stop line, no transition (snap) */
+    S.car.style.transition = "none";
+    S.car.classList.remove("hidden");
+    S.car.classList.add("blink");
+    S.car.style.transform = "translate(" + P.W_STOP.x + "px, " + P.W_STOP.y + "px)";
+    /* lights: both red, dots red */
     setLight(S.lightW, "red"); setLight(S.lightE, "red");
-    S.wDot.classList.add("red", "on"); S.eDot.classList.add("red", "on");
-    setSensor(S.sensorW, true); setSensor(S.sensorE, false);
-    setChip(S.chipWIn, true); setChip(S.chipEIn, false); setChip(S.chipWEx, false); setChip(S.chipEEx, false);
+    setDot(S.wDot, "red"); setDot(S.eDot, "red");
+    /* sensors: west entry active, others off */
+    setSensor(S.sensorWN, true); setSensor(S.sensorWS, true);
+    setSensor(S.sensorEM, false); setSensor(S.sensorEE, false);
+    /* chips: west entry on */
+    clearAllChips(); setChip(S.chipWIn, true);
     setOcc(false); setFlow(null, "No flow");
     setTree([]);
     setState("West vehicle <b>waiting</b> — press play");
+    hideCallout();
+    /* show the callout in initial state too */
+    setCallout("Vehicle Detected!");
     $("#btnPlayTxt").textContent = "Play";
     $("#btnPlay").setAttribute("aria-label", "Play simulation");
   };
+  /* run initial after a tick so the callout transition is visible */
   initial();
 
   const runPhase = (i) => {
     phases[i].run();
     later(() => {
-      cycle = (i + 1) % 6;
+      cycle = (i + 1) % 8;
       if (running) runPhase(cycle);
     }, phases[i].dur);
   };
@@ -344,7 +418,8 @@
     if (running) return;
     running = true;
     started = true;
-    S.carW.style.transition = "";
+    S.car.classList.remove("blink");
+    S.car.style.transition = "";
     S.panel.classList.remove("paused");
     $("#btnPlayTxt").textContent = "Pause";
     $("#btnPlay").setAttribute("aria-label", "Pause simulation");
@@ -359,7 +434,7 @@
     $("#btnPlay").setAttribute("aria-label", "Play simulation");
   };
 
-  const restartPhase = () => {           /* used on speed change */
+  const restartPhase = () => {
     if (!running) return;
     clearTimers();
     runPhase(cycle);
@@ -377,7 +452,7 @@
       entries.forEach((e) => {
         if (e.isIntersecting && !started) {
           start();
-          so.unobserve(e.target);
+          so.unobserve(S.sim);
         }
       });
     }, { threshold: 0.4 });

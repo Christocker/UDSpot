@@ -293,28 +293,124 @@
 
       <div class="sim reveal reveal-delay-1">
         <div class="sim-stage">
-          <div class="sim-lane" id="simLane">
-            <span class="lane-flow" id="laneFlow" aria-hidden="true"></span>
-            <span class="lane-occ" id="laneOcc" aria-hidden="true"></span>
-          </div>
+          <svg class="sim-scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid meet" aria-label="Live simulation of the UDSpot lane-occupancy system: a T-intersection with 4 ultrasonic sensors, 2 traffic lights, and a vehicle traveling through a one-lane road">
+            <defs>
+              <radialGradient id="sceneBg" cx="50%" cy="40%" r="70%">
+                <stop offset="0%" stop-color="#13213c"/>
+                <stop offset="100%" stop-color="#080d1c"/>
+              </radialGradient>
+              <linearGradient id="apronGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#3a4150"/>
+                <stop offset="100%" stop-color="#2b313c"/>
+              </linearGradient>
+              <filter id="carGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="lightGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
 
-          <div class="sim-gate gate-w" id="gateW">
-            <span class="gate-label">WEST</span>
-            <span class="light" id="lightW"><i class="l-red"></i><i class="l-amber"></i><i class="l-green"></i></span>
-            <span class="sensor-node" id="sensorW"><span class="pulse"></span><span class="pulse p2"></span></span>
-          </div>
-          <div class="sim-gate gate-e" id="gateE">
-            <span class="gate-label">EAST</span>
-            <span class="light" id="lightE"><i class="l-red"></i><i class="l-amber"></i><i class="l-green"></i></span>
-            <span class="sensor-node" id="sensorE"><span class="pulse"></span><span class="pulse p2"></span></span>
-          </div>
+            <rect class="scene-bg" width="960" height="540" fill="url(#sceneBg)"/>
 
-          <div class="sim-car car-w" id="carW" aria-hidden="true">
-            <svg viewBox="0 0 52 36" width="44" height="30" fill="none"><rect x="2" y="6" width="48" height="26" rx="9" fill="currentColor"/><rect x="11" y="12" width="16" height="8" rx="4" fill="rgba(255,255,255,.85)"/><rect x="31" y="12" width="12" height="8" rx="4" fill="rgba(255,255,255,.85)"/><circle cx="13" cy="32" r="4" fill="#0b1326"/><circle cx="39" cy="32" r="4" fill="#0b1326"/></svg>
-          </div>
-          <div class="sim-car car-e" id="carE" aria-hidden="true">
-            <svg viewBox="0 0 52 36" width="44" height="30" fill="none"><rect x="2" y="6" width="48" height="26" rx="9" fill="currentColor"/><rect x="11" y="12" width="16" height="8" rx="4" fill="rgba(255,255,255,.85)"/><rect x="31" y="12" width="12" height="8" rx="4" fill="rgba(255,255,255,.85)"/><circle cx="13" cy="32" r="4" fill="#0b1326"/><circle cx="39" cy="32" r="4" fill="#0b1326"/></svg>
-          </div>
+            <!-- Grey aprons (the areas around the road) -->
+            <path class="apron" d="M0 0 H240 V60 H0Z"/>
+            <path class="apron" d="M240 0 H960 V60 H240Z"/>
+            <path class="apron" d="M0 480 H240 V540 H0Z"/>
+            <path class="apron" d="M240 340 C310 380 420 430 600 480 L240 480Z"/>
+            <path class="apron" d="M600 480 C700 460 780 420 820 380 L960 380 V540 H600Z"/>
+
+            <!-- West approach road (vertical, dark) -->
+            <rect class="road" x="0" y="60" width="240" height="420"/>
+            <line class="road-dash" x1="120" y1="80" x2="120" y2="460" stroke="#fff" stroke-width="3" stroke-dasharray="20 16" stroke-linecap="round"/>
+
+            <!-- Horizontal one-lane road (dark) -->
+            <rect class="road" x="240" y="200" width="580" height="140"/>
+            <!-- East exit road (curves off to the right) -->
+            <path class="road" d="M820 200 C870 200 910 215 950 235 L950 305 C910 285 870 300 820 340Z"/>
+
+            <!-- Stop line at west entrance (yellow bordered box with X) -->
+            <g class="stop-line">
+              <rect x="208" y="198" width="44" height="144" fill="none" stroke="#f5c518" stroke-width="4"/>
+              <line x1="208" y1="198" x2="252" y2="342" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+              <line x1="252" y1="198" x2="208" y2="342" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+            </g>
+
+            <!-- 4 sensors (HC-SR04 style) with sonar pings -->
+            <g class="sensor" id="sensorWN">
+              <rect class="sensor-body" x="150" y="95" width="44" height="22" rx="3"/>
+              <circle class="sensor-eye" cx="161" cy="106" r="4"/>
+              <circle class="sensor-eye" cx="183" cy="106" r="4"/>
+              <g class="pings">
+                <circle class="ping" cx="172" cy="106" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p2" cx="172" cy="106" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p3" cx="172" cy="106" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+              </g>
+            </g>
+            <g class="sensor" id="sensorWS">
+              <rect class="sensor-body" x="150" y="423" width="44" height="22" rx="3"/>
+              <circle class="sensor-eye" cx="161" cy="434" r="4"/>
+              <circle class="sensor-eye" cx="183" cy="434" r="4"/>
+              <g class="pings">
+                <circle class="ping" cx="172" cy="434" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p2" cx="172" cy="434" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p3" cx="172" cy="434" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+              </g>
+            </g>
+            <g class="sensor" id="sensorEM">
+              <rect class="sensor-body" x="370" y="378" width="44" height="22" rx="3"/>
+              <circle class="sensor-eye" cx="381" cy="389" r="4"/>
+              <circle class="sensor-eye" cx="403" cy="389" r="4"/>
+              <g class="pings">
+                <circle class="ping" cx="392" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p2" cx="392" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p3" cx="392" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+              </g>
+            </g>
+            <g class="sensor" id="sensorEE">
+              <rect class="sensor-body" x="700" y="378" width="44" height="22" rx="3"/>
+              <circle class="sensor-eye" cx="711" cy="389" r="4"/>
+              <circle class="sensor-eye" cx="733" cy="389" r="4"/>
+              <g class="pings">
+                <circle class="ping" cx="722" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p2" cx="722" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+                <circle class="ping p3" cx="722" cy="389" r="8" fill="none" stroke="#14b8a6" stroke-width="2.5"/>
+              </g>
+            </g>
+
+            <!-- Traffic lights (3-bulb vertical, on a pole) -->
+            <g class="traffic-light" id="lightW">
+              <line class="tl-pole" x1="278" y1="68" x2="278" y2="120"/>
+              <rect class="tl-body" x="262" y="118" width="32" height="82" rx="7"/>
+              <circle class="tl-bulb tl-red" cx="278" cy="138" r="9.5"/>
+              <circle class="tl-bulb tl-amber" cx="278" cy="159" r="9.5"/>
+              <circle class="tl-bulb tl-green" cx="278" cy="180" r="9.5"/>
+            </g>
+            <g class="traffic-light" id="lightE">
+              <line class="tl-pole" x1="782" y1="68" x2="782" y2="120"/>
+              <rect class="tl-body" x="766" y="118" width="32" height="82" rx="7"/>
+              <circle class="tl-bulb tl-red" cx="782" cy="138" r="9.5"/>
+              <circle class="tl-bulb tl-amber" cx="782" cy="159" r="9.5"/>
+              <circle class="tl-bulb tl-green" cx="782" cy="180" r="9.5"/>
+            </g>
+
+            <!-- Car (animated by JS) -->
+            <g class="sim-car" id="simCar">
+              <ellipse class="car-shadow" cx="0" cy="14" rx="24" ry="4" fill="rgba(0,0,0,0.4)"/>
+              <rect class="car-body" x="-22" y="-12" width="44" height="24" rx="6"/>
+              <rect class="car-roof" x="-14" y="-8" width="28" height="14" rx="3" fill="rgba(255,255,255,0.85)"/>
+              <circle class="car-wheel" cx="-13" cy="12" r="3.5"/>
+              <circle class="car-wheel" cx="13" cy="12" r="3.5"/>
+            </g>
+
+            <!-- Callout label (yellow, chapter 2 style) -->
+            <g class="callout" id="callout" opacity="0">
+              <rect class="callout-bg" x="430" y="60" width="320" height="52" rx="14"/>
+              <text class="callout-text" id="calloutText" x="590" y="94" text-anchor="middle">Vehicle Detected!</text>
+            </g>
+          </svg>
 
           <div class="sim-status">
             <span class="occ-pill" id="occPill"><i></i><b id="occText">Lane available</b></span>
