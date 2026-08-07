@@ -264,10 +264,12 @@
     S.log.scrollTop = S.log.scrollHeight;
   };
 
-  /* drive lights + panel dots to match the current lane state */
+  /* drive lights + panel dots to match the current lane state.
+     Default (lane free): BOTH lights green. The moment a direction owns
+     the lane, the opposite side turns red — the owner stays green. */
   const render = () => {
-    const westAllows = lane.direction === "west";
-    const eastAllows = lane.direction === "east";
+    const westAllows = lane.direction !== "east";  /* green unless east owns the lane */
+    const eastAllows = lane.direction !== "west";
     setLight(S.lightW, westAllows ? "green" : "red");
     setLight(S.lightE, eastAllows ? "green" : "red");
     setDot(S.wDot, westAllows ? "green" : "red");
@@ -384,8 +386,8 @@
     setCarVisible(S.carW, false, false); setCarVisible(S.carE, false, false);
     moveCar(S.carW, P.W_HOME, 0); moveCar(S.carE, P.E_HOME, 0);
     clearAllSensors(); clearAllChips();
-    setLight(S.lightW, "red"); setLight(S.lightE, "red");
-    setDot(S.wDot, "red"); setDot(S.eDot, "red");
+    setLight(S.lightW, "green"); setLight(S.lightE, "green");
+    setDot(S.wDot, "green"); setDot(S.eDot, "green");
     setOcc(false); setFlow(null, "No flow");
     setTree([]); hideCallout();
     setState("System idle — send a car");
