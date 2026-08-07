@@ -240,7 +240,7 @@
     S.occText.textContent = busy ? "Lane occupied" : "Lane available";
   };
   const setFlow = (dir, label) => {
-    S.flowArrow.textContent = dir === "west" ? "→" : dir === "east" ? "←" : "·";
+    S.flowArrow.textContent = dir ? "→" : "·";
     S.flowText.textContent = label;
   };
   const setState = (html) => { S.state.innerHTML = html; };
