@@ -225,47 +225,9 @@
             <p>An ultrasonic distance sensor at the entrance fires a sound pulse. The echo tells the controller:
             <em>something is waiting to enter.</em></p>
           </div>
-          <div class="road-scene" aria-hidden="true">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
-              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
-              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
-              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
-              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
-              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
-              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
-              <rect class="rs-sensor" x="312" y="248" width="40" height="14" rx="5"/>
-              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
-              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
-              <g class="rs-wave" transform="translate(70 256)">
-                <g class="rs-ring"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
-              </g>
-              <g class="rs-pole" transform="translate(72 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-pole" transform="translate(318 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="car" transform="translate(40 161)">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-            </svg>
-            <span class="j-chip ok">VEHICLE DETECTED</span>
-          </div>
+          <figure class="j-visual">
+            <img src="assets/images/step1-arrive.webp" alt="A vehicle arrives at the one-lane entrance as the ultrasonic sensor detects it first" width="1200" height="675" loading="lazy" decoding="async">
+          </figure>
         </article>
 
         <article class="journey-item reveal">
@@ -275,56 +237,9 @@
             <p>The Arduino checks its live lane state. If a vehicle is already inside, the answer is <strong>YES</strong>
             and the entrance stays red. Otherwise the controller issues a <strong>green light.</strong></p>
           </div>
-          <div class="road-scene" aria-hidden="true">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
-              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
-              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
-              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-road occ" x="102" y="142" width="196" height="74" rx="10"/>
-              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
-              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
-              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
-              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
-              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
-              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
-              <g class="rs-wave" transform="translate(70 256)">
-                <g class="rs-ring"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
-              </g>
-              <g class="rs-wave" transform="translate(330 256)">
-                <g class="rs-ring"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
-              </g>
-              <g class="rs-pole" transform="translate(72 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-pole" transform="translate(318 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="car" transform="translate(180 161)">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-              <g class="rs-ctrl" transform="translate(150 218)">
-                <rect x="0" y="0" width="100" height="22" rx="6" />
-                <text class="rs-ctrl-label" x="50" y="15" text-anchor="middle">LANE: OCCUPIED</text>
-              </g>
-            </svg>
-            <span class="j-chip warn">DECISION: WAIT</span>
-          </div>
+          <figure class="j-visual">
+            <img src="assets/images/step2-check.webp" alt="The controller asks whether the lane is occupied before issuing a green light" width="1200" height="675" loading="lazy" decoding="async">
+          </figure>
         </article>
 
         <article class="journey-item reveal">
@@ -334,56 +249,9 @@
             <p>The moment entry is allowed, the opposite entrance flips to red. There is never a gap where both
             directions could slip through.</p>
           </div>
-          <div class="road-scene" aria-hidden="true">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
-              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
-              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
-              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
-              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
-              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
-              <rect class="rs-sensor active" x="48" y="248" width="40" height="14" rx="5"/>
-              <rect class="rs-sensor" x="312" y="248" width="40" height="14" rx="5"/>
-              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
-              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
-              <g class="rs-wave" transform="translate(70 256)">
-                <g class="rs-ring"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
-              </g>
-              <g class="rs-pole" transform="translate(72 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp on-g" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-pole" transform="translate(318 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp on-r" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-chevrons">
-                <path class="chev" d="M158 179 L170 167 M158 179 L170 191"/>
-                <path class="chev" d="M184 179 L196 167 M184 179 L196 191"/>
-              </g>
-              <g class="car red waitcar" transform="translate(246 161) scale(-1 1)">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-              <g class="car drive">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-            </svg>
-            <span class="j-chip ok">WEST GREEN · EAST RED</span>
-          </div>
+          <figure class="j-visual">
+            <img src="assets/images/step3-green.webp" alt="Green light on one entrance while the opposite entrance is red, the moment entry is allowed" width="1200" height="675" loading="lazy" decoding="async">
+          </figure>
         </article>
 
         <article class="journey-item reveal">
@@ -393,47 +261,9 @@
             <p>While the vehicle travels through, the lane state is locked. Any vehicle at the far entrance sees red
             and holds its position. No exceptions.</p>
           </div>
-          <div class="road-scene" aria-hidden="true">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
-              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
-              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
-              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-road occ" x="102" y="142" width="196" height="74" rx="10"/>
-              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
-              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
-              <rect class="rs-sensor" x="48" y="248" width="40" height="14" rx="5"/>
-              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
-              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
-              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
-              <g class="rs-pole" transform="translate(72 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp on-g" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-pole" transform="translate(318 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp on-r" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="car red waitcar" transform="translate(398 161) scale(-1 1)">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-              <g class="car drive-slow">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-            </svg>
-            <span class="j-chip warn">LANE OCCUPIED · EAST WAITS</span>
-          </div>
+          <figure class="j-visual">
+            <img src="assets/images/step4-occupied.webp" alt="The lane is occupied, so vehicles on the far entrance hold at red until it clears" width="1200" height="675" loading="lazy" decoding="async">
+          </figure>
         </article>
 
         <article class="journey-item reveal">
@@ -443,51 +273,9 @@
             <p>Exit sensors on the far side watch the vehicle leave. Only then does the lane return to
             <strong>available</strong> — and the waiting side finally gets its green.</p>
           </div>
-          <div class="road-scene" aria-hidden="true">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect class="rs-sky" x="0" y="0" width="400" height="300" rx="16"/>
-              <text class="rs-zone" x="34" y="32">WEST ENTRANCE</text>
-              <text class="rs-zone" x="296" y="32">EAST ENTRANCE</text>
-              <rect class="rs-asphalt" x="14" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-asphalt" x="292" y="138" width="94" height="82" rx="10"/>
-              <rect class="rs-road" x="102" y="142" width="196" height="74" rx="10"/>
-              <rect class="rs-stop" x="97" y="138" width="5" height="82"/>
-              <rect class="rs-stop" x="298" y="138" width="5" height="82"/>
-              <rect class="rs-sensor" x="48" y="248" width="40" height="14" rx="5"/>
-              <rect class="rs-sensor active" x="312" y="248" width="40" height="14" rx="5"/>
-              <text class="rs-sensor-tag" x="56" y="278">UDS</text>
-              <text class="rs-sensor-tag" x="320" y="278">UDS</text>
-              <g class="rs-wave" transform="translate(330 256)">
-                <g class="rs-ring"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg2"><circle class="warc" r="7"/></g>
-                <g class="rs-ring rg3"><circle class="warc" r="7"/></g>
-              </g>
-              <g class="rs-pole" transform="translate(72 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="rs-pole" transform="translate(318 138)">
-                <rect x="4" y="56" width="6" height="54" rx="3"/>
-                <rect x="-6" y="0" width="26" height="54" rx="8"/>
-                <circle class="rs-lamp off" cx="7" cy="15" r="6.5"/>
-                <circle class="rs-lamp off" cx="7" cy="31" r="6.5"/>
-                <circle class="rs-lamp on-g" cx="7" cy="47" r="6.5"/>
-              </g>
-              <g class="car" transform="translate(240 161)">
-                <rect x="0" y="0" width="52" height="36" rx="9"/>
-                <rect class="cw" x="12" y="7" width="28" height="10" rx="4"/>
-                <circle cx="12" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
-              </g>
-              <g class="rs-ctrl green" transform="translate(150 218)">
-                <rect x="0" y="0" width="100" height="22" rx="6" />
-                <text class="rs-ctrl-label" x="50" y="15" text-anchor="middle">LANE: CLEAR</text>
-              </g>
-            </svg>
-            <span class="j-chip ok">CLEAR · PRIORITY FLIPS</span>
-          </div>
+          <figure class="j-visual">
+            <img src="assets/images/step5-release.webp" alt="Exit sensors confirm the lane is clear as priority flips to the waiting side" width="1200" height="675" loading="lazy" decoding="async">
+          </figure>
         </article>
       </div>
     </div>

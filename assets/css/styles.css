@@ -371,82 +371,20 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .j-copy p { font-size: 14.5px; color: var(--muted); max-width: 480px; }
 .j-copy p em { color: var(--ink); font-style: normal; font-weight: 600; }
 
-.road-scene, .j-visual {
-  position: relative; height: 300px; border-radius: var(--radius-sm);
-  background: var(--surface-2); border: 1px solid var(--line); overflow: hidden;
+/* illustration frames (steps 1-5) */
+.j-visual {
+  position: relative; display: block;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  background: radial-gradient(130% 120% at 50% 0%, #0d1628 0%, #05080f 72%);
+  border: 1px solid var(--line);
+  overflow: hidden;
 }
-/* illustration frame (steps 1, 2, 5) */
-.j-visual { display: block; background: radial-gradient(130% 120% at 50% 0%, #0d1628 0%, #05080f 72%); }
 .j-visual img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
-  border-radius: calc(var(--radius-sm) - 2px);
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
 }
-.journey-item:hover .j-visual img { transform: scale(1.02); }
-
-/* ---------- mini road scenes (steps 3, 4) ---------- */
-.road-scene { background: radial-gradient(130% 120% at 50% 0%, #0d1628 0%, #05080f 72%); }
-.road-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.rs-sky { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
-.rs-zone { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; fill: var(--muted); }
-.rs-asphalt { fill: var(--surface-2); }
-.rs-road { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; }
-.rs-road.occ { fill: var(--red-soft); stroke: rgba(229, 72, 77, 0.45); }
-.rs-stop { fill: #fff; stroke: var(--muted); stroke-width: 1; }
-.rs-sensor { fill: var(--primary-soft); stroke: var(--primary); stroke-width: 1.5; }
-.rs-sensor-tag { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; fill: var(--primary); }
-.rs-pole rect { fill: var(--muted); }
-.rs-lamp { fill: #2a3550; }
-.rs-lamp.on-g { fill: var(--green); filter: drop-shadow(0 0 5px var(--green)); }
-.rs-lamp.on-r { fill: var(--red); filter: drop-shadow(0 0 5px var(--red)); }
-.car rect { fill: var(--primary); }
-.car .cw { fill: rgba(255, 255, 255, 0.85); }
-.car.red rect { fill: var(--red); }
-.chev { stroke: var(--primary); stroke-width: 4; stroke-linecap: round; opacity: 0; }
-
-.j-chip {
-  position: absolute; left: 14px; bottom: 12px;
-  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em;
-  color: #fff; border-radius: 8px; padding: 6px 10px; box-shadow: var(--shadow-sm);
-}
-.j-chip.ok { background: var(--green); box-shadow: 0 8px 18px rgba(34, 165, 92, 0.35); }
-.j-chip.warn { background: var(--red); box-shadow: 0 8px 18px rgba(229, 72, 77, 0.35); }
-.j-chip.info { background: var(--primary); box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35); }
-
-/* controller chip embedded in road scenes (steps 2, 5) */
-.rs-ctrl rect { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1; }
-.rs-ctrl.green rect { fill: var(--green-soft); stroke: rgba(34, 165, 92, 0.5); }
-.rs-ctrl-label { font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; fill: var(--red); }
-.rs-ctrl.green .rs-ctrl-label { fill: var(--green); }
-
-/* scene animations (triggered once the item is revealed) */
-.journey-item.in .drive { animation: rsDrive 4.6s cubic-bezier(0.45, 0, 0.5, 1) infinite; }
-@keyframes rsDrive { 0% { transform: translateX(-58px); } 10% { transform: translateX(16px); } 45% { transform: translateX(244px); } 90% { transform: translateX(396px); } 100% { transform: translateX(410px); } }
-.journey-item.in .drive-slow { animation: rsDriveSlow 5.4s cubic-bezier(0.45, 0, 0.5, 1) infinite; }
-@keyframes rsDriveSlow { 0% { transform: translateX(-58px); } 8% { transform: translateX(16px); } 30% { transform: translateX(228px); } 68% { transform: translateX(228px); } 92% { transform: translateX(396px); } 100% { transform: translateX(410px); } }
-.journey-item.in .waitcar { animation: rsWaitBlink 1.6s ease-in-out infinite; }
-@keyframes rsWaitBlink { 0%, 100% { opacity: 0.35; } 20%, 55% { opacity: 0.95; } }
-.journey-item.in .chev { animation: rsChevIn 2.2s linear infinite; }
-.journey-item.in .rs-chevrons .chev:nth-child(2) { animation-delay: 0.15s; }
-@keyframes rsChevIn { 0%, 55% { opacity: 0; } 68%, 90% { opacity: 0.85; } 100% { opacity: 0; } }
-.journey-item.in .rs-chevrons { animation: rsDrift 2.2s linear infinite; }
-@keyframes rsDrift { from { transform: translateX(0); } to { transform: translateX(12px); } }
-.journey-item.in .rs-lamp.on-g { animation: rsLampG 2.2s ease-in-out infinite; }
-@keyframes rsLampG { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
-.journey-item.in .rs-lamp.on-r { animation: rsLampR 2.2s ease-in-out infinite; }
-@keyframes rsLampR { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
-.journey-item.in .rs-sensor.active { animation: rsSense 2.4s ease-in-out infinite; }
-@keyframes rsSense { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-.rs-ring { opacity: 0; }
-.rs-wave .warc { fill: none; stroke: var(--primary); stroke-width: 2.5; }
-.journey-item.in .rs-ring { transform-box: fill-box; transform-origin: center; animation: rsWave 2.4s cubic-bezier(0.2, 0.7, 0.3, 1) infinite; }
-.journey-item.in .rs-ring.rg2 { animation-delay: 0.8s; }
-.journey-item.in .rs-ring.rg3 { animation-delay: 1.6s; }
-@keyframes rsWave { 0% { transform: scale(0.4); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: scale(3.2); opacity: 0; } }
-.journey-item.in .rs-road.occ { animation: rsOccTint 2.6s ease-in-out infinite; }
-@keyframes rsOccTint { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
-.journey-item.in .j-chip { animation: rsChip 2.6s ease-out; }
-@keyframes rsChip { 0%, 45% { opacity: 0; transform: translateY(6px); } 70%, 100% { opacity: 1; transform: translateY(0); } }
+.journey-item:hover .j-visual img { transform: scale(1.03); }
 
 /* ---------- simulator ---------- */
 .sim {
@@ -829,7 +767,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   .hero-visual { max-width: 560px; margin: 0 auto; width: 100%; }
   .stats-strip .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
   .journey-item { grid-template-columns: 1fr; gap: 20px; }
-  .road-scene, .j-visual { height: 240px; }
   .ba-grid { grid-template-columns: 1fr; max-width: 560px; }
   .proof-grid { grid-template-columns: 1fr; }
   .team { grid-template-columns: repeat(2, 1fr); }
