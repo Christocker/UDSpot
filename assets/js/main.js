@@ -1,6 +1,6 @@
 /* ==========================================================================
    UDSpot — single-page interactions + interactive lane-occupancy controller
-   Theme · header · mobile menu · reveals · counters · nav spy · bars ·
+   Theme · header · mobile menu · reveals · nav spy · bars ·
    lightbox · and the user-driven one-lane road controller.
    ========================================================================== */
 (function () {
@@ -56,38 +56,6 @@
     revealEls.forEach((el) => ro.observe(el));
   } else {
     revealEls.forEach((el) => el.classList.add("in"));
-  }
-
-  /* ---------------- counters ---------------- */
-  const fmt = (v, dec) => (dec > 0 ? v.toFixed(dec) : String(Math.round(v)));
-  const animateCount = (el) => {
-    const target = parseFloat(el.dataset.count || "0");
-    const dec = parseInt(el.dataset.decimals || "0", 10);
-    const suffix = el.dataset.suffix || "";
-    const dur = 1500;
-    const start = performance.now();
-    const step = (now) => {
-      const p = Math.min((now - start) / dur, 1);
-      el.textContent = fmt(target * (1 - Math.pow(1 - p, 4)), dec) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const counters = $$("[data-count]");
-  if ("IntersectionObserver" in window) {
-    const co = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          animateCount(e.target);
-          co.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach((el) => co.observe(el));
-  } else {
-    counters.forEach((el) => {
-      el.textContent = fmt(parseFloat(el.dataset.count || "0"), parseInt(el.dataset.decimals || "0", 10)) + (el.dataset.suffix || "");
-    });
   }
 
   /* ---------------- nav spy ---------------- */
