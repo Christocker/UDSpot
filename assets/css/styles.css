@@ -567,7 +567,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .bar-row { display: grid; grid-template-columns: 130px 1fr 54px; align-items: center; gap: 14px; }
 .bar-label { font-size: 13.5px; font-weight: 600; color: var(--muted); text-align: right; }
 .bar-track { height: 22px; border-radius: 11px; background: var(--surface-2); overflow: hidden; }
-.bar-fill { height: 100%; width: 0; border-radius: 11px; transition: width 1.4s cubic-bezier(0.22, 0.8, 0.32, 1); }
+.bar-fill { display: block; height: 100%; width: 0; border-radius: 11px; transition: width 1.4s cubic-bezier(0.22, 0.8, 0.32, 1); }
 .bar-track.bad .bar-fill { background: linear-gradient(90deg, #b91c1c, var(--red)); }
 .bar-track.good .bar-fill { background: linear-gradient(90deg, var(--primary), #38bdf8); }
 .bar-val { font-family: var(--font-mono); font-size: 14px; font-weight: 600; }
