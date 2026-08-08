@@ -106,15 +106,22 @@
 
   /* ---------------- animated bars ---------------- */
   const bars = $(".bars");
-  const fillBars = () => $$(".bar-fill", bars).forEach((b) => { b.style.width = b.dataset.w || "0%"; });
-  if (bars && "IntersectionObserver" in window) {
-    const bo = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { fillBars(); bo.unobserve(bars); }
-      });
-    }, { threshold: 0.4 });
-    bo.observe(bars);
-  } else if (bars) fillBars();
+  const fillBars = (instant) => $$(".bar-fill", bars).forEach((b) => {
+    const w = b.dataset.w || (b.style.width || "0%");
+    if (instant) b.style.transition = "none";
+    b.style.width = w;
+    if (instant) { void b.offsetWidth; b.style.transition = ""; }
+  });
+  if (bars) {
+    if ("IntersectionObserver" in window) {
+      const bo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { fillBars(); bo.disconnect(); }
+        });
+      }, { threshold: 0.1 });
+      bo.observe(bars);
+    } else fillBars(true);
+  }
 
   /* ---------------- lightbox / gallery ----------------
      Sliding-track viewer (same system as the OneByte site): every image in the
