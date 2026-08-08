@@ -168,6 +168,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.brand-logo { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; display: block; }
 .brand:hover .brand-mark { transform: rotate(-14deg) scale(1.06); }
 
 .nav-links { display: flex; gap: 4px; margin-left: auto; }
