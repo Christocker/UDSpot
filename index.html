@@ -421,60 +421,74 @@
         <div class="ba-card ba-without reveal">
           <span class="ba-tag bad">WITHOUT UDSpot</span>
           <div class="ba-stage" aria-hidden="true">
-            <svg class="ba-scene" viewBox="0 0 480 300" role="img" aria-label="No coordination: a vehicle from the west entrance and a vehicle from the east entrance enter a one-lane road at the same time and meet head-on, front bumpers nearly touching, with both lights green and a red warning glow at the collision point">
+            <svg class="ba-scene" viewBox="0 0 480 300" role="img" aria-label="Without UDSpot, a vehicle from the west entrance and a vehicle from the east entrance enter the one-lane road at the same time while both traffic lights are green, drive toward the center, meet head-on, and stop - a deadlock">
               <defs>
                 <radialGradient id="baGlowRed" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stop-color="#e5484d" stop-opacity="0.55"/>
                   <stop offset="100%" stop-color="#e5484d" stop-opacity="0"/>
                 </radialGradient>
-                <radialGradient id="baGlowGreen" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#22a55c" stop-opacity="0.5"/>
-                  <stop offset="100%" stop-color="#22a55c" stop-opacity="0"/>
-                </radialGradient>
                 <g id="baCarA">
-                  <rect class="shad" x="-26" y="-12" width="52" height="32" rx="9"/>
-                  <rect class="bd" x="-24" y="-14" width="48" height="28" rx="8"/>
-                  <rect class="roof" x="-16" y="-10" width="30" height="20" rx="6"/>
-                  <rect class="glass" x="6" y="-9" width="7" height="18" rx="3"/>
-                  <rect class="hl" x="18" y="-7" width="4" height="5" rx="1.6"/>
-                  <rect class="wh" x="-21" y="-16" width="9" height="5" rx="2"/>
-                  <rect class="wh" x="11" y="-16" width="9" height="5" rx="2"/>
-                  <rect class="wh" x="-21" y="11" width="9" height="5" rx="1"/>
-                  <rect class="wh" x="11" y="11" width="9" height="5" rx="1"/>
+                  <ellipse class="cshadow" cx="0" cy="0" rx="31" ry="17"/>
+                  <rect class="cbody" x="-28" y="-15" width="56" height="30" rx="9"/>
+                  <rect class="cbonnet" x="15" y="-11" width="12" height="22" rx="4"/>
+                  <rect class="cwind" x="6" y="-13" width="9" height="26" rx="3"/>
+                  <rect class="croof" x="-11" y="-14" width="17" height="28" rx="6"/>
+                  <rect class="cwind" x="-16" y="-12" width="5" height="24" rx="2"/>
+                  <rect class="chead" x="27" y="-9" width="3" height="7" rx="1.4"/>
+                  <rect class="chead" x="27" y="2" width="3" height="7" rx="1.4"/>
+                  <rect class="ctail" x="-30" y="-9" width="3" height="7" rx="1.4"/>
+                  <rect class="ctail" x="-30" y="2" width="3" height="7" rx="1.4"/>
+                  <rect class="cmirror" x="6" y="-16" width="5" height="3" rx="1.4"/>
+                  <rect class="cmirror" x="6" y="13" width="5" height="3" rx="1.4"/>
                 </g>
               </defs>
               <rect class="ba-bg" x="0" y="0" width="480" height="300" rx="18"/>
-              <text class="ba-zone" x="28" y="30">WEST</text>
-              <text class="ba-zone" x="424" y="30">EAST</text>
+              <text class="ba-zone" x="24" y="28">WEST ENTRANCE</text>
+              <text class="ba-zone" x="456" y="28" text-anchor="end">EAST ENTRANCE</text>
 
-              <ellipse class="red-glow" cx="240" cy="196" rx="88" ry="44" fill="url(#baGlowRed)"/>
-              <rect class="ba-skirt" x="20" y="268" width="440" height="22" rx="11"/>
+              <ellipse class="red-glow" cx="240" cy="200" rx="84" ry="42" fill="url(#baGlowRed)"/>
+              <rect class="ba-skirt" x="20" y="272" width="440" height="18" rx="9"/>
 
               <!-- asphalt -->
-              <rect class="ba-apron" x="22" y="146" width="74" height="100" rx="12"/>
-              <rect class="ba-apron" x="384" y="146" width="74" height="100" rx="12"/>
-              <rect class="ba-road" x="88" y="146" width="304" height="100" rx="12"/>
-              <line class="ba-shoulder" x1="96" y1="162" x2="384" y2="162"/>
-              <line class="ba-shoulder" x1="96" y1="230" x2="384" y2="230"/>
-              <line class="ba-center" x1="120" y1="202" x2="360" y2="202"/>
+              <rect class="ba-apron" x="20" y="172" width="70" height="56" rx="10"/>
+              <rect class="ba-apron" x="390" y="172" width="70" height="56" rx="10"/>
+              <rect class="ba-road" x="90" y="172" width="300" height="56" rx="10"/>
+              <line class="ba-shoulder" x1="98" y1="184" x2="382" y2="184"/>
+              <line class="ba-shoulder" x1="98" y1="216" x2="382" y2="216"/>
+              <line class="ba-center" x1="120" y1="200" x2="360" y2="200"/>
+              <line class="ba-stop" x1="94" y1="182" x2="94" y2="218"/>
+              <line class="ba-stop" x1="386" y1="182" x2="386" y2="218"/>
 
-              <!-- west light -->
+              <!-- west light : green (no coordination) -->
               <g class="tg lw">
-                <rect class="pole" x="104" y="120" width="5" height="26" rx="2.5"/>
-                <rect class="head" x="96" y="48" width="21" height="72" rx="7"/>
-                <circle class="lamp" cx="106.5" cy="60" r="5"/>
-                <circle class="lamp" cx="106.5" cy="71" r="5"/>
-                <circle class="lamp go" cx="106.5" cy="82" r="5"/>
+                <rect class="pole" x="101.5" y="144" width="5" height="28" rx="2.5"/>
+                <rect class="head" x="92" y="70" width="21" height="74" rx="7"/>
+                <circle class="lamp re" cx="102.5" cy="83" r="5"/>
+                <circle class="lamp" cx="102.5" cy="94" r="5"/>
+                <circle class="lamp go" cx="102.5" cy="105" r="5"/>
               </g>
-              <!-- east light: green (deadlock — no coordination) -->
+              <!-- east light : green -->
               <g class="tg le">
-                <rect class="pole" x="371" y="120" width="5" height="26" rx="2.5"/>
-                <rect class="head" x="363" y="48" width="21" height="72" rx="7"/>
-                <circle class="lamp" cx="373.5" cy="54" r="5"/>
-                <circle class="lamp" cx="373.5" cy="65" r="5"/>
-                <circle class="lamp go" cx="373.5" cy="76" r="5"/>
+                <rect class="pole" x="376.5" y="144" width="5" height="28" rx="2.5"/>
+                <rect class="head" x="367" y="70" width="21" height="74" rx="7"/>
+                <circle class="lamp re" cx="377.5" cy="83" r="5"/>
+                <circle class="lamp" cx="377.5" cy="94" r="5"/>
+                <circle class="lamp go" cx="377.5" cy="105" r="5"/>
               </g>
 
+              <!-- ultrasonic sensors -->
+              <rect class="sbox" x="98" y="236" width="26" height="12" rx="5"/>
+              <text class="stag" x="103" y="245">UDS</text>
+              <circle class="sring wg" cx="111" cy="242" r="10"/>
+              <circle class="sring sg wg" cx="111" cy="242" r="10"/>
+              <circle class="sring sg2 wg" cx="111" cy="242" r="10"/>
+              <rect class="sbox" x="356" y="236" width="26" height="12" rx="5"/>
+              <text class="stag" x="361" y="245">UDS</text>
+              <circle class="sring eg" cx="369" cy="242" r="10"/>
+              <circle class="sring sg eg" cx="369" cy="242" r="10"/>
+              <circle class="sring sg2 eg" cx="369" cy="242" r="10"/>
+
+              <!-- both cars enter at the same time and meet head-on -->
               <g class="car w"><use href="#baCarA"/></g>
               <g class="car e"><g transform="scale(-1,1)"><use href="#baCarA"/></g></g>
             </svg>
@@ -486,72 +500,78 @@
         <div class="ba-card ba-with reveal reveal-delay-1">
           <span class="ba-tag good">WITH UDSpot</span>
           <div class="ba-stage" aria-hidden="true">
-            <svg class="ba-scene" viewBox="0 0 480 300" role="img" aria-label="With UDSpot, the west entrance light is green so the west vehicle drives through the lane while the east vehicle waits behind the red light next to its sensor; ultrasonic sensor waves pulse at both entrances, then priority flips for the east vehicle">
+            <svg class="ba-scene" viewBox="0 0 480 300" role="img" aria-label="With UDSpot, the system gives the west entrance green first so the west vehicle drives through and clears the lane while the east vehicle waits at red; once the lane is clear the east light turns green and the east vehicle drives through and exits">
               <defs>
-                <radialGradient id="baGlowGreen2" cx="50%" cy="50%" r="50%">
+                <radialGradient id="baGlowGreen" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stop-color="#22a55c" stop-opacity="0.45"/>
                   <stop offset="100%" stop-color="#22a55c" stop-opacity="0"/>
                 </radialGradient>
                 <g id="baCarB">
-                  <rect class="shad" x="-26" y="-12" width="52" height="32" rx="9"/>
-                  <rect class="bd" x="-24" y="-14" width="48" height="28" rx="8"/>
-                  <rect class="roof" x="-16" y="-10" width="30" height="20" rx="6"/>
-                  <rect class="glass" x="6" y="-9" width="7" height="18" rx="3"/>
-                  <rect class="hl" x="18" y="-7" width="4" height="5" rx="1.6"/>
-                  <rect class="wh" x="-21" y="-16" width="9" height="5" rx="2"/>
-                  <rect class="wh" x="11" y="-16" width="9" height="5" rx="2"/>
-                  <rect class="wh" x="-21" y="11" width="9" height="5" rx="1"/>
-                  <rect class="wh" x="11" y="11" width="9" height="5" rx="1"/>
+                  <ellipse class="cshadow" cx="0" cy="0" rx="31" ry="17"/>
+                  <rect class="cbody" x="-28" y="-15" width="56" height="30" rx="9"/>
+                  <rect class="cbonnet" x="15" y="-11" width="12" height="22" rx="4"/>
+                  <rect class="cwind" x="6" y="-13" width="9" height="26" rx="3"/>
+                  <rect class="croof" x="-11" y="-14" width="17" height="28" rx="6"/>
+                  <rect class="cwind" x="-16" y="-12" width="5" height="24" rx="2"/>
+                  <rect class="chead" x="27" y="-9" width="3" height="7" rx="1.4"/>
+                  <rect class="chead" x="27" y="2" width="3" height="7" rx="1.4"/>
+                  <rect class="ctail" x="-30" y="-9" width="3" height="7" rx="1.4"/>
+                  <rect class="ctail" x="-30" y="2" width="3" height="7" rx="1.4"/>
+                  <rect class="cmirror" x="6" y="-16" width="5" height="3" rx="1.4"/>
+                  <rect class="cmirror" x="6" y="13" width="5" height="3" rx="1.4"/>
                 </g>
               </defs>
               <rect class="ba-bg" x="0" y="0" width="480" height="300" rx="18"/>
-              <text class="ba-zone" x="28" y="30">WEST</text>
-              <text class="ba-zone" x="424" y="30">EAST</text>
-              <rect class="ba-skirt" x="20" y="268" width="440" height="22" rx="11"/>
+              <text class="ba-zone" x="24" y="28">WEST ENTRANCE</text>
+              <text class="ba-zone" x="456" y="28" text-anchor="end">EAST ENTRANCE</text>
+              <rect class="ba-skirt" x="20" y="272" width="440" height="18" rx="9"/>
 
               <!-- asphalt -->
-              <rect class="ba-apron" x="22" y="146" width="74" height="100" rx="12"/>
-              <rect class="ba-apron" x="384" y="146" width="74" height="100" rx="12"/>
-              <rect class="ba-road" x="88" y="146" width="304" height="100" rx="12"/>
-              <line class="ba-shoulder" x1="96" y1="162" x2="384" y2="162"/>
-              <line class="ba-shoulder" x1="96" y1="230" x2="384" y2="230"/>
-              <line class="ba-center" x1="120" y1="202" x2="360" y2="202"/>
+              <rect class="ba-apron" x="20" y="172" width="70" height="56" rx="10"/>
+              <rect class="ba-apron" x="390" y="172" width="70" height="56" rx="10"/>
+              <rect class="ba-road" x="90" y="172" width="300" height="56" rx="10"/>
+              <line class="ba-shoulder" x1="98" y1="184" x2="382" y2="184"/>
+              <line class="ba-shoulder" x1="98" y1="216" x2="382" y2="216"/>
+              <line class="ba-center" x1="120" y1="200" x2="360" y2="200"/>
+              <line class="ba-stop" x1="94" y1="182" x2="94" y2="218"/>
+              <line class="ba-stop" x1="386" y1="182" x2="386" y2="218"/>
 
               <!-- soft green glow around the active light -->
-              <ellipse class="lglow w" cx="107" cy="96" rx="40" ry="34" fill="url(#baGlowGreen2)"/>
-              <ellipse class="lglow e" cx="373" cy="96" rx="40" ry="34" fill="url(#baGlowGreen2)"/>
+              <ellipse class="lglow w" cx="103" cy="86" rx="46" ry="40" fill="url(#baGlowGreen)"/>
+              <ellipse class="lglow e" cx="378" cy="86" rx="46" ry="40" fill="url(#baGlowGreen)"/>
 
-              <!-- west light: green (active) -->
+              <!-- west light : green first, then red -->
               <g class="tg lw">
-                <rect class="pole" x="104" y="120" width="5" height="26" rx="2.5"/>
-                <rect class="head" x="96" y="48" width="21" height="72" rx="7"/>
-                <circle class="lamp go" cx="106.5" cy="82" r="5"/>
-                <circle class="lamp" cx="106.5" cy="60" r="5"/>
-                <circle class="lamp" cx="106.5" cy="71" r="5"/>
+                <rect class="pole" x="101.5" y="144" width="5" height="28" rx="2.5"/>
+                <rect class="head" x="92" y="70" width="21" height="74" rx="7"/>
+                <circle class="lamp re" cx="102.5" cy="83" r="5"/>
+                <circle class="lamp" cx="102.5" cy="94" r="5"/>
+                <circle class="lamp go" cx="102.5" cy="105" r="5"/>
               </g>
-              <!-- east light: red (waiting) -->
+              <!-- east light : red first, then green -->
               <g class="tg le">
-                <rect class="pole" x="371" y="120" width="5" height="26" rx="2.5"/>
-                <rect class="head" x="363" y="48" width="21" height="72" rx="7"/>
-                <circle class="lamp re" cx="373.5" cy="54" r="5"/>
-                <circle class="lamp" cx="373.5" cy="65" r="5"/>
-                <circle class="lamp" cx="373.5" cy="76" r="5"/>
+                <rect class="pole" x="376.5" y="144" width="5" height="28" rx="2.5"/>
+                <rect class="head" x="367" y="70" width="21" height="74" rx="7"/>
+                <circle class="lamp re" cx="377.5" cy="83" r="5"/>
+                <circle class="lamp" cx="377.5" cy="94" r="5"/>
+                <circle class="lamp go" cx="377.5" cy="105" r="5"/>
               </g>
 
               <!-- ultrasonic sensors + waves -->
-              <rect class="sbox ws" x="136" y="238" width="26" height="12" rx="5"/>
-              <text class="stag ws" x="141" y="247">UDS</text>
-              <circle class="sring wg" cx="149" cy="244" r="10"/>
-              <circle class="sring sg wg" cx="149" cy="244" r="10"/>
-              <circle class="sring sg2 wg" cx="149" cy="244" r="10"/>
+              <rect class="sbox ws" x="98" y="236" width="26" height="12" rx="5"/>
+              <text class="stag ws" x="103" y="245">UDS</text>
+              <circle class="sring wg" cx="111" cy="242" r="10"/>
+              <circle class="sring sg wg" cx="111" cy="242" r="10"/>
+              <circle class="sring sg2 wg" cx="111" cy="242" r="10"/>
 
-              <rect class="sbox es" x="318" y="238" width="26" height="12" rx="5"/>
-              <text class="stag es-t" x="323" y="247">UDS</text>
-              <circle class="sring eg" cx="331" cy="244" r="10"/>
-              <circle class="sring sg eg" cx="331" cy="244" r="10"/>
-              <circle class="sring sg2 eg" cx="331" cy="244" r="10"/>
+              <rect class="sbox es" x="356" y="236" width="26" height="12" rx="5"/>
+              <text class="stag es-t" x="361" y="245">UDS</text>
+              <circle class="sring eg" cx="369" cy="242" r="10"/>
+              <circle class="sring sg eg" cx="369" cy="242" r="10"/>
+              <circle class="sring sg2 eg" cx="369" cy="242" r="10"/>
 
-              <g class="car w"><g class="ride"><use href="#baCarB"/></g></g>
+              <!-- west car crosses first; east car waits, then crosses -->
+              <g class="car w"><use href="#baCarB"/></g>
               <g class="car e"><g class="ride"><g transform="scale(-1,1)"><use href="#baCarB"/></g></g></g>
             </svg>
             <span class="ba-badge good">✓ COORDINATED</span>

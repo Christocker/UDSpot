@@ -542,6 +542,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .ba-shoulder { stroke: rgba(255, 255, 255, 0.5); stroke-width: 2; stroke-linecap: round; }
 [data-theme="dark"] .ba-shoulder { stroke: rgba(255, 255, 255, 0.16); }
 .ba-center { stroke: var(--line-strong); stroke-width: 3; stroke-dasharray: 12 12; stroke-linecap: round; }
+.ba-stop { stroke: rgba(255, 255, 255, 0.75); stroke-width: 3; stroke-linecap: round; }
+[data-theme="dark"] .ba-stop { stroke: rgba(255, 255, 255, 0.5); }
 
 /* traffic lights */
 .ba-scene .tg .pole { fill: var(--muted); }
@@ -552,17 +554,21 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .ba-scene .lamp.go { fill: var(--green); opacity: 1; filter: drop-shadow(0 0 6px rgba(34, 165, 92, 0.8)); }
 .ba-scene .lamp.re { fill: var(--red); opacity: 1; filter: drop-shadow(0 0 6px rgba(229, 72, 77, 0.8)); }
 
-/* realistic car */
-.ba-scene .shad { fill: rgba(8, 12, 24, 0.28); }
-.ba-scene .bd { fill: var(--primary); }
-.ba-scene .car.e .bd { fill: var(--red); }
-.ba-scene .roof { fill: rgba(255, 255, 255, 0.14); }
-[data-theme="dark"] .ba-scene .roof { fill: rgba(0, 0, 0, 0.24); }
-.ba-scene .glass { fill: rgba(240, 248, 255, 0.7); }
-[data-theme="dark"] .ba-scene .glass { fill: rgba(203, 225, 255, 0.45); }
-.ba-scene .hl { fill: #fff7d6; filter: drop-shadow(0 0 3px rgba(255, 231, 158, 0.9)); }
-.ba-scene .wh { fill: #131a28; }
-[data-theme="dark"] .ba-scene .wh { fill: #0b0f1a; }
+/* vehicle (top-down) */
+.ba-scene .car { transform-box: fill-box; transform-origin: center; }
+.ba-scene .ride { transform-box: fill-box; transform-origin: center; }
+.ba-scene .cshadow { fill: rgba(5, 8, 18, 0.32); }
+.ba-scene .cbody { fill: var(--primary); stroke: rgba(10, 20, 45, 0.35); stroke-width: 1; }
+.ba-scene .car.e .cbody { fill: #f59e0b; stroke: rgba(120, 60, 0, 0.4); }
+.ba-scene .cbonnet { fill: rgba(255, 255, 255, 0.1); }
+[data-theme="dark"] .ba-scene .cbonnet { fill: rgba(0, 0, 0, 0.12); }
+.ba-scene .croof { fill: rgba(255, 255, 255, 0.16); }
+[data-theme="dark"] .ba-scene .croof { fill: rgba(0, 0, 0, 0.2); }
+.ba-scene .cwind { fill: rgba(203, 225, 255, 0.7); }
+[data-theme="dark"] .ba-scene .cwind { fill: rgba(160, 200, 255, 0.45); }
+.ba-scene .chead { fill: #fff7d6; filter: drop-shadow(0 0 3px rgba(255, 231, 158, 0.9)); }
+.ba-scene .ctail { fill: #ff5a5f; filter: drop-shadow(0 0 3px rgba(255, 90, 95, 0.8)); }
+.ba-scene .cmirror { fill: var(--line-strong); }
 
 /* sensor */
 .ba-scene .sbox { fill: var(--primary-soft); stroke: var(--primary); stroke-width: 1.5; }
@@ -571,7 +577,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   fill: none; stroke: var(--green); stroke-width: 2; opacity: 0;
   transform-box: fill-box; transform-origin: center;
 }
-.ba-scene .sring.wg { animation: sonic 3s cubic-bezier(0.25, 0.8, 0.35, 1) infinite; }
+.ba-scene .sring.wg, .ba-scene .sring.eg { animation: sonic 3s cubic-bezier(0.25, 0.8, 0.35, 1) infinite; }
 .ba-scene .sring.sg { animation-delay: 1s; }
 .ba-scene .sring.sg2 { animation-delay: 2s; }
 @keyframes sonic {
@@ -582,7 +588,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 
 /* badge */
 .ba-badge {
-  position: absolute; bottom: 16px; left: 50%;
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
   font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
   color: #fff; border-radius: 999px; padding: 7px 16px; z-index: 3;
   backdrop-filter: blur(2px);
@@ -597,89 +603,120 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 .ba-card strong { color: var(--ink); }
 
 /* ---------- WITHOUT UDSpot : deadlock ---------- */
-.red-glow { opacity: 0; animation: redGlow 5s ease-in-out infinite; }
-@keyframes redGlow {
-  0%, 18% { opacity: 0; }
-  34%, 60% { opacity: 0.7; }
-  78%, 100% { opacity: 0; }
-}
+.red-glow { opacity: 0; }
+.ba-without .lamp.re { fill: #3a4458; opacity: 0.2; }
+.ba-without .car.w { transform: translate(52px, 200px); }
+.ba-without .car.e { transform: translate(430px, 200px); }
 .ba-without .car.w { animation: deadW 5s ease-in-out infinite; }
 .ba-without .car.e { animation: deadE 5s ease-in-out infinite; }
 @keyframes deadW {
-  0% { transform: translate(116px, 196px); }
-  36% { transform: translate(207px, 196px); }
-  44% { transform: translate(207px, 196px) rotate(0.8deg); }
-  50% { transform: translate(207px, 196px) rotate(-0.8deg); }
-  56% { transform: translate(207px, 196px) rotate(0); }
-  100% { transform: translate(116px, 196px); }
+  0%, 6% { transform: translate(52px, 200px); }
+  33% { transform: translate(208px, 200px); }
+  40% { transform: translate(208px, 200px) rotate(0.6deg); }
+  46% { transform: translate(208px, 200px) rotate(-0.6deg); }
+  52% { transform: translate(208px, 200px) rotate(0); }
+  58%, 63% { transform: translate(208px, 200px); }
+  93%, 100% { transform: translate(52px, 200px); }
 }
 @keyframes deadE {
-  0% { transform: translate(338px, 196px); }
-  36% { transform: translate(249px, 196px); }
-  44% { transform: translate(249px, 196px) rotate(-0.8deg); }
-  50% { transform: translate(249px, 196px) rotate(0.8deg); }
-  56% { transform: translate(249px, 196px) rotate(0); }
-  100% { transform: translate(338px, 196px); }
+  0%, 6% { transform: translate(430px, 200px); }
+  33% { transform: translate(274px, 200px); }
+  40% { transform: translate(274px, 200px) rotate(-0.6deg); }
+  46% { transform: translate(274px, 200px) rotate(0.6deg); }
+  52% { transform: translate(274px, 200px) rotate(0); }
+  58%, 63% { transform: translate(274px, 200px); }
+  93%, 100% { transform: translate(430px, 200px); }
 }
-.ba-without .ba-badge { animation: pulseGlow 2.2s ease-in-out infinite; }
-@keyframes pulseGlow {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.05); }
+.ba-without .red-glow { animation: redGlow2 5s ease-in-out infinite; }
+@keyframes redGlow2 {
+  0%, 30% { opacity: 0; }
+  38%, 58% { opacity: 0.85; }
+  68%, 100% { opacity: 0; }
 }
-.ba-without .lamp.go { animation: deadRedPulse 2s ease-in-out infinite; }
-@keyframes deadRedPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.65; }
+.ba-without .ba-badge { animation: badgeBad 5s ease-in-out infinite; }
+@keyframes badgeBad {
+  0%, 34% { opacity: 0; transform: translateX(-50%) scale(0.85); }
+  42% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+  46%, 58% { opacity: 1; transform: translateX(-50%) scale(1); }
+  66%, 100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
 }
 
 /* ---------- with UDSpot : coordinated ---------- */
 .lglow { opacity: 0; }
-.lglow.w { animation: lightGlow 5s ease-in-out infinite; }
-.lglow.e { animation: lightGlow 5s ease-in-out infinite 2.5s; }
-@keyframes lightGlow {
+.lglow.w { animation: lglowW 5s ease-in-out infinite; }
+.lglow.e { animation: lglowE 5s ease-in-out infinite; }
+@keyframes lglowW {
+  0%, 30% { opacity: 0.7; }
+  38%, 100% { opacity: 0; }
+}
+@keyframes lglowE {
   0%, 38% { opacity: 0; }
-  50% { opacity: 0.75; }
-  62%, 100% { opacity: 0; }
+  48%, 80% { opacity: 0.7; }
+  88%, 100% { opacity: 0; }
 }
 
+/* static fallback state for the coordinated panel */
+.ba-with .lw .lamp.go { fill: var(--green); opacity: 1; }
+.ba-with .lw .lamp.re { fill: #3a4458; opacity: 0.2; }
+.ba-with .le .lamp.go { fill: #3a4458; opacity: 0.2; }
+.ba-with .le .lamp.re { fill: var(--red); opacity: 1; }
+.ba-with .car.w { transform: translate(52px, 200px); }
+.ba-with .car.e { transform: translate(446px, 200px); }
 .ba-with .car.w { animation: withCarW 5s ease-in-out infinite; }
-.ba-with .car.w .ride { animation: idle 3.4s ease-in-out infinite; }
 @keyframes withCarW {
-  0% { transform: translate(24px, 202px); opacity: 0; }
-  8% { opacity: 1; }
-  34% { transform: translate(356px, 202px); opacity: 1; }
-  42% { opacity: 0; }
-  100% { transform: translate(24px, 202px); opacity: 0; }
+  0%, 4% { transform: translate(52px, 200px); opacity: 1; }
+  26% { transform: translate(350px, 200px); opacity: 1; }
+  30% { transform: translate(410px, 200px); opacity: 0; }
+  46% { transform: translate(52px, 200px); opacity: 0; }
+  88% { transform: translate(52px, 200px); opacity: 0; }
+  93%, 100% { transform: translate(52px, 200px); opacity: 1; }
 }
-.ba-with .car.e { animation: carCarE 5s ease-in-out infinite; }
-.ba-with .car.e .ride { animation: idle 3.4s ease-in-out infinite 0.7s; }
-@keyframes carCarE {
-  0%, 42% { transform: translate(356px, 202px); opacity: 1; }
-  58% { transform: translate(304px, 202px); opacity: 1; }
-  66% { transform: translate(280px, 202px); opacity: 1; }
-  92% { transform: translate(128px, 202px); opacity: 1; }
-  100% { transform: translate(24px, 202px); opacity: 0; }
+.ba-with .car.e { animation: withCarE 5s ease-in-out infinite; }
+.ba-with .car.e .ride { animation: idleWait 5s ease-in-out infinite; }
+@keyframes withCarE {
+  0%, 42% { transform: translate(446px, 200px); opacity: 1; }
+  46% { transform: translate(430px, 200px); opacity: 1; }
+  74% { transform: translate(82px, 200px); opacity: 1; }
+  78% { transform: translate(52px, 200px); opacity: 0; }
+  90% { transform: translate(446px, 200px); opacity: 0; }
+  96%, 100% { transform: translate(446px, 200px); opacity: 1; }
 }
-@keyframes idle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5px); }
-}
-@keyframes idleR {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5px); }
+@keyframes idleWait {
+  0%, 12%, 30%, 42% { transform: translateY(0); }
+  21% { transform: translateY(-2px); }
+  46%, 100% { transform: translateY(0); }
 }
 
-.ba-with .lamp.go { animation: activeGreen 5s ease-in-out infinite; }
-@keyframes activeGreen {
-  0%, 34% { fill: var(--green); opacity: 1; }
-  40%, 100% { fill: #3b4458; opacity: 0.45; }
+.ba-with .lw .lamp.go { animation: wGreen 5s linear infinite; }
+.ba-with .lw .lamp.re { animation: wRed 5s linear infinite; }
+.ba-with .le .lamp.go { animation: eGreen 5s linear infinite; }
+.ba-with .le .lamp.re { animation: eRed 5s linear infinite; }
+@keyframes wGreen {
+  0%, 36% { fill: var(--green); opacity: 1; }
+  42%, 100% { fill: #3a4458; opacity: 0.15; }
 }
-.ba-with .lamp.re { animation: activeRed 5s ease-in-out infinite; }
-@keyframes activeRed {
-  0% { fill: var(--red); opacity: 1; }
-  42%, 100% { fill: #3b4458; opacity: 0.45; }
+@keyframes wRed {
+  0%, 36% { fill: #3a4458; opacity: 0.15; }
+  42%, 100% { fill: var(--red); opacity: 1; }
 }
-.ba-with .ba-badge { animation: pulseGlow 2.2s ease-in-out infinite; }
+@keyframes eGreen {
+  0%, 36% { fill: #3a4458; opacity: 0.15; }
+  42%, 82% { fill: var(--green); opacity: 1; }
+  88%, 100% { fill: #3a4458; opacity: 0.15; }
+}
+@keyframes eRed {
+  0%, 36% { fill: var(--red); opacity: 1; }
+  42%, 82% { fill: #3a4458; opacity: 0.15; }
+  88%, 100% { fill: var(--red); opacity: 1; }
+}
+
+.ba-with .ba-badge { animation: badgeGood 5s ease-in-out infinite; }
+@keyframes badgeGood {
+  0%, 78% { opacity: 0; transform: translateX(-50%) scale(0.85); }
+  86% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+  90%, 96% { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+}
 
 /* ---------- system / components ---------- */
 .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
