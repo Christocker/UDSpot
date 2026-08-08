@@ -445,6 +445,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
 
 /* decision tree */
 .decision { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px; }
+.decision .mini-label { margin-bottom: 8px; }
+.decision > .dt-node { margin: 8px 0; }
 .dt-node {
   font-family: var(--font-head); font-size: 12.5px; font-weight: 600;
   text-align: center; border-radius: 9px; padding: 9px 10px;
@@ -465,7 +467,6 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   transition: all 0.3s ease;
 }
 .dt-branch.on > span { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
-.dt-node[data-node="occupied"], .dt-node[data-node="exit"], .dt-node[data-node="free"] { margin-top: 8px; }
 
 /* ---------- system / components ---------- */
 .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
