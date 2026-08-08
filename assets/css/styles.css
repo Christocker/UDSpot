@@ -1042,4 +1042,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .js .reveal { opacity: 1; transform: none; }
+  /* keep the photo viewer's fade + slide readable even when OS animations are off */
+  .lightbox, .lightbox *, .lightbox *::before, .lightbox *::after {
+    animation-duration: 0.25s !important;
+    transition-duration: 0.4s !important;
+  }
 }
