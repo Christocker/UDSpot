@@ -98,80 +98,57 @@
         no driver can break on their own.</p>
       </div>
 
-      <div class="layout-scene reveal" aria-hidden="true">
-        <svg class="cl-scene" viewBox="0 0 960 320" role="img" aria-label="Both entrance lights are green, so two vehicles enter the single lane at the same time and meet head-on in the middle - a deadlock">
+      <div class="challenge-cards">
+        <article class="ccard reveal">
+          <span class="ccard-num">01</span>
+          <h3>One lane</h3>
+          <p>The road is far too narrow for two cars to pass. Only one vehicle can use it at a time.</p>
+        </article>
+        <article class="ccard reveal reveal-delay-1">
+          <span class="ccard-num">02</span>
+          <h3>Two directions</h3>
+          <p>Traffic approaches from both ends — and both drivers expect the right of way.</p>
+        </article>
+        <article class="ccard reveal reveal-delay-2">
+          <span class="ccard-num">03</span>
+          <h3>No coordination</h3>
+          <p>Nothing decides who goes first. Both sides enter, and the lane locks itself into a standoff.</p>
+        </article>
+      </div>
+
+      <div class="standoff reveal" aria-hidden="true">
+        <svg class="st-scene" viewBox="0 0 900 200" role="img" aria-label="A schematic of the deadlock: a single lane with a vehicle entering from each end and arrows pointing toward the center, where they collide">
           <defs>
-            <radialGradient id="clGlowRed" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#e5484d" stop-opacity="0.5"/>
-              <stop offset="100%" stop-color="#e5484d" stop-opacity="0"/>
-            </radialGradient>
-            <g id="clCar">
-              <ellipse class="cshadow" cx="0" cy="0" rx="31" ry="17"/>
-              <rect class="cbody" x="-28" y="-15" width="56" height="30" rx="9"/>
-              <rect class="cbonnet" x="15" y="-11" width="12" height="22" rx="4"/>
-              <rect class="cwind" x="6" y="-13" width="9" height="26" rx="3"/>
-              <rect class="croof" x="-11" y="-14" width="17" height="28" rx="6"/>
-              <rect class="cwind" x="-16" y="-12" width="5" height="24" rx="2"/>
-              <rect class="chead" x="27" y="-9" width="3" height="7" rx="1.4"/>
-              <rect class="chead" x="27" y="2" width="3" height="7" rx="1.4"/>
-              <rect class="ctail" x="-30" y="-9" width="3" height="7" rx="1.4"/>
-              <rect class="ctail" x="-30" y="2" width="3" height="7" rx="1.4"/>
-              <rect class="cmirror" x="6" y="-16" width="5" height="3" rx="1.4"/>
-              <rect class="cmirror" x="6" y="13" width="5" height="3" rx="1.4"/>
+            <g id="stCar">
+              <rect class="body" x="-24" y="-13" width="48" height="26" rx="8"/>
+              <rect class="glass" x="4" y="-10" width="9" height="20" rx="3"/>
+              <rect class="glass" x="-17" y="-10" width="5" height="20" rx="2"/>
+              <rect class="wheel" x="-23" y="-15" width="8" height="4" rx="2"/>
+              <rect class="wheel" x="-23" y="11" width="8" height="4" rx="2"/>
+              <rect class="wheel" x="15" y="-15" width="8" height="4" rx="2"/>
+              <rect class="wheel" x="15" y="11" width="8" height="4" rx="2"/>
             </g>
           </defs>
-          <rect class="cl-bg" x="0" y="0" width="960" height="320" rx="20"/>
-          <text class="cl-zone" x="34" y="40">WEST ENTRANCE</text>
-          <text class="cl-zone" x="926" y="40" text-anchor="end">EAST ENTRANCE</text>
+          <text class="st-zone" x="140" y="58">WEST</text>
+          <text class="st-zone" x="760" y="58" text-anchor="end">EAST</text>
 
-          <ellipse class="cl-redglow" cx="480" cy="160" rx="150" ry="60" fill="url(#clGlowRed)"/>
+          <rect class="st-lane" x="130" y="83" width="640" height="34" rx="17"/>
+          <line class="st-center" x1="170" y1="100" x2="730" y2="100"/>
 
-          <!-- asphalt -->
-          <rect class="cl-apron" x="60" y="120" width="100" height="80" rx="12"/>
-          <rect class="cl-apron" x="800" y="120" width="100" height="80" rx="12"/>
-          <rect class="cl-road" x="160" y="120" width="640" height="80" rx="12"/>
-          <line class="cl-shoulder" x1="170" y1="134" x2="790" y2="134"/>
-          <line class="cl-shoulder" x1="170" y1="186" x2="790" y2="186"/>
-          <line class="cl-center" x1="200" y1="160" x2="760" y2="160"/>
-          <line class="cl-stop" x1="166" y1="132" x2="166" y2="188"/>
-          <line class="cl-stop" x1="794" y1="132" x2="794" y2="188"/>
+          <g class="st-car w" transform="translate(250,100)"><use href="#stCar"/></g>
+          <g class="st-car e" transform="translate(650,100) scale(-1,1)"><use href="#stCar"/></g>
 
-          <!-- west light : green -->
-          <g class="cl-tg lw">
-            <rect class="pole" x="133" y="94" width="6" height="26" rx="3"/>
-            <rect class="head" x="122" y="26" width="28" height="68" rx="8"/>
-            <circle class="cl-lamp re" cx="136" cy="40" r="6"/>
-            <circle class="cl-lamp" cx="136" cy="54" r="6"/>
-            <circle class="cl-lamp go" cx="136" cy="68" r="6"/>
+          <line class="st-arrow" x1="305" y1="100" x2="393" y2="100"/>
+          <path class="st-arrowhead" d="M393 100 L379 93 L379 107 Z"/>
+          <line class="st-arrow" x1="595" y1="100" x2="507" y2="100"/>
+          <path class="st-arrowhead" d="M507 100 L521 93 L521 107 Z"/>
+
+          <g class="st-x" transform="translate(450,100)">
+            <circle r="13" fill="none"/>
+            <path d="M-5 -5 L5 5 M5 -5 L-5 5"/>
           </g>
-          <!-- east light : green -->
-          <g class="cl-tg le">
-            <rect class="pole" x="821" y="94" width="6" height="26" rx="3"/>
-            <rect class="head" x="810" y="26" width="28" height="68" rx="8"/>
-            <circle class="cl-lamp re" cx="824" cy="40" r="6"/>
-            <circle class="cl-lamp" cx="824" cy="54" r="6"/>
-            <circle class="cl-lamp go" cx="824" cy="68" r="6"/>
-          </g>
-
-          <!-- ultrasonic sensors -->
-          <rect class="cl-sbox" x="196" y="212" width="30" height="14" rx="6"/>
-          <text class="cl-stag" x="201" y="222">UDS</text>
-          <circle class="cl-sring" cx="211" cy="219" r="11"/>
-          <circle class="cl-sring s1" cx="211" cy="219" r="11"/>
-          <circle class="cl-sring s2" cx="211" cy="219" r="11"/>
-          <rect class="cl-sbox" x="734" y="212" width="30" height="14" rx="6"/>
-          <text class="cl-stag" x="739" y="222">UDS</text>
-          <circle class="cl-sring" cx="749" cy="219" r="11"/>
-          <circle class="cl-sring s1" cx="749" cy="219" r="11"/>
-          <circle class="cl-sring s2" cx="749" cy="219" r="11"/>
-
-          <!-- both cars enter at the same time and meet head-on -->
-          <g class="cl-car w"><use href="#clCar"/></g>
-          <g class="cl-car e"><g transform="scale(-1,1)"><use href="#clCar"/></g></g>
         </svg>
-        <span class="cl-badge">✕ DEADLOCK</span>
       </div>
-      <p class="challenge-note reveal reveal-delay-1">Two vehicles enter at the same time… they meet mid-lane… <strong>no one can move.</strong></p>
 
       <div class="tags-strip reveal">
         <span class="tag no">✕ Not adaptive traffic lights</span>
